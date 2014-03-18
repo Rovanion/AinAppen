@@ -1,16 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#CCCCCC"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        <Button
+            android:id="@+id/buttonArende"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/button_arende" 
+            android:background="#0000CC"
+            android:textSize="50sp"
+            android:textColor="#ffffff"
+            
+             android:onClick="goToArende"
+           
+            />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/buttonKarta"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/button_karta"
+            android:background="#0000CC" 
+            android:textSize="50sp"
+            android:textColor="#ffffff"
+            
+            android:onClick="goToKarta"
+            />
+
+        <Button
+            android:id="@+id/buttonInformation"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/button_information"
+            android:background="#0000CC"
+            android:textSize="50sp"
+            android:textColor="#ffffff"
+            
+            android:onClick="goToInformation"
+            />
+
+        <Button
+            android:id="@+id/buttonKontakter"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/button_kontakter"
+            android:background="#0000CC"
+            android:textSize="50sp"
+            android:textColor="#ffffff"
+            
+            android:onClick="goToKontakter"
+            />
+
+
+    </LinearLayout>
+
