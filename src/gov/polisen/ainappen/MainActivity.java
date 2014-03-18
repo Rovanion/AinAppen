@@ -2,12 +2,12 @@ package gov.polisen.ainappen;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.SyncAdapterType;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
+
 
 public class MainActivity extends Activity {
 	
@@ -16,19 +16,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);   
        
-        /*
-        Button buttonArende = (Button) findViewById(R.id.buttonArende);
-        Button buttonKarta = (Button) findViewById(R.id.buttonKarta);
-        Button buttonInformation = (Button) findViewById(R.id.buttonInformation);
-        Button buttonKontakter = (Button) findViewById(R.id.buttonKontakter);
-        
-    	Typeface font = Typeface.createFromAsset(getAssets(), "sf-eccentric-opus.bold.ttf");
-    	
-    	buttonArende.setTypeface(font);
-    	buttonKarta.setTypeface(font);
-    	buttonInformation.setTypeface(font);
-    	buttonKontakter.setTypeface(font);
-    	*/
     }
 
 
