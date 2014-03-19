@@ -19,7 +19,7 @@
         android:textSize="50sp"
         android:textColor="#ffffff"
         
-        android:text="@string/button_lagar"
+        android:text="@string/laws"
         />
 
     <Button
@@ -32,7 +32,7 @@
         android:textSize="50sp"
         android:textColor="#ffffff"
       
-      	android:text="@string/button_riktlinjer"
+      	android:text="@string/guidelines"
       />
 
 </LinearLayout>

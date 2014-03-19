@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"
@@ -23,20 +23,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="gov.polisen.ainappen.Arende"
+            android:name="gov.polisen.ainappen.Case"
             android:label="Ärende" >
         </activity>
         <activity
-            android:name="gov.polisen.ainappen.Karta"
+            android:name="gov.polisen.ainappen.Map"
             android:label="Karta" >
         </activity>
         <activity
             android:name="gov.polisen.ainappen.Information"
-            android:label="@string/title_activity_information" >
+            android:label="@string/information" >
         </activity>
         <activity
-            android:name="gov.polisen.ainappen.Kontakter"
-            android:label="@string/title_activity_kontakter" >
+            android:name="gov.polisen.ainappen.Contacts"
+            android:label="@string/contacts" >
+        </activity>
+        <activity
+            android:name="gov.polisen.ainappen.AddCase"
+            android:label="@string/add_new_case" >
         </activity>
     </application>
 

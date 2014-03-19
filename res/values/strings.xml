@@ -3,14 +3,29 @@
 
     <string name="app_name">AinAppen</string>
     <string name="action_settings">Settings</string>
-    <string name="button_arende">Ärende</string>
-    <string name="button_karta">Karta</string>
-    <string name="button_information">Information</string>
-    <string name="button_kontakter">Kontakter</string>
-    <string name="title_activity_karta">Karta</string>
+    <string name="case_string">Ärende</string>
+    <string name="map">Karta</string>
+    <string name="information">Information</string>
+    <string name="contacts">Kontakter</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_information">Information</string>
-    <string name="title_activity_kontakter">Kontakter</string>
-    <string name="button_lagar">Lagar</string>
-	<string name="button_riktlinjer">Riktlinjer</string>
+    <string name="laws">Lagar</string>
+    <string name="guidelines">Riktlinjer</string>
+    <string name="add_new_case">Skapa nytt ärende</string>
+    <string name="crime_classification">Brottsrubricering</string>
+    <string name="id">Id</string>
+    <string name="location">Plats</string>
+    <string name="create_case">Skapa ärende</string>
+    <string name="commander">Befälhavare</string>
+    <string name="date">Datum</string>
+    <string name="status">Status</string>
+    <string name="description">Beskrivning</string>
+    
+
+    <string-array name="case_status">
+        <item>Inrapporterad</item>
+        <item>Under utredning</item>
+        <item>Utredning avslutad</item>
+    </string-array>
+
+
 </resources>
