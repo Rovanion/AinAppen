@@ -1,66 +1,47 @@
+<!--
+  Copyright 2013 The Android Open Source Project
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#CCCCCC"
-    tools:context=".MainActivity" >
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-        <Button
-            android:id="@+id/case_button"
-            android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="16dp"
-            android:background="#0000CC"
-            android:onClick="goToCase"
-            android:text="@string/case_string"
-            android:textColor="#ffffff"
-            android:textSize="50sp" />
+      http://www.apache.org/licenses/LICENSE-2.0
 
-        <Button
-            android:id="@+id/buttonKarta"
-            android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/map"
-            android:background="#0000CC" 
-            android:textSize="50sp"
-            android:textColor="#ffffff"
-            
-            android:onClick="goToMap"
-            />
-
-        <Button
-            android:id="@+id/buttonInformation"
-            android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/information"
-            android:background="#0000CC"
-            android:textSize="50sp"
-            android:textColor="#ffffff"
-            
-            android:onClick="goToInformation"
-            />
-
-        <Button
-            android:id="@+id/buttonKontakter"
-            android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/contacts"
-            android:background="#0000CC"
-            android:textSize="50sp"
-            android:textColor="#ffffff"
-            
-            android:onClick="goToContacts"
-            />
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
 
 
-    </LinearLayout>
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <!-- As the main content view, the view below consumes the entire
+         space available using match_parent in both dimensions. -->
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- android:layout_gravity="start" tells DrawerLayout to treat
+         this as a sliding drawer on the left side for left-to-right
+         languages and on the right side for right-to-left languages.
+         The drawer is given a fixed width in dp and extends the full height of
+         the container. A solid background is used for contrast
+         with the content view. -->
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
+</android.support.v4.widget.DrawerLayout>
