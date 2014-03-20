@@ -88,9 +88,9 @@ public class MainActivity extends Activity {
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 	
-		// ta bort
+		// ta bort?
 		menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-		
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -152,6 +152,13 @@ public class MainActivity extends Activity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
+	@Override
+	public void onBackPressed() {
+	super.onBackPressed();
+
+	//turn on the Navigation Drawer image; this is called in the LowerLevelFragments
+	mDrawerToggle.setDrawerIndicatorEnabled(true);
+	}
 
 	
 	private void gotoFirstFragment() {
@@ -167,6 +174,9 @@ public class MainActivity extends Activity {
 	}
 	
 	public void gotoAddCase(View view){
+		 //disable the toggle menu and show up carat
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
+		
 		Fragment fragment = new AddCaseFragment();
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();	
