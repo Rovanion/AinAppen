@@ -1,15 +1,32 @@
 package gov.polisen.ainappen;
 
-import android.os.Bundle;
+import java.util.ArrayList;
+import java.util.List;
+ 
+
 import android.app.Activity;
+import android.os.Bundle;
+import android.widget.ListView;
+import android.util.Log;
 import android.view.Menu;
 
 public class Kontakter extends Activity {
 
+    private ListView testList;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_kontakter);
+		setContentView(R.layout.kontakter);
+		
+		testList = (ListView)findViewById(R.id.listPhone);
+		
+		List<Contact> contactList = new ArrayList<Contact>();
+		contactList.add(new Contact("Peter","polis","112"));
+		contactList.add(new Contact("Adolf","befäl","114114"));
+		contactList.add(new Contact("Jocke","sopa","000000"));
+		ContactAdapter adapter = new ContactAdapter(this, contactList);
+		testList.setAdapter(adapter);
 	}
 
 	@Override
@@ -18,5 +35,4 @@ public class Kontakter extends Activity {
 		getMenuInflater().inflate(R.menu.kontakter, menu);
 		return true;
 	}
-
 }
