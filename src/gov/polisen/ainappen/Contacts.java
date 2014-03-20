@@ -1,16 +1,10 @@
 package gov.polisen.ainappen;
 
-import java.util.ArrayList;
-import java.util.List;
- 
-
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.util.Log;
+import android.app.Activity;
 import android.view.Menu;
 
-public class Kontakter extends Activity {
+public class Contacts extends Activity {
 
     private ListView testList;
     
@@ -23,7 +17,7 @@ public class Kontakter extends Activity {
 		
 		List<Contact> contactList = new ArrayList<Contact>();
 		contactList.add(new Contact("Peter","polis","112"));
-		contactList.add(new Contact("Adolf","bef‰l","114114"));
+		contactList.add(new Contact("Adolf","bef√§l","114114"));
 		contactList.add(new Contact("Jocke","sopa","000000"));
 		ContactAdapter adapter = new ContactAdapter(this, contactList);
 		testList.setAdapter(adapter);
