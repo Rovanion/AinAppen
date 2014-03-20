@@ -2,22 +2,16 @@ package gov.polisen.ainappen;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SyncAdapterType;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-
-
 public class MainActivity extends Activity {
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);   
-       
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -26,13 +20,13 @@ public class MainActivity extends Activity {
         return true;
     }
     
-    public void goToArende(View view){
-    	Intent intent = new Intent(this,Arende.class);
+    public void goToCase(View view){
+    	Intent intent = new Intent(this,Case.class);
     	startActivity(intent);	
     }
     
-    public void goToKarta(View view){
-    	Intent intent = new Intent(this,Karta.class);
+    public void goToMap(View view){
+    	Intent intent = new Intent(this,Map.class);
     	startActivity(intent);
     }
     
@@ -41,8 +35,8 @@ public class MainActivity extends Activity {
     	startActivity(intent);
     }
     
-    public void goToKontakter(View view){
-    	Intent intent = new Intent(this, Kontakter.class);
+    public void goToContacts(View view){
+    	Intent intent = new Intent(this, Contacts.class);
     	startActivity(intent);
     }
     

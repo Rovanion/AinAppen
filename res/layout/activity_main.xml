@@ -8,19 +8,16 @@
     tools:context=".MainActivity" >
 
         <Button
-            android:id="@+id/buttonArende"
+            android:id="@+id/case_button"
             android:layout_width="match_parent"
             android:layout_height="95dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
-            android:text="@string/button_arende" 
             android:background="#0000CC"
-            android:textSize="50sp"
+            android:onClick="goToCase"
+            android:text="@string/case_string"
             android:textColor="#ffffff"
-            
-             android:onClick="goToArende"
-           
-            />
+            android:textSize="50sp" />
 
         <Button
             android:id="@+id/buttonKarta"
@@ -28,12 +25,12 @@
             android:layout_height="95dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/button_karta"
+            android:text="@string/map"
             android:background="#0000CC" 
             android:textSize="50sp"
             android:textColor="#ffffff"
             
-            android:onClick="goToKarta"
+            android:onClick="goToMap"
             />
 
         <Button
@@ -42,7 +39,7 @@
             android:layout_height="95dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/button_information"
+            android:text="@string/information"
             android:background="#0000CC"
             android:textSize="50sp"
             android:textColor="#ffffff"
@@ -56,12 +53,12 @@
             android:layout_height="95dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/button_kontakter"
+            android:text="@string/contacts"
             android:background="#0000CC"
             android:textSize="50sp"
             android:textColor="#ffffff"
             
-            android:onClick="goToKontakter"
+            android:onClick="goToContacts"
             />
 
 
