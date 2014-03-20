@@ -179,7 +179,7 @@ public class MainActivity extends Activity {
 		
 		Fragment fragment = new AddCaseFragment();
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();	
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();	
 	}
 
 	private void gotoVenus(int pos) {
