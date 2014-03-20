@@ -6,20 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Fragment that appears in the "content_frame", shows a planet
- */
-public class FirstFragment extends Fragment {
+public class ContactsFragment extends Fragment{
 
-	public FirstFragment() {
+	public ContactsFragment() {
 		// Empty constructor required for fragment subclasses
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_first, container, false);
-		getActivity().setTitle("AinAppen");
+		View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 		return rootView;
 	}
 }

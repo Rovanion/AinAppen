@@ -6,20 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Fragment that appears in the "content_frame", shows a planet
- */
-public class CaseFragment extends Fragment {
+public class InformationFragment extends Fragment{
 
-	public CaseFragment() {
+	public InformationFragment() {
 		// Empty constructor required for fragment subclasses
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_case, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_information, container, false);
 		return rootView;
 	}
-
 }

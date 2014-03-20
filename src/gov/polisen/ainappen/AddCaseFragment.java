@@ -46,15 +46,15 @@ public class AddCaseFragment extends Fragment {
 		return false;
 	}
 
-		// Setups the status dropdown list. 
-		private void setupStatusSpinner(View view) {
-			Spinner spinner = (Spinner) view.findViewById(R.id.spinner_status);
-			// Create an ArrayAdapter using the string array and a default spinner layout
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-					R.array.case_status, android.R.layout.simple_spinner_item);
-			// Specify the layout to use when the list of choices appears
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			// Apply the adapter to the spinner
-			spinner.setAdapter(adapter);		
-		}
+	// Setups the status dropdown list. 
+	private void setupStatusSpinner(View view) {
+		Spinner spinner = (Spinner) view.findViewById(R.id.spinner_status);
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+				R.array.case_status, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);		
 	}
+}
