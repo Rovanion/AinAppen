@@ -38,8 +38,9 @@ public class CaseFragment extends Fragment {
 	   switch (item.getItemId()) {
 //If we press the addCasebutton in the actionbar, call the addCase function in MainActivity	   
 	      case R.id.addcase_item:
-	    	  //Call IT
-	         return true;
+	    	  View rootView = item.getActionView();
+	    	  ((MainActivity)getActivity()).gotoAddCase(rootView);
+	    	  return true;
 	      default:
 	         return super.onOptionsItemSelected(item);
 	   }
