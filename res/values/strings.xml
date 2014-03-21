@@ -28,7 +28,6 @@
     <string name="description">Beskrivning</string>
     <string name="add_new_obstacle">Lägg till hinder</string>
     <string name="visual_settings">Inställningar</string>
-
     <string-array name="case_status">
         <item>Inrapporterad</item>
         <item>Under utredning</item>
