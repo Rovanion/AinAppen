@@ -34,6 +34,9 @@
         <item>Utredning avslutad</item>
     </string-array>
 
+    <string name="userIdInput">Identifikation</string>
+    <string name="userPassword">Lösenord</string>
+    <string name="userLoginButton">Logga in</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
