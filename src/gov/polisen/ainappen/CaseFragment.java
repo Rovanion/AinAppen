@@ -19,6 +19,8 @@ public class CaseFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_case, container, false);
+		getActivity().setTitle("Ärenden");
+
 		return rootView;
 	}
 

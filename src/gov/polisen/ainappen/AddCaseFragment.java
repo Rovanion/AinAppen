@@ -20,15 +20,9 @@ public class AddCaseFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_add_case, container, false);
 		getActivity().setTitle("Skapa nytt ärende");
-
-		//needed to indicate that the fragment would like to add items to the Options Menu      
-		setHasOptionsMenu(true);
-
-		//update the actionbar to show the up carat/affordance 
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-
+		setUpLowerLevelFragment();
 		setupStatusSpinner(rootView);
-
+		
 		return rootView;
 	}
 
@@ -56,5 +50,12 @@ public class AddCaseFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);		
+	}
+
+	private void setUpLowerLevelFragment(){
+		//needed to indicate that the fragment would like to add items to the Options Menu      
+		setHasOptionsMenu(true);
+		//update the actionbar to show the up carat/affordance 
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 }

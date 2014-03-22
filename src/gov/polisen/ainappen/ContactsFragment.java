@@ -22,6 +22,7 @@ public class ContactsFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+		getActivity().setTitle("Kontakter");
 
 		testList = (ListView)rootView.findViewById(R.id.listPhone);
 

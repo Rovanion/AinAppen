@@ -16,6 +16,8 @@ public class InformationFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_information, container, false);
+		getActivity().setTitle("Information");
+
 		return rootView;
 	}
 }
