@@ -3,7 +3,7 @@
     <string name="app_name">Ainappen</string>
 
     <string-array name="top_level_options">
-        <item>Ärende</item>
+        <item>Ärenden</item>
         <item>Karta</item>
         <item>Kontakter</item>
         <item>Information</item>
@@ -38,5 +38,6 @@
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="first">First</string>
+    <string name="call">Call</string>
 
 </resources>
