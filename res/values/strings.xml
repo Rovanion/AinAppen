@@ -26,13 +26,17 @@
     <string name="date">Datum</string>
     <string name="status">Status</string>
     <string name="description">Beskrivning</string>
-
+    <string name="add_new_obstacle">Lägg till hinder</string>
+    <string name="visual_settings">Inställningar</string>
     <string-array name="case_status">
         <item>Inrapporterad</item>
         <item>Under utredning</item>
         <item>Utredning avslutad</item>
     </string-array>
 
+    <string name="userIdInput">Identifikation</string>
+    <string name="userPassword">Lösenord</string>
+    <string name="userLoginButton">Logga in</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
