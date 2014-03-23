@@ -20,7 +20,8 @@ public class AddCaseFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_add_case, container, false);
 		getActivity().setTitle("Skapa nytt ärende");
-		setUpLowerLevelFragment();
+		setUpLowLevelFragment();
+		
 		setupStatusSpinner(rootView);
 		
 		return rootView;
@@ -35,9 +36,23 @@ public class AddCaseFragment extends Fragment {
 
 			//called when the up affordance/carat in actionbar is pressed
 			getActivity().onBackPressed();
+			
 			return true;
 		}
 		return false;
+	}
+
+	/* 
+	* Needs to be included in low level fragments
+	* Low level fragments = fragments that is not in main drawer menu.
+	*/
+	private void setUpLowLevelFragment(){
+		//needed to indicate that the fragment would like to add items to the Options Menu      
+		setHasOptionsMenu(true);
+		//update the actionbar to show the up carat/affordance 
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		//locks navigation drawer from open in lower lever fragment. 
+		((MainActivity) getActivity()).lockDrawer();
 	}
 
 	// Setups the status dropdown list. 
@@ -52,10 +67,5 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);		
 	}
 
-	private void setUpLowerLevelFragment(){
-		//needed to indicate that the fragment would like to add items to the Options Menu      
-		setHasOptionsMenu(true);
-		//update the actionbar to show the up carat/affordance 
-		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
+	
 }

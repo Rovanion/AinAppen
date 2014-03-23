@@ -17,7 +17,18 @@ public class MapFragment extends Fragment{
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 		getActivity().setTitle("Karta");
+		setUpHighLevelFragment();
 
 		return rootView;
+	}
+	
+	
+	/* 
+	* Needs to be included in high level fragments
+	* high level fragments = fragments that is main drawer menu.
+	*/
+	private void setUpHighLevelFragment(){
+		//unlocks navigation drawer to open after visited a low level fragment
+		((MainActivity) getActivity()).unlockDrawer();
 	}
 }

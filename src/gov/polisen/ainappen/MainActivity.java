@@ -152,15 +152,12 @@ public class MainActivity extends Activity {
 	}
 
 	public void gotoFragment(Fragment fragment){
-		// Drawer will be able to open with gestures.
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();	
 	}
 
 	public void gotoLowLevelFragment(Fragment fragment){
 		// Drawer wont be able to open with gestures at lower level fragments.
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		FragmentManager fragmentManager = getFragmentManager();
 		// addToBackStack because addCase is a lower level fragment
@@ -170,6 +167,16 @@ public class MainActivity extends Activity {
 	@Override
 	public void setTitle(CharSequence title) {
 		getActionBar().setTitle(title);
+	}
+	
+	// Drawer will not be able to open with gestures.
+	public void lockDrawer(){
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+	}
+	
+	// Drawer will be able to open with gestures.
+	public void unlockDrawer(){
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 	}
 	
 	
