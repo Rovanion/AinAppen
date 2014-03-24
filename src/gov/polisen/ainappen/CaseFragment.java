@@ -21,11 +21,22 @@ public class CaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
+		View rootView = inflater.inflate(R.layout.fragment_case, container, false);
+		getActivity().setTitle("Ärenden");
+		setUpHighLevelFragment();
+	
 
-		View rootView = inflater.inflate(R.layout.fragment_case, container,
-				false);
+		setHasOptionsMenu(true);
 		return rootView;
+	}
+	
+	/* 
+	* Needs to be included in high level fragments
+	* high level fragments = fragments that is main drawer menu.
+	*/
+	private void setUpHighLevelFragment(){
+		//unlocks navigation drawer to open after visited a low level fragment
+		((MainActivity) getActivity()).unlockDrawer();
 	}
 
 	// Adds an actionbar to the fragment
@@ -48,5 +59,4 @@ public class CaseFragment extends Fragment {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 }
