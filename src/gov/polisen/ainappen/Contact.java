@@ -1,22 +1,32 @@
 package gov.polisen.ainappen;
 
 public class Contact {
-	String name;
+	String firstName;
+	String lastName;
 	String title;
 	String phone;
 	
-	Contact (String name, String title, String phone){
-		this.name = name;
+	Contact (String firstName, String lastName, String title, String phone){
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.title=title;
 		this.phone=phone;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getTitle() {
