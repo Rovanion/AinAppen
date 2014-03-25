@@ -21,32 +21,42 @@ public class CaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
-		
 		View rootView = inflater.inflate(R.layout.fragment_case, container, false);
+		getActivity().setTitle("Ärenden");
+		setUpHighLevelFragment();
+	
+
+		setHasOptionsMenu(true);
 		return rootView;
 	}
+	
+	/* 
+	* Needs to be included in high level fragments
+	* high level fragments = fragments that is main drawer menu.
+	*/
+	private void setUpHighLevelFragment(){
+		//unlocks navigation drawer to open after visited a low level fragment
+		((MainActivity) getActivity()).unlockDrawer();
+	}
+
 	// Adds an actionbar to the fragment
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.actionbar_fragment_case, menu);
 
 	}
-	
-	//This method handles onClick at our actionbar
+
+	// This method handles onClick at our actionbar
 	public boolean onOptionsItemSelected(MenuItem item) {
-	   // handle item selection
-	   switch (item.getItemId()) {
-//If we press the addCasebutton in the actionbar, call the addCase function in MainActivity	   
-	      case R.id.addcase_item:
-	    	  View rootView = item.getActionView();
-	    	  ((MainActivity)getActivity()).gotoAddCase(rootView);
-	    	  return true;
-	      default:
-	         return super.onOptionsItemSelected(item);
-	   }
+		// handle item selection
+		switch (item.getItemId()) {
+		// If we press the addCasebutton in the actionbar, call the addCase
+		// function in MainActivity
+		case R.id.addcase_item:
+			View rootView = item.getActionView();
+			((MainActivity) getActivity()).gotoAddCase(rootView);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-
-
-
-	
 }

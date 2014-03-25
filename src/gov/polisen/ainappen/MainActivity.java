@@ -134,8 +134,6 @@ public class MainActivity extends Activity {
 	// Decides what happens when drawer button is pressed. 
 	private void selectItem(int position) {
 
-		getActionBar().setTitle(mMenuOptions[position]);
-
 		switch(position) {
 		case 0: gotoFragment(new CaseFragment()); break; // Case
 		case 1:	gotoFragment(new MapFragment()); break; // Map
@@ -159,6 +157,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void gotoLowLevelFragment(Fragment fragment){
+		// Drawer wont be able to open with gestures at lower level fragments.
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		FragmentManager fragmentManager = getFragmentManager();
 		// addToBackStack because addCase is a lower level fragment
@@ -169,6 +168,17 @@ public class MainActivity extends Activity {
 	public void setTitle(CharSequence title) {
 		getActionBar().setTitle(title);
 	}
-
+	
+	// Drawer will not be able to open with gestures.
+	public void lockDrawer(){
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+	}
+	
+	// Drawer will be able to open with gestures.
+	public void unlockDrawer(){
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+	}
+	
+	
 
 }
