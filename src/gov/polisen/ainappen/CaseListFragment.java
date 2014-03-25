@@ -46,7 +46,7 @@ public class CaseListFragment extends Fragment {
 		caseListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
 				Case selectedFromList =(Case) (caseListView.getItemAtPosition(myItemInt));
-				
+
 				((MainActivity) getActivity()).gotoCase(rootView, selectedFromList);
 			}                 
 		});		
@@ -56,10 +56,10 @@ public class CaseListFragment extends Fragment {
 		caseListView = (ListView)rootView.findViewById(R.id.case_list);
 
 		List<Case> caseList = new ArrayList<Case>();
-		caseList.add(new Case("Snatteri","Hemköp Ryd","Kartoffel-Klas",Date.valueOf("2007-12-03"),"asdsa","Odrägliga ynglingar som snattat choklad på Hemköp."));
-		caseList.add(new Case("Helikopterrån","Pengadepå","Karl-Alfred Johansson",Date.valueOf("2013-12-05"),"Snaasdsadtteri","Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
-		caseList.add(new Case("Tvångsgifte","Kyrka","Björn",Date.valueOf("2014-01-10"),"Snatteraasdi","Inte okej."));
-		caseList.add(new Case("Palmemordet","Stan","Alfons",Date.valueOf("1983-10-29"),"asdsadsad","Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
+		caseList.add(new Case(1337,1454,"Snatteri","Hemköp Ryd","Kartoffel-Klas","2007-12-03","asdsa","Odrägliga ynglingar som snattat choklad på Hemköp."));
+		caseList.add(new Case(1337,1455,"Helikopterrån","Pengadepå","Karl-Alfred Johansson","2013-12-05","Snaasdsadtteri","Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
+		caseList.add(new Case(1337,1456,"Tvångsgifte","Kyrka","Björn","2014-01-10","Snatteraasdi","Inte okej."));
+		caseList.add(new Case(1337,1457,"Palmemordet","Stan","Alfons","1983-10-29","asdsadsad","Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
 
 		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
 		caseListView.setAdapter(adapter);		
