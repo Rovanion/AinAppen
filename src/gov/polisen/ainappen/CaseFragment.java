@@ -3,6 +3,9 @@ package gov.polisen.ainappen;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,6 +26,7 @@ public class CaseFragment extends Fragment {
 		setUpHighLevelFragment();
 	
 
+		setHasOptionsMenu(true);
 		return rootView;
 	}
 	
@@ -35,5 +39,24 @@ public class CaseFragment extends Fragment {
 		((MainActivity) getActivity()).unlockDrawer();
 	}
 
-}
+	// Adds an actionbar to the fragment
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.actionbar_fragment_case, menu);
 
+	}
+
+	// This method handles onClick at our actionbar
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// handle item selection
+		switch (item.getItemId()) {
+		// If we press the addCasebutton in the actionbar, call the addCase
+		// function in MainActivity
+		case R.id.addcase_item:
+			View rootView = item.getActionView();
+			((MainActivity) getActivity()).gotoAddCase(rootView);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+}

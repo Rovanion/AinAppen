@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	  <item
+            android:id="@+id/addobstacle_item"
+            android:icon="@drawable/icon_addobstacle"
+            android:showAsAction="always"
+            android:title="@string/add_new_obstacle"
+            >
+        </item>
+        
+	    <item
+            android:id="@+id/visualsettings_item"
+            android:icon="@drawable/icon_visualsettings"
+            android:showAsAction="always"
+            android:title="@string/visual_settings"
+            >
+        </item>
+</menu>
