@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CaseFragment extends Fragment {
+	
+	public CaseFragment() {
+ 		// Empty constructor required for fragment subclasses
+ 	}
 
 	private Case selectedCase;
 	private TextView crimeClassification;
