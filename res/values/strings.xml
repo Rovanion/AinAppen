@@ -9,6 +9,7 @@
         <item>Information</item>
     </string-array>
 
+    <string name="edit_case">Redigera ärende</string>
     <string name="action_settings">Settings</string>
     <string name="case_string">Ärende</string>
     <string name="map">Karta</string>
@@ -28,6 +29,7 @@
     <string name="description">Beskrivning</string>
     <string name="add_new_obstacle">Lägg till hinder</string>
     <string name="visual_settings">Inställningar</string>
+
     <string-array name="case_status">
         <item>Inrapporterad</item>
         <item>Under utredning</item>
