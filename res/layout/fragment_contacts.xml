@@ -13,7 +13,6 @@
         android:id="@+id/addContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_contact"
-        android:onClick="gotoAddContact" />
+        android:text="@string/add_contact" />
 
 </LinearLayout>
