@@ -152,6 +152,10 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 	
+	public void gotoAddContact(View view){
+		gotoLowLevelFragment(new AddContactFragment());
+	}
+	
 	public void gotoCase(View view, Case selectedCase){
 		this.selectedCase = selectedCase;
 		gotoLowLevelFragment(new CaseFragment());

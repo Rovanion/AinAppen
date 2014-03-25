@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class ContactsFragment extends Fragment{
 
 	private ListView testList;
+	private View rootView;
+	private Button addContactButton;
 
 	public ContactsFragment() {
 		// Empty constructor required for fragment subclasses
@@ -21,12 +24,22 @@ public class ContactsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+		rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 		getActivity().setTitle("Kontakter");
 		setUpHighLevelFragment();
 
-		testList = (ListView)rootView.findViewById(R.id.listPhone);
 
+		addContactButton = (Button) rootView.findViewById(R.id.addContact);
+		   addContactButton.setOnClickListener(new View.OnClickListener()
+		   {
+		             @Override
+		             public void onClick(View v)
+		             {
+		            	 ((MainActivity) getActivity()).gotoAddContact(rootView);
+		             } 
+		   }); 
+
+		testList = (ListView)rootView.findViewById(R.id.listPhone);
 		List<Contact> contactList = new ArrayList<Contact>();
 		contactList.add(new Contact("Peter","Johansson","polis","112"));
 		contactList.add(new Contact("Alfons","Åberg","befäl","114114"));
@@ -45,4 +58,5 @@ public class ContactsFragment extends Fragment{
 		//unlocks navigation drawer to open after visited a low level fragment
 		((MainActivity) getActivity()).unlockDrawer();
 	}
+
 }
