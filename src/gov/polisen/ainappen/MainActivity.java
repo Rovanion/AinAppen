@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private Case selectedCase; 
 
 	private String[] mMenuOptions;
 
@@ -135,7 +136,7 @@ public class MainActivity extends Activity {
 	private void selectItem(int position) {
 
 		switch(position) {
-		case 0: gotoFragment(new CaseFragment()); break; // Case
+		case 0: gotoFragment(new CaseListFragment()); break; // Case
 		case 1:	gotoFragment(new MapFragment()); break; // Map
 		case 2: gotoFragment(new ContactsFragment()); break; // Contacts	
 		case 3: gotoFragment(new InformationFragment()); break; // Information	
@@ -149,6 +150,11 @@ public class MainActivity extends Activity {
 
 	public void gotoAddCase(View view){
 		gotoLowLevelFragment(new AddCaseFragment());
+	}
+	
+	public void gotoCase(View view, Case selectedCase){
+		this.selectedCase = selectedCase;
+		gotoLowLevelFragment(new CaseFragment());
 	}
 
 	public void gotoFragment(Fragment fragment){
@@ -177,6 +183,10 @@ public class MainActivity extends Activity {
 	// Drawer will be able to open with gestures.
 	public void unlockDrawer(){
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+	}
+
+	public Case getSelectedCase() {
+		return this.selectedCase;
 	}
 	
 	
