@@ -54,7 +54,7 @@ public class CaseListAdapter extends BaseAdapter {
 
 		// set case id
 		// TODO: Change deveice id to case id
-		TextView caseId = (TextView) convertView.findViewById(R.id.case_id);
+		TextView caseId = (TextView) convertView.findViewById(R.id.date);
 		caseId.setText(entry.getDate().toString());		
 
 		return convertView;
