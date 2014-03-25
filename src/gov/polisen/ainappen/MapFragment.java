@@ -1,6 +1,14 @@
 package gov.polisen.ainappen;
 
+import java.util.ArrayList;
+
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.OverlayItem;
+
 import android.app.Fragment;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +19,9 @@ import android.view.ViewGroup;
 
 public class MapFragment extends Fragment {
 
+	private MapView mapView;
+	private MapController mapController;
+
 	public MapFragment() {
 		// Empty constructor required for fragment subclasses
 	}
@@ -18,21 +29,30 @@ public class MapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
 		getActivity().setTitle("Karta");
 		setUpHighLevelFragment();
-
 		setHasOptionsMenu(true);
-		return rootView;
+
+		mapView = new MapView(inflater.getContext(), 256);
+		mapView.setBuiltInZoomControls(true);
+		mapView.setMultiTouchControls(true);
+
+		mapController = (MapController) this.mapView.getController();
+		mapController.setZoom(14);
+		
+		//The map starting location is Linköping, this will be my location
+		mapController.setCenter(new GeoPoint(58.4109, 15.6216));
+
+		return mapView;
 	}
-	
-	
-	/* 
-	* Needs to be included in high level fragments
-	* high level fragments = fragments that is main drawer menu.
-	*/
-	private void setUpHighLevelFragment(){
-		//unlocks navigation drawer to open after visited a low level fragment
+
+	/*
+	 * Needs to be included in high level fragments high level fragments =
+	 * fragments that is main drawer menu.
+	 */
+	private void setUpHighLevelFragment() {
+		// unlocks navigation drawer to open after visited a low level fragment
 		((MainActivity) getActivity()).unlockDrawer();
 	}
 
