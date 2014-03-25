@@ -1,29 +1,49 @@
 package gov.polisen.ainappen;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "cases")
 
 public class Case {
 
-	@SuppressWarnings("unused")
+	@DatabaseField
 	private int deviceID;
-	@SuppressWarnings("unused")
+	@DatabaseField
 	private int localCaseID;
+	@DatabaseField
 	private String crimeClassification; 
+	@DatabaseField
 	private String location; 
+	@DatabaseField
 	private String commander; 
-	private Date date; 
-	private String status; 
+	@DatabaseField
+	private String date; 
+	@DatabaseField
+	private String status;
+	@DatabaseField
 	private String description;
+	@DatabaseField(useGetSet=true, id = true)
+	private String caseID;
+
+	public Case(){
+		//Empty constructor needed by ORMLite
+	}
 
 	public Case (
+			int deviceID,
+			int localCaseID,
 			String classification, 
 			String location, 
 			String commander, 
-			Date date, 
+			String date, 
 			String status, 
 			String description){
-		this.deviceID = getDeviceID();
-		this.localCaseID = getLocalCaseID();
+		this.deviceID = deviceID;
+		this.localCaseID = localCaseID;
 		this.setCrimeClassification(classification);
 		this.setLocation(location);
 		this.setCommander(commander);
@@ -32,16 +52,39 @@ public class Case {
 		this.setDescription(description);
 	}
 
-	private int getLocalCaseID() {
-		// Get LocalCaseID from local DB
-		// TODO Auto-generated method stub
-		return 0;
+	public String toString(){
+		return "Case [CaseID=" + this.caseID + ", Device ID=" + this.deviceID + ", LocalCaseID=" +
+				this.localCaseID + ", location=" + this.location + ", Commander=" + this.commander + ", Date=" + 
+				this.date + ", Status=" + this.status + ", Description=" + this.description + "]";		
 	}
 
-	public int getDeviceID() {
-		// Get DeviceID from local DB
-		// TODO Auto-generated method stub
-		return 0;
+	/**
+	 * Needs to look this way because ORMLite uses it to create
+	 * the artificial Primary Key (in this 'case', caseID)
+	 * @return
+	 */
+	public String getCaseID(){
+		return (this.deviceID + "-" + this.localCaseID);
+	}
+
+	public void setCaseID(String caseID){
+		this.caseID = caseID;
+	}
+
+	public int getlocalCaseID(){
+		return this.localCaseID;
+	}
+
+	public void setlocalCaseID(int localCaseID){
+		this.localCaseID = localCaseID;
+	}
+
+	public int getdeviceID(){
+		return this.deviceID;
+	}
+
+	public void setdeviceID(int deviceID){
+		this.deviceID = deviceID;
 	}
 
 	public String getCrimeClassification() {
@@ -68,11 +111,11 @@ public class Case {
 		this.commander = commander;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
