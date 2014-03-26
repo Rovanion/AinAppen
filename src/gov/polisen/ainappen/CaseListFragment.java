@@ -1,6 +1,5 @@
 package gov.polisen.ainappen;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +53,12 @@ public class CaseListFragment extends Fragment {
 
 	private void setupCaseList() {
 		caseListView = (ListView)rootView.findViewById(R.id.case_list);
-
-		List<Case> caseList = new ArrayList<Case>();
+		LocalDBHandler lh = new LocalDBHandler();
+		List<Case> caseList = lh.getCasesFromDB(getActivity());
 		caseList.add(new Case(1337,1454,"Snatteri","Hemköp Ryd","Kartoffel-Klas","2007-12-03","asdsa","Odrägliga ynglingar som snattat choklad på Hemköp."));
 		caseList.add(new Case(1337,1455,"Helikopterrån","Pengadepå","Karl-Alfred Johansson","2013-12-05","Snaasdsadtteri","Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
 		caseList.add(new Case(1337,1456,"Tvångsgifte","Kyrka","Björn","2014-01-10","Snatteraasdi","Inte okej."));
 		caseList.add(new Case(1337,1457,"Palmemordet","Stan","Alfons","1983-10-29","asdsadsad","Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
-
 		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
 		caseListView.setAdapter(adapter);		
 	}

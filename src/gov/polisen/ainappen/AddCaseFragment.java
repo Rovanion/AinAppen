@@ -1,11 +1,7 @@
 package gov.polisen.ainappen;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,16 +89,29 @@ public class AddCaseFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				textFieldSetter();
-				addCaseToDB();
+				Case caseToBeAdded = createCaseFromForm();
+				caseToBeAdded = addCaseToDB(caseToBeAdded);
+				makeToast(v, caseToBeAdded);
+				/*
+				 * Nästa line ser till att vi kommer tillbaka till case-listan (från "ärendevyn man
+				 * per automatik skickas till vid creation) när vi trycker bakåt. Detta istället för att
+				 * komma tillbaka till "skapa nytt ärende"-vyn.
+				 */
+				getActivity().getFragmentManager().popBackStack();
+				((MainActivity) getActivity()).gotoCase(v, caseToBeAdded);
 			}
-
 		});
+	}
+	public void makeToast(View v, Case caseToBeAdded){
+		String toastMessage = "Nytt ärende med ID: " + caseToBeAdded.getCaseID() +
+				" angående " + caseToBeAdded.getCrimeClassification() + " vid: " + caseToBeAdded.getLocation() + " har lagts till i databasen.";
+		Toast.makeText(getActivity(), (CharSequence)toastMessage , Toast.LENGTH_LONG).show();
 	}
 
 	/**
 	 * Helpmethod used by setupButtonListener
 	 */
-	public void textFieldSetter(){
+	private void textFieldSetter(){
 		/*
 		 * This part fetches what's input into the GUI
 		 */
@@ -115,35 +124,30 @@ public class AddCaseFragment extends Fragment {
 	}
 
 	/**
-	 * TODO: Integrity check input-fields before committing to database
-	 * (i.e crime_class must not be null)
+	 * Helpmethod used by setupButtonListener. Uses the global fields
+	 * defined in the AddCaseFragment to create a case, the created case
+	 * is returned to the calling parent.
+	 * @return
 	 */
-	public void addCaseToDB(){
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
-		RuntimeExceptionDao<Case, String> caseDao = dbHelper.getCaseRuntimeExceptionDao();
-		RuntimeExceptionDao<LocalID, Integer> localIdDao = dbHelper.getLocalIdRuntimeExceptionDao();
-
-		/*
-		 * This small part is rather unsexy, but needed to
-		 * bypass constraints in ORMLite.
-		 */
-		LocalID newId = new LocalID(0);
-		localIdDao.create(newId);
-		int lid = newId.getLocalCaseID();
-
-		Case newCase = new Case(1337, lid, crime_classText.getText().toString(),
+	private Case createCaseFromForm(){
+		Case newCase = new Case(1337, 0, crime_classText.getText().toString(),
 				location_Text.getText().toString(),
 				commanderText.getText().toString(),
 				dateText.getText().toString(),
 				statusText.getSelectedItem().toString(),
 				descriptionText.getText().toString()
 				);
-
-		//Put the data into database
-		caseDao.create(newCase);
-		String lastEntryID = newCase.getCaseID();
-		Toast.makeText(getActivity(), (CharSequence) caseDao.queryForId(lastEntryID).toString() , Toast.LENGTH_LONG).show();
-		OpenHelperManager.releaseHelper();
+		return newCase;
 	}
 
+	/**
+	 * TODO: Integrity check input-fields before committing to database
+	 * (i.e crime_class must not be null)
+	 */
+	private Case addCaseToDB(Case newCase){
+		Case returnCase;
+		LocalDBHandler lh = new LocalDBHandler();
+		returnCase = lh.addNewCaseToDB(newCase, getActivity());
+		return returnCase;
+	}
 }

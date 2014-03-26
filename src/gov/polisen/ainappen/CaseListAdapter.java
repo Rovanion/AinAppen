@@ -22,7 +22,7 @@ public class CaseListAdapter extends BaseAdapter {
 	public int getCount() {
 		return caseList.size();
 	}
-	
+
 	public Context getContext(){
 		return context;
 	}
@@ -42,24 +42,22 @@ public class CaseListAdapter extends BaseAdapter {
 		// get selected entry
 		Case entry = caseList.get(pos);
 
-		 // inflating list view layout if null
-		 if(convertView == null) {
-		 LayoutInflater inflater = LayoutInflater.from(context);
-		 convertView = inflater.inflate(R.layout.caselist_item, null);
-		 }
+		// inflating list view layout if null
+		if(convertView == null) {
+			LayoutInflater inflater = LayoutInflater.from(context);
+			convertView = inflater.inflate(R.layout.caselist_item, null);
+		}
 
-		  
 		// set crime classification
 		TextView name = (TextView) convertView.findViewById(R.id.crime_classification);
 		name.setText(entry.getCrimeClassification());
 
 		// set case id
-		// TODO: Change deveice id to case id
 		TextView caseId = (TextView) convertView.findViewById(R.id.case_id);
-		caseId.setText(entry.getDate().toString());		
-		 
+		caseId.setText(entry.getCaseID().toString());		
+
 		return convertView;
 	}
-	
+
 
 }
