@@ -1,18 +1,26 @@
 package gov.polisen.ainappen;
 
+import java.io.File;
+
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CaseFragment extends Fragment {
-	
+
 	public CaseFragment() {
- 		// Empty constructor required for fragment subclasses
- 	}
+		// Empty constructor required for fragment subclasses
+	}
 
 	private Case selectedCase;
 	private TextView crimeClassification;
@@ -30,11 +38,11 @@ public class CaseFragment extends Fragment {
 		setUpLowLevelFragment();
 		this.selectedCase = ((MainActivity) getActivity()).getSelectedCase();
 		getActivity().setTitle(selectedCase.getCrimeClassification());
+		setHasOptionsMenu(true);
 
-		
 		setupComponents();
 		fillTextfields();
-		
+
 		return rootView;
 	}
 
@@ -56,18 +64,28 @@ public class CaseFragment extends Fragment {
 		description.setText(selectedCase.getDescription());
 	}
 
+	// Adds an actionbar to the fragment
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.actionbar_case, menu);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		// Get item selected and deal with it
 		switch (item.getItemId()) {
 		case android.R.id.home:
-
 			//called when the up affordance/carat in actionbar is pressed
 			getActivity().onBackPressed();
-
+			return true;
+		case R.id.camera_actionbar_button:
+			Intent intent = new Intent(getActivity(), CameraActivity.class);
+			// TODO: Change crime classification to case id.
+			intent.putExtra("SELECTED_CASE_ID", selectedCase.getCrimeClassification());
+			startActivity(intent);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -84,4 +102,22 @@ public class CaseFragment extends Fragment {
 		((MainActivity) getActivity()).lockDrawer();
 	}
 
+	private List<String> getImgages(){
+		List<String> imageList = new ArrayList<String>();// list of file paths
+		File[] listFile;
+
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				"AinAppen" + File.separator + crimeClassification);	
+		
+		if (mediaStorageDir.isDirectory())
+		{
+			listFile = mediaStorageDir.listFiles();
+			
+			for (int i = 0; i < listFile.length; i++)
+			{
+				imageList.add(listFile[i].getAbsolutePath());
+			}
+		}
+		return imageList;
+	}
 }
