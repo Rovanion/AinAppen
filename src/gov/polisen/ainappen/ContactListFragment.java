@@ -13,19 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ContactsFragment extends Fragment{
+public class ContactListFragment extends Fragment{
 
 	private ListView testList;
 	private View rootView;
 
-	public ContactsFragment() {
+	public ContactListFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+		rootView = inflater.inflate(R.layout.fragment_contact_list, container, false);
 		getActivity().setTitle("Kontakter");
 		setUpHighLevelFragment();
 		setHasOptionsMenu(true);
