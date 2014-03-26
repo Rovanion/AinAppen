@@ -52,7 +52,7 @@ public class CaseFragment extends Fragment {
 		commander.setText(selectedCase.getCommander());
 		location.setText(selectedCase.getLocation());
 		date.setText(selectedCase.getDate().toString());
-		status.setText(selectedCase.getCrimeClassification());
+		status.setText(selectedCase.getStatus());
 		description.setText(selectedCase.getDescription());
 	}
 

@@ -1,6 +1,8 @@
 package gov.polisen.ainappen;
 
 
+import java.util.Date;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -19,7 +21,7 @@ public class Case {
 	@DatabaseField
 	private String commander; 
 	@DatabaseField
-	private String date; 
+	private Date date; 
 	@DatabaseField
 	private String status;
 	@DatabaseField
@@ -37,7 +39,7 @@ public class Case {
 			String classification, 
 			String location, 
 			String commander, 
-			String date, 
+			Date date, 
 			String status, 
 			String description){
 		this.deviceID = deviceID;
@@ -109,11 +111,11 @@ public class Case {
 		this.commander = commander;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

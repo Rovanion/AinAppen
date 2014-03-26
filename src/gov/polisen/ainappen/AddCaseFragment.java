@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import java.util.Date;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,14 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.CalendarView;
 
 public class AddCaseFragment extends Fragment {
-
 
 	EditText crime_classText;
 	EditText location_Text;
 	EditText commanderText;
-	EditText dateText;
+	CalendarView dateDate;
 	Spinner statusText;
 	EditText descriptionText;
 	View rootView;
@@ -88,9 +90,13 @@ public class AddCaseFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				//read from all the textfields in the GUI
 				textFieldSetter();
+				//Create a caseObject from the set fields
 				Case caseToBeAdded = createCaseFromForm();
+				//add the case to database
 				caseToBeAdded = addCaseToDB(caseToBeAdded);
+				//notify the user about successfull commitment
 				makeToast(v, caseToBeAdded);
 				/*
 				 * Nästa line ser till att vi kommer tillbaka till case-listan (från "ärendevyn man
@@ -102,6 +108,11 @@ public class AddCaseFragment extends Fragment {
 			}
 		});
 	}
+	/**
+	 * Extracts useful information from a case, and prints them to the user.
+	 * @param v
+	 * @param caseToBeAdded
+	 */
 	public void makeToast(View v, Case caseToBeAdded){
 		String toastMessage = "Nytt ärende med ID: " + caseToBeAdded.getCaseID() +
 				" angående " + caseToBeAdded.getCrimeClassification() + " vid: " + caseToBeAdded.getLocation() + " har lagts till i databasen.";
@@ -118,7 +129,7 @@ public class AddCaseFragment extends Fragment {
 		crime_classText = (EditText) rootView.findViewById(R.id.crime_classification_text_edit);
 		location_Text = (EditText) rootView.findViewById(R.id.location_text_edit);
 		commanderText = (EditText) rootView.findViewById(R.id.commander_text_edit);
-		dateText = (EditText) rootView.findViewById(R.id.date_text_edit);
+		dateDate = (CalendarView) rootView.findViewById(R.id.calendarView1);
 		statusText = (Spinner) rootView.findViewById(R.id.spinner_status);
 		descriptionText = (EditText) rootView.findViewById(R.id.description_text_edit);
 	}
@@ -133,7 +144,7 @@ public class AddCaseFragment extends Fragment {
 		Case newCase = new Case(1337, 0, crime_classText.getText().toString(),
 				location_Text.getText().toString(),
 				commanderText.getText().toString(),
-				dateText.getText().toString(),
+				new Date(dateDate.getDate()),
 				statusText.getSelectedItem().toString(),
 				descriptionText.getText().toString()
 				);
