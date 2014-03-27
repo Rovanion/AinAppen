@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CaseFragment extends Fragment {
-	
+
 	public CaseFragment() {
- 		// Empty constructor required for fragment subclasses
- 	}
+		// Empty constructor required for fragment subclasses
+	}
 
 	private Case selectedCase;
 	private TextView crimeClassification;
@@ -30,11 +30,9 @@ public class CaseFragment extends Fragment {
 		setUpLowLevelFragment();
 		this.selectedCase = ((MainActivity) getActivity()).getSelectedCase();
 		getActivity().setTitle(selectedCase.getCrimeClassification());
-
-		
 		setupComponents();
 		fillTextfields();
-		
+
 		return rootView;
 	}
 
@@ -49,10 +47,10 @@ public class CaseFragment extends Fragment {
 
 	private void fillTextfields() {
 		crimeClassification.setText(selectedCase.getCrimeClassification());
-		commander.setText(selectedCase.getCommander());
+		commander.setText(Integer.toString(selectedCase.getCommander()));
 		location.setText(selectedCase.getLocation());
 		date.setText(selectedCase.getDate().toString());
-		status.setText(selectedCase.getCrimeClassification());
+		status.setText(selectedCase.getStatus());
 		description.setText(selectedCase.getDescription());
 	}
 
