@@ -44,5 +44,7 @@ public class ContactsFragment extends Fragment{
 	private void setUpHighLevelFragment(){
 		//unlocks navigation drawer to open after visited a low level fragment
 		((MainActivity) getActivity()).unlockDrawer();
+		((MainActivity) getActivity()).getFragmentManager().findFragmentById(R.id.content_frame);
+
 	}
 }
