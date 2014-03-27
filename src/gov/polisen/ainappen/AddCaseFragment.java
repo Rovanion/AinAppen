@@ -143,7 +143,7 @@ public class AddCaseFragment extends Fragment {
 	private Case createCaseFromForm(){
 		Case newCase = new Case(1337, 0, crime_classText.getText().toString(),
 				location_Text.getText().toString(),
-				commanderText.getText().toString(),
+				Integer.parseInt(commanderText.getText().toString()),
 				new Date(dateDate.getDate()),
 				statusText.getSelectedItem().toString(),
 				descriptionText.getText().toString()

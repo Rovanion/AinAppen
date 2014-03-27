@@ -19,7 +19,7 @@ public class Case {
 	@DatabaseField
 	private String location; 
 	@DatabaseField
-	private String commander; 
+	private int commander; 
 	@DatabaseField
 	private Date date; 
 	@DatabaseField
@@ -38,7 +38,7 @@ public class Case {
 			int localCaseID,
 			String classification, 
 			String location, 
-			String commander, 
+			int commander, 
 			Date date, 
 			String status, 
 			String description){
@@ -103,11 +103,11 @@ public class Case {
 		this.location = location;
 	}
 
-	public String getCommander() {
+	public int getCommander() {
 		return commander;
 	}
 
-	public void setCommander(String commander) {
+	public void setCommander(int commander) {
 		this.commander = commander;
 	}
 
