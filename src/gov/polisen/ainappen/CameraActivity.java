@@ -6,18 +6,14 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 public class CameraActivity extends Activity {
@@ -35,10 +31,8 @@ public class CameraActivity extends Activity {
 		setContentView(R.layout.activity_camera);
 
 		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-			this.selectedCaseId = getSelectedCaseID();
 		}
+		this.selectedCaseId = getSelectedCaseID();
 
 		// create Intent to take a picture and return control to the calling
 		// application
@@ -69,19 +63,27 @@ public class CameraActivity extends Activity {
 	}
 
 	@Override
+	public void onBackPressed() {
+		finish();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				// Image captured and saved to fileUri specified in the Intent
 				Toast.makeText(this, "Foto sparat.", Toast.LENGTH_LONG).show();
-
-				// Finish camera activity
 				finish();
 
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
+				finish();
+
 			} else {
 				// Image capture failed, advise user
+				Toast.makeText(this, "Foto kunde inte sparas. Något gick fel.",
+						Toast.LENGTH_LONG).show();
+				finish();
 			}
 		}
 
@@ -142,7 +144,6 @@ public class CameraActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.camera, menu);
 		return true;
@@ -159,23 +160,4 @@ public class CameraActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_camera,
-					container, false);
-
-			return rootView;
-		}
-	}
-
 }
