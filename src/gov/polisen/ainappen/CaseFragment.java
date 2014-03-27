@@ -1,22 +1,14 @@
 package gov.polisen.ainappen;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class CaseFragment extends Fragment {
@@ -34,6 +26,9 @@ public class CaseFragment extends Fragment {
 	private TextView	description;
 	private View		rootView;
 
+	String				foldername;
+	ImageHandeler		ih;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -43,19 +38,15 @@ public class CaseFragment extends Fragment {
 		getActivity().setTitle(selectedCase.getCrimeClassification());
 		setHasOptionsMenu(true);
 
+		foldername = selectedCase.getCrimeClassification();
+
 		setupComponents();
 		fillTextfields();
 
-		createImages();
+		ih = new ImageHandeler(rootView);
+		ih.createImages(foldername);
 
 		return rootView;
-	}
-
-	private void createImages() {
-		List<String> images = getImgagesUrl();
-		for (String url : images) {
-			createImageViewForImage(url);
-		}
 	}
 
 	private void setupComponents() {
@@ -118,34 +109,4 @@ public class CaseFragment extends Fragment {
 		((MainActivity) getActivity()).lockDrawer();
 	}
 
-	private void createImageViewForImage(String path) {
-		LinearLayout layout = (LinearLayout) rootView
-				.findViewById(R.id.linear_layout_case);
-		ImageView imageView = new ImageView(this.getActivity());
-		LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		imageView.setLayoutParams(vp);
-		ImageHandeler ih = new ImageHandeler(path);
-		imageView.setImageBitmap(ih.decodeSampledBitmapFromResource(path));
-		layout.addView(imageView);
-	}
-
-	private List<String> getImgagesUrl() {
-		List<String> imageList = new ArrayList<String>();// list of file paths
-		File[] listFile;
-		File mediaStorageDir = new File(
-				Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-				"AinAppen" + File.separator
-						+ selectedCase.getCrimeClassification());
-
-		if (mediaStorageDir.isDirectory()) {
-			listFile = mediaStorageDir.listFiles();
-			// For loop backwards because latest image should be listed highest.
-			for (int i = listFile.length; i > 0; i--) {
-				imageList.add(listFile[i - 1].getAbsolutePath());
-			}
-		}
-		return imageList;
-	}
 }

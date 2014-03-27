@@ -1,7 +1,16 @@
 package gov.polisen.ainappen;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 public class ImageHandeler {
 
@@ -11,14 +20,22 @@ public class ImageHandeler {
 	int						reqHeight;
 	String					imageType;
 	BitmapFactory.Options	options;
+	View					rootView;
 
-	public ImageHandeler(String path) {
-		this.options = new BitmapFactory.Options();
+	public ImageHandeler(View rootView) {
 		this.reqHeight = 400;
 		this.reqWidth = 400;
+		this.rootView = rootView;
+	}
+
+	public void resetOptions() {
+		this.options = new BitmapFactory.Options();
 	}
 
 	public Bitmap decodeSampledBitmapFromResource(String path) {
+
+		resetOptions();
+
 		readBitmapDimensionsAndType(path);
 
 		// First decode with inJustDecodeBounds=true to check dimensions
@@ -39,6 +56,18 @@ public class ImageHandeler {
 		imageHeight = options.outHeight;
 		imageWidth = options.outWidth;
 		imageType = options.outMimeType;
+	}
+
+	public void createImageViewForImage(String path) {
+		LinearLayout layout = (LinearLayout) rootView
+				.findViewById(R.id.linear_layout_case);
+		ImageView imageView = new ImageView(rootView.getContext());
+		LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		imageView.setLayoutParams(vp);
+
+		imageView.setImageBitmap(decodeSampledBitmapFromResource(path));
+		layout.addView(imageView);
 	}
 
 	public int calculateInSampleSize() {
@@ -63,5 +92,30 @@ public class ImageHandeler {
 		}
 
 		return inSampleSize;
+	}
+
+	public void createImages(String foldername) {
+		List<String> images = getListOfImgageUrls(foldername);
+		for (String url : images) {
+			createImageViewForImage(url);
+		}
+	}
+
+	public List<String> getListOfImgageUrls(String foldername) {
+		List<String> imageList = new ArrayList<String>();// list of file paths
+		File[] listFile;
+		File mediaStorageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				"AinAppen" + File.separator + foldername);
+
+		if (mediaStorageDir.isDirectory()) {
+			listFile = mediaStorageDir.listFiles();
+			// For loop backwards because latest image should be listed highest.
+			for (int i = listFile.length; i > 0; i--) {
+				imageList.add(listFile[i - 1].getAbsolutePath());
+			}
+		}
+		return imageList;
 	}
 }
