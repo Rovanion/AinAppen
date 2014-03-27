@@ -11,7 +11,7 @@
         android:textSize="@dimen/case_list_item_font_size" />
 
     <TextView
-        android:id="@+id/case_id"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
