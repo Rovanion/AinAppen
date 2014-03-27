@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -126,16 +125,9 @@ public class CaseFragment extends Fragment {
 		LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		imageView.setLayoutParams(vp);
-		imageView.setImageBitmap(getBitmapFromPath(path));
+		ImageHandeler ih = new ImageHandeler(path);
+		imageView.setImageBitmap(ih.decodeSampledBitmapFromResource(path));
 		layout.addView(imageView);
-	}
-
-	private Bitmap getBitmapFromPath(String path) {
-		File imgFile = new File(path);
-
-		ImageHandeler ih = new ImageHandeler(imgFile.getAbsolutePath(), 400,
-				400);
-		return ih.decodeSampledBitmapFromResource();
 	}
 
 	private List<String> getImgagesUrl() {

@@ -9,19 +9,17 @@ public class ImageHandeler {
 	int						imageWidth;
 	int						reqWidth;
 	int						reqHeight;
-	String					path;
 	String					imageType;
 	BitmapFactory.Options	options;
 
-	public ImageHandeler(String path, int reqWidth, int reqHeight) {
+	public ImageHandeler(String path) {
 		this.options = new BitmapFactory.Options();
-		this.path = path;
-		this.reqHeight = reqHeight;
-		this.reqWidth = reqWidth;
-		readBitmapDimensionsAndType();
+		this.reqHeight = 400;
+		this.reqWidth = 400;
 	}
 
-	public Bitmap decodeSampledBitmapFromResource() {
+	public Bitmap decodeSampledBitmapFromResource(String path) {
+		readBitmapDimensionsAndType(path);
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		options.inJustDecodeBounds = true;
@@ -35,7 +33,7 @@ public class ImageHandeler {
 		return BitmapFactory.decodeFile(path, options);
 	}
 
-	public void readBitmapDimensionsAndType() {
+	public void readBitmapDimensionsAndType(String path) {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(path, options);
 		imageHeight = options.outHeight;
