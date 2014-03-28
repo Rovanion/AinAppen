@@ -87,7 +87,7 @@ public class AddCaseFragment extends Fragment {
 	public void setupAddCaseButtonListener(){
 		Button addCaseButton = (Button) rootView.findViewById(R.id.addCaseButton);
 		addCaseButton.setOnClickListener( new OnClickListener(){
-
+			
 			@Override
 			public void onClick(View v) {
 				//read from all the textfields in the GUI

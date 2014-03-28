@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import android.content.Context;
@@ -73,5 +74,4 @@ public class LocalDBHandler {
 		OpenHelperManager.releaseHelper();
 		return caseList;
 	}
-
 }
