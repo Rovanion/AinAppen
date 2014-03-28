@@ -2,63 +2,71 @@ package gov.polisen.ainappen;
 
 import java.util.ArrayList;
 
+import org.osmdroid.DefaultResourceProxyImpl;
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
+import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.OverlayItem;
 
-import android.app.Fragment;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.*;
 
-public class MapFragment extends Fragment {
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
-	private MapView mapView;
-	private MapController mapController;
+public class MapFragment extends Activity implements LocationListener{
+	
+	String PROVIDER = LocationManager.GPS_PROVIDER;
 
-	public MapFragment() {
-		// Empty constructor required for fragment subclasses
-	}
+	MapView mapView;
+	MapController mapController;
+	LocationManager locationManager;
+	ArrayList<OverlayItem> overlayItemArray;
+	double myLatitude, myLongitude;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	 MyLocationOverlay myLocationOverlay = null;
 
-		getActivity().setTitle("Karta");
-		setUpHighLevelFragment();
-		setHasOptionsMenu(true);
 
-		mapView = new MapView(inflater.getContext(), 256);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_map);
+	
+		
+		mapView = (MapView) this.findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setMultiTouchControls(true);
-
-		mapController = (MapController) this.mapView.getController();
-		mapController.setZoom(14);
+		mapController = (MapController)mapView.getController();
+		mapController.setZoom(6);
 		
-		//The map starting location is Linköping, this will be my location
-		mapController.setCenter(new GeoPoint(58.4109, 15.6216));
+		Drawable marker = getResources().getDrawable(android.R.drawable.star_big_on);
+		int markerWidth = marker.getIntrinsicWidth();
+		int markerHeight = marker.getIntrinsicHeight();
+		marker.setBounds(0, markerHeight, markerWidth,0);
+		
+		ResourceProxy resourceProxy = new DefaultResourceProxyImpl(getApplicationContext());
+		
 
-		return mapView;
-	}
 
-	/*
-	 * Needs to be included in high level fragments high level fragments =
-	 * fragments that is main drawer menu.
-	 */
-	private void setUpHighLevelFragment() {
-		// unlocks navigation drawer to open after visited a low level fragment
-		((MainActivity) getActivity()).unlockDrawer();
+		/*
+		// The map starting location is Linköping, this will be my location
+		GeoPoint startPoint = new GeoPoint(58.4109, 15.6216);
+		mapController.setCenter(startPoint);
+		*/
+		
+	
 	}
 
 	// Adds an actionbar to the fragment
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.actionbar_fragment_map, menu);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.actionbar_fragment_map, menu);
+		return true;
 
 	}
 
@@ -77,6 +85,30 @@ public class MapFragment extends Fragment {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

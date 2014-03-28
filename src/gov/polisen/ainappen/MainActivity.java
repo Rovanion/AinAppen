@@ -1,8 +1,16 @@
 package gov.polisen.ainappen;
 
+import java.util.ArrayList;
+
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.util.constants.MapViewConstants;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -16,7 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -136,7 +144,9 @@ public class MainActivity extends Activity {
 
 		switch(position) {
 		case 0: gotoFragment(new CaseFragment()); break; // Case
-		case 1:	gotoFragment(new MapFragment()); break; // Map
+		case 1:	Intent a = new Intent(getBaseContext(), MapFragment.class);
+				startActivity(a);
+		break; // Map
 		case 2: gotoFragment(new ContactsFragment()); break; // Contacts	
 		case 3: gotoFragment(new InformationFragment()); break; // Information	
 		default: 
@@ -151,6 +161,10 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
+	public void gotoMap(View view){
+		Intent intent = new Intent(MainActivity.this, MapFragment.class);
+		startActivity(intent);
+	}
 	public void gotoFragment(Fragment fragment){
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();	
