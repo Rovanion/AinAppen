@@ -23,7 +23,7 @@
     <string name="id">Id</string>
     <string name="location">Plats</string>
     <string name="create_case">Skapa ärende</string>
-    <string name="commander">Befälhavare</string>
+    <string name="commander">Befälhavare-Id</string>
     <string name="date">Datum</string>
     <string name="status">Status</string>
     <string name="description">Beskrivning</string>
