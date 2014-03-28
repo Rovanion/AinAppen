@@ -5,38 +5,43 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "contacts")
 public class Contact {
+	@DatabaseField
 	String firstName;
+	@DatabaseField
 	String lastName;
 
 	@DatabaseField(id = true)
 	int contactID;
-	@DatabaseField
+
 	@DatabaseField
 	String title;
 	@DatabaseField
 	String phone;
 
-	Contact (String firstName, String lastName, String title, String phone){
+	public Contact(String firstName, String lastName, String title,
+			String phone, int contactID) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.title=title;
-		this.phone=phone;
+		this.title = title;
+		this.phone = phone;
 		this.contactID = contactID;
 	}
 
-	public Contact(){
-		//Needed by ORMLite
+	public Contact() {
+		// Needed by ORMLite
 	}
 
-	public String toString(){
-		return "Contact [ContactID=" + this.contactID + ", Name=" + this.name + ", Title=" +
-				this.title + ", Phone=" + this.phone + "]";
+	public String toString() {
+		return "Contact [ContactID=" + this.contactID + ", firstName="
+				+ this.firstName + ", lastName=" + this.lastName + ", Title="
+				+ this.title + ", Phone=" + this.phone + "]";
 	}
 
-	public int getContactID(){
+	public int getContactID() {
 		return this.contactID;
 	}
-	public void setContactID(int cid){
+
+	public void setContactID(int cid) {
 		this.contactID = cid;
 	}
 
@@ -47,7 +52,7 @@ public class Contact {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}

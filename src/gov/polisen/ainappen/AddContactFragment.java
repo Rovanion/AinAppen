@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class AddContactFragment extends Fragment {
 
-	private Button submitButton;
+	private Button submitContactButton;
 	
 	public AddContactFragment() {
 		// Empty constructor required for fragment subclasses
