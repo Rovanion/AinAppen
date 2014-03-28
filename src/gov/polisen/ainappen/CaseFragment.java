@@ -3,60 +3,83 @@ package gov.polisen.ainappen;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * Fragment that appears in the "content_frame", shows a planet
- */
 public class CaseFragment extends Fragment {
 
 	public CaseFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
+	private Case selectedCase;
+	private TextView crimeClassification;
+	private TextView location; 
+	private TextView commander; 
+	private TextView date; 
+	private TextView status; 
+	private TextView description; 
+	private View rootView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_case, container, false);
-		getActivity().setTitle("Ärenden");
-		setUpHighLevelFragment();
-	
+		rootView = inflater.inflate(R.layout.fragment_case, container, false);
+		setUpLowLevelFragment();
+		this.selectedCase = ((MainActivity) getActivity()).getSelectedCase();
+		getActivity().setTitle(selectedCase.getCrimeClassification());
+		setupComponents();
+		fillTextfields();
 
-		setHasOptionsMenu(true);
 		return rootView;
 	}
-	
-	/* 
-	* Needs to be included in high level fragments
-	* high level fragments = fragments that is main drawer menu.
-	*/
-	private void setUpHighLevelFragment(){
-		//unlocks navigation drawer to open after visited a low level fragment
-		((MainActivity) getActivity()).unlockDrawer();
+
+	private void setupComponents() {
+		crimeClassification = (TextView) rootView.findViewById(R.id.crime_classification);
+		commander = (TextView) rootView.findViewById(R.id.commander);
+		location = (TextView)rootView.findViewById(R.id.location);
+		date = (TextView)rootView.findViewById(R.id.date);
+		status = (TextView)rootView.findViewById(R.id.status);
+		description = (TextView)rootView.findViewById(R.id.description);
 	}
 
-	// Adds an actionbar to the fragment
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.actionbar_fragment_case, menu);
-
+	private void fillTextfields() {
+		crimeClassification.setText(selectedCase.getCrimeClassification());
+		commander.setText(Integer.toString(selectedCase.getCommander()));
+		location.setText(selectedCase.getLocation());
+		date.setText(selectedCase.getDate().toString());
+		status.setText(selectedCase.getStatus());
+		description.setText(selectedCase.getDescription());
 	}
 
-	// This method handles onClick at our actionbar
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// handle item selection
+
+		// Get item selected and deal with it
 		switch (item.getItemId()) {
-		// If we press the addCasebutton in the actionbar, call the addCase
-		// function in MainActivity
-		case R.id.addcase_item:
-			View rootView = item.getActionView();
-			((MainActivity) getActivity()).gotoAddCase(rootView);
+		case android.R.id.home:
+
+			//called when the up affordance/carat in actionbar is pressed
+			getActivity().onBackPressed();
+
 			return true;
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+		return false;
 	}
+
+	/* 
+	 * Needs to be included in low level fragments
+	 * Low level fragments = fragments that is not in main drawer menu.
+	 */
+	private void setUpLowLevelFragment(){
+		//needed to indicate that the fragment would like to add items to the Options Menu      
+		setHasOptionsMenu(true);
+		//update the actionbar to show the up carat/affordance 
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+		//locks navigation drawer from open in lower lever fragment. 
+		((MainActivity) getActivity()).lockDrawer();
+	}
+
 }
