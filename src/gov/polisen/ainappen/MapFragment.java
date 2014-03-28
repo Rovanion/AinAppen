@@ -52,7 +52,9 @@ public class MapFragment extends Activity implements LocationListener{
 		
 		ResourceProxy resourceProxy = new DefaultResourceProxyImpl(getApplicationContext());
 		
-
+        myLocationOverlay = new MyLocationOverlay(this, mapView);
+        mapView.getOverlays().add(myLocationOverlay);
+        myLocationOverlay.enableMyLocation();
 
 		/*
 		// The map starting location is Linköping, this will be my location

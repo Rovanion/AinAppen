@@ -165,6 +165,8 @@ public class MainActivity extends Activity{
 	public void gotoMap(View view){
 		Intent intent = new Intent(MainActivity.this, MapFragment.class);
 		startActivity(intent);
+	}
+	
 	public void gotoCase(View view, Case selectedCase){
 		this.selectedCase = selectedCase;
 		gotoLowLevelFragment(new CaseFragment());
