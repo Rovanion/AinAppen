@@ -6,13 +6,15 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
-public class ImageHandeler {
+public class ImageHandeler extends AsyncTask<String, Void, String> {
 
 	int						imageHeight;
 	int						imageWidth;
@@ -39,18 +41,23 @@ public class ImageHandeler {
 		readBitmapDimensionsAndType(path);
 
 		// First decode with inJustDecodeBounds=true to check dimensions
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path, options);
+		// options.inJustDecodeBounds = true;
+		// BitmapFactory.decodeFile(path, options);
 
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize();
-
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(path, options);
+		// // Calculate inSampleSize
+		// options.inSampleSize = calculateInSampleSize();
+		//
+		// // Decode bitmap with inSampleSize set
+		// options.inJustDecodeBounds = false;
+		// return BitmapFactory.decodeFile(path, options);
+		return null;
 	}
 
 	public void readBitmapDimensionsAndType(String path) {
+
+		TextView text = (TextView) rootView.findViewById(R.id.location);
+		text.setText(path);
+
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(path, options);
 		imageHeight = options.outHeight;
@@ -117,5 +124,26 @@ public class ImageHandeler {
 			}
 		}
 		return imageList;
+	}
+
+	@Override
+	protected String doInBackground(Bitmap... params) {
+
+		List<String> images = getListOfImgageUrls(params[0]);
+		for (String url : images) {
+			createImageViewForImage(url);
+		}
+		return "";
+	}
+
+	// Once complete, see if ImageView is still around and set bitmap.
+	@Override
+	protected void onPostExecute(Bitmap bitmap) {
+		if (imageViewReference != null && bitmap != null) {
+			final ImageView imageView = imageViewReference.get();
+			if (imageView != null) {
+				imageView.setImageBitmap(bitmap);
+			}
+		}
 	}
 }

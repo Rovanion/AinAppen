@@ -27,7 +27,8 @@ public class CaseFragment extends Fragment {
 	private View		rootView;
 
 	String				foldername;
-	ImageHandeler		ih;
+
+	// ImageHandeler ih;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,8 +44,9 @@ public class CaseFragment extends Fragment {
 		setupComponents();
 		fillTextfields();
 
-		ih = new ImageHandeler(rootView);
-		ih.createImages(foldername);
+		ImageHandeler ih = new ImageHandeler(rootView);
+		ih.execute(foldername);
+		// ih.createImages(foldername);
 
 		return rootView;
 	}
