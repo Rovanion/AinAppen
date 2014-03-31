@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
 		switch(position) {
 		case 0: gotoFragment(new CaseListFragment()); break; // Case
 		case 1:	gotoFragment(new MapFragment()); break; // Map
-		case 2: gotoFragment(new ContactsFragment()); break; // Contacts	
+		case 2: gotoFragment(new ContactListFragment()); break; // Contacts	
 		case 3: gotoFragment(new InformationFragment()); break; // Information	
 		default: 
 		}
@@ -150,6 +150,10 @@ public class MainActivity extends Activity {
 
 	public void gotoAddCase(View view){
 		gotoLowLevelFragment(new AddCaseFragment());
+	}
+	
+	public void gotoAddContact(View view){
+		gotoLowLevelFragment(new AddContactFragment());
 	}
 	
 	public void gotoCase(View view, Case selectedCase){
