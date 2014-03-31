@@ -1,9 +1,11 @@
 package gov.polisen.ainappen;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,18 +47,25 @@ public class CaseFragment extends Fragment {
 
 		setupComponents();
 		fillTextfields();
+		displayImages();
+
+		return rootView;
+	}
+
+	private void displayImages() {
 
 		ImageHandeler ih = new ImageHandeler(rootView);
 		List<String> imagesUrls = ih.getListOfImgageUrls(foldername);
 
-		ih.execute(imagesUrls.get(1));
-
-		// for (String url : imagesUrls) {
-		// new ImageHandeler(rootView).executeOnExecutor(
-		// AsyncTask.THREAD_POOL_EXECUTOR, url);
-		// }
-
-		return rootView;
+		for (int i = 0; i < imagesUrls.size(); i++) {
+			Executor executor;
+			if (i == 0)
+				executor = AsyncTask.THREAD_POOL_EXECUTOR;
+			else
+				executor = AsyncTask.SERIAL_EXECUTOR;
+			new ImageHandeler(rootView).executeOnExecutor(executor,
+					imagesUrls.get(i));
+		}
 	}
 
 	private void setupComponents() {
