@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import java.util.List;
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,8 +47,14 @@ public class CaseFragment extends Fragment {
 		fillTextfields();
 
 		ImageHandeler ih = new ImageHandeler(rootView);
-		ih.execute(foldername);
-		// ih.createImages(foldername);
+		List<String> imagesUrls = ih.getListOfImgageUrls(foldername);
+
+		ih.execute(imagesUrls.get(1));
+
+		// for (String url : imagesUrls) {
+		// new ImageHandeler(rootView).executeOnExecutor(
+		// AsyncTask.THREAD_POOL_EXECUTOR, url);
+		// }
 
 		return rootView;
 	}
@@ -93,7 +101,6 @@ public class CaseFragment extends Fragment {
 			startActivity(intent);
 			return true;
 		}
-
 		return false;
 	}
 

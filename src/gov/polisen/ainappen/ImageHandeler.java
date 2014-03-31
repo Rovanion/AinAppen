@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-public class ImageHandeler extends AsyncTask<String, Void, String> {
+public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
 
 	int						imageHeight;
 	int						imageWidth;
@@ -41,16 +41,15 @@ public class ImageHandeler extends AsyncTask<String, Void, String> {
 		readBitmapDimensionsAndType(path);
 
 		// First decode with inJustDecodeBounds=true to check dimensions
-		// options.inJustDecodeBounds = true;
-		// BitmapFactory.decodeFile(path, options);
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
 
-		// // Calculate inSampleSize
-		// options.inSampleSize = calculateInSampleSize();
-		//
-		// // Decode bitmap with inSampleSize set
-		// options.inJustDecodeBounds = false;
-		// return BitmapFactory.decodeFile(path, options);
-		return null;
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize();
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(path, options);
 	}
 
 	public void readBitmapDimensionsAndType(String path) {
@@ -65,15 +64,14 @@ public class ImageHandeler extends AsyncTask<String, Void, String> {
 		imageType = options.outMimeType;
 	}
 
-	public void createImageViewForImage(String path) {
+	public void createImageViewForImage(Bitmap bitmap) {
 		LinearLayout layout = (LinearLayout) rootView
 				.findViewById(R.id.linear_layout_case);
 		ImageView imageView = new ImageView(rootView.getContext());
 		LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		imageView.setLayoutParams(vp);
-
-		imageView.setImageBitmap(decodeSampledBitmapFromResource(path));
+		imageView.setImageBitmap(bitmap);
 		layout.addView(imageView);
 	}
 
@@ -101,12 +99,11 @@ public class ImageHandeler extends AsyncTask<String, Void, String> {
 		return inSampleSize;
 	}
 
-	public void createImages(String foldername) {
-		List<String> images = getListOfImgageUrls(foldername);
-		for (String url : images) {
-			createImageViewForImage(url);
-		}
-	}
+	/*
+	 * public void createImages(String foldername) { List<String> images =
+	 * getListOfImgageUrls(foldername); for (String url : images) {
+	 * createImageViewForImage(url); } }
+	 */
 
 	public List<String> getListOfImgageUrls(String foldername) {
 		List<String> imageList = new ArrayList<String>();// list of file paths
@@ -127,23 +124,13 @@ public class ImageHandeler extends AsyncTask<String, Void, String> {
 	}
 
 	@Override
-	protected String doInBackground(Bitmap... params) {
-
-		List<String> images = getListOfImgageUrls(params[0]);
-		for (String url : images) {
-			createImageViewForImage(url);
-		}
-		return "";
+	protected Bitmap doInBackground(String... params) {
+		return decodeSampledBitmapFromResource(params[0]);
 	}
 
 	// Once complete, see if ImageView is still around and set bitmap.
 	@Override
 	protected void onPostExecute(Bitmap bitmap) {
-		if (imageViewReference != null && bitmap != null) {
-			final ImageView imageView = imageViewReference.get();
-			if (imageView != null) {
-				imageView.setImageBitmap(bitmap);
-			}
-		}
+		createImageViewForImage(bitmap);
 	}
 }
