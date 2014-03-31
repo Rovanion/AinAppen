@@ -11,7 +11,7 @@ public class Contact {
 	String lastName;
 
 	@DatabaseField(id = true)
-	int contactID;
+	int userID;
 
 	@DatabaseField
 	String title;
@@ -19,12 +19,12 @@ public class Contact {
 	String phone;
 
 	public Contact(String firstName, String lastName, String title,
-			String phone, int contactID) {
+			String phone, int userID) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.title = title;
 		this.phone = phone;
-		this.contactID = contactID;
+		this.userID = userID;
 	}
 
 	public Contact() {
@@ -32,17 +32,17 @@ public class Contact {
 	}
 
 	public String toString() {
-		return "Contact [ContactID=" + this.contactID + ", firstName="
+		return "Contact [UserID=" + this.userID + ", firstName="
 				+ this.firstName + ", lastName=" + this.lastName + ", Title="
 				+ this.title + ", Phone=" + this.phone + "]";
 	}
 
-	public int getContactID() {
-		return this.contactID;
+	public int getUserID() {
+		return this.userID;
 	}
 
-	public void setContactID(int cid) {
-		this.contactID = cid;
+	public void setUserID(int cid) {
+		this.userID = cid;
 	}
 
 	public String getFirstName() {
