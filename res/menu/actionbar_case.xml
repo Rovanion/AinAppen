@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/addcase_item"
-        android:icon="@drawable/icon_addcase"
+        android:id="@+id/camera_actionbar_button"
+        android:icon="@drawable/ic_action_camera"
         android:showAsAction="always"
-        android:title="@string/add_new_case">
+        android:title="@string/camera_actionbar_button">
     </item>
 
 </menu>
