@@ -87,7 +87,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date" />
+                android:text="@string/crimeDate" />
 
             <CalendarView
                 android:id="@+id/calendarView1"
@@ -95,7 +95,7 @@
                 android:layout_height="234dp" />
 
             <Button
-                android:id="@+id/addCaseButton"
+                android:id="@+id/doneButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_case" />
