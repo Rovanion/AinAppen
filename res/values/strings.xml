@@ -29,6 +29,12 @@
     <string name="description">Beskrivning</string>
     <string name="add_new_obstacle">Lägg till hinder</string>
     <string name="visual_settings">Inställningar</string>
+    <string name="first_name">Förnamn</string>
+    <string name="last_name">Efternamn</string>
+    <string name="job_title">Befattning</string>
+    <string name="phone_number">Telefonnummer</string>
+    <string name="add_contact">Skapa kontakt</string>
+    <string name="done">Klar</string>
 
     <string-array name="case_status">
         <item>Inrapporterad</item>

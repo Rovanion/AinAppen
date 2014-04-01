@@ -50,11 +50,11 @@ public class ContactListAdapter extends BaseAdapter {
 
 		// set name
 		TextView name = (TextView) convertView.findViewById(R.id.name);
-		name.setText(entry.getName());
+		name.setText(entry.getFirstName()+" "+entry.getLastName());
 
 		// set phone
-		TextView phone = (TextView) convertView.findViewById(R.id.phone);
-		phone.setText(entry.getPhone());
+		TextView phoneNumber = (TextView) convertView.findViewById(R.id.phoneNumber);
+		phoneNumber.setText(entry.getPhone());
 
 		// set title
 		TextView title = (TextView) convertView.findViewById(R.id.jobTitle);
