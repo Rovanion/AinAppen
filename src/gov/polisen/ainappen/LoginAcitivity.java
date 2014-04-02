@@ -37,6 +37,7 @@ public class LoginAcitivity extends Activity{
 		private Button quickLogButton;
 		private Button databaseLoginButton;
 		View rootView;
+		LoginDBHandler ldh;
 
 		public PlaceholderFragment() {
 		}
@@ -48,6 +49,7 @@ public class LoginAcitivity extends Activity{
 					container, false);
 			setupLoginToDatabaseButtonListener();
 			setupQuickLoginButtonListener();
+			ldh = new LoginDBHandler(getActivity());
 			return rootView;
 		}
 
@@ -63,8 +65,8 @@ public class LoginAcitivity extends Activity{
 		}
 
 		public void checkLogin(){
-			Toast.makeText(getActivity(), "Wallaaaaa", Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(getActivity(), MainActivity.class);
+			ldh.release();
 			startActivity(intent);
 		}
 
@@ -77,7 +79,6 @@ public class LoginAcitivity extends Activity{
 					textFieldSetter();
 					boolean access;
 					access = checkIfCorrect();
-
 					if(access){
 						checkLogin();
 					}
@@ -104,7 +105,6 @@ public class LoginAcitivity extends Activity{
 			LoginData tempLogin = new LoginData("polisen", "aina");
 			ldh.makeTempLogin(tempLogin);
 			isCorrect = ldh.loginAuthenticity(userData);
-			ldh.release();
 			return isCorrect;
 		}
 	}
