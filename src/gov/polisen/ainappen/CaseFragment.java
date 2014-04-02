@@ -32,8 +32,6 @@ public class CaseFragment extends Fragment {
 
 	String				foldername;
 
-	// ImageHandeler ih;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -103,7 +101,6 @@ public class CaseFragment extends Fragment {
 			return true;
 		case R.id.camera_actionbar_button:
 			intent = new Intent(getActivity(), CameraActivity.class);
-			// TODO: Change crime classification to case id.
 			intent.putExtra("SELECTED_CASE_ID",
 					selectedCase.getCrimeClassification());
 			intent.putExtra("SELECTED_MODE", 1);
@@ -119,7 +116,6 @@ public class CaseFragment extends Fragment {
 			return true;
 
 		}
-
 		return false;
 	}
 

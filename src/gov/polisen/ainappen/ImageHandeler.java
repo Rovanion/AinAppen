@@ -10,6 +10,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
@@ -96,7 +99,14 @@ public class ImageHandeler extends AsyncTask<String, Void, Object> {
 		imageView.setAdjustViewBounds(true);
 		imageView.setPadding(0, 20, 0, 20);
 		imageView.setImageBitmap(bitmap);
+
 		if (isVideo) {
+			Drawable[] layers = new Drawable[2];
+			layers[0] = new BitmapDrawable(rootView.getResources(), bitmap);
+			layers[1] = rootView.getResources().getDrawable(
+					R.drawable.ic_action_play);
+			LayerDrawable layerDrawable = new LayerDrawable(layers);
+			imageView.setImageDrawable(layerDrawable);
 			imageView.setOnClickListener(getVideoThumbNailListener());
 		}
 		layout.addView(imageView);
@@ -223,7 +233,6 @@ public class ImageHandeler extends AsyncTask<String, Void, Object> {
 			return mediaPath;
 		else
 			return null;
-
 	}
 
 	private boolean isVideo(String mediaPath) {
@@ -244,7 +253,23 @@ public class ImageHandeler extends AsyncTask<String, Void, Object> {
 	private Bitmap createVideoThumbnail(String videoFilePath) {
 		Bitmap thumb = ThumbnailUtils.createVideoThumbnail(videoFilePath,
 				MediaStore.Images.Thumbnails.MINI_KIND);
+		thumb = cropImage(thumb);
 		return thumb;
+	}
+
+	private Bitmap cropImage(Bitmap srcBmp) {
+		Bitmap dstBmp;
+		if (srcBmp.getWidth() >= srcBmp.getHeight()) {
+			dstBmp = Bitmap.createBitmap(srcBmp,
+					srcBmp.getWidth() / 2 - srcBmp.getHeight() / 2, 0,
+					srcBmp.getHeight(), srcBmp.getHeight());
+
+		} else {
+			dstBmp = Bitmap.createBitmap(srcBmp, 0, srcBmp.getHeight() / 2
+					- srcBmp.getWidth() / 2, srcBmp.getWidth(),
+					srcBmp.getWidth());
+		}
+		return dstBmp;
 	}
 
 	// Object is a Bitmap or videopath
