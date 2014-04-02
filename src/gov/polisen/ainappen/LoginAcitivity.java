@@ -100,12 +100,53 @@ public class LoginAcitivity extends Activity{
 
 		public boolean checkIfCorrect(){
 			Boolean isCorrect = false;
-			LoginData userData = new LoginData(userNameText.getText().toString(),passwordText.getText().toString());
 			LoginDBHandler ldh = new LoginDBHandler(getActivity());
-			LoginData tempLogin = new LoginData("polisen", "aina");
+			Hasher hs = new Hasher();
+
+			/*
+			 * This part is temporary for creating our (for now) only existing saved user
+			 * in the login database. If such a user already exists, nothing is changed in the database.
+			 */
+			LoginData tempLogin = new LoginData("polisen");
+			String tempSalt = "henning";
+			tempLogin.setSalt(tempSalt);
+			String tempPassword = "aina";
+
+			//Generate and set hashed password from salt+password
+			String tempHashedPw = hs.getSHA256Hash(tempSalt+tempPassword);
+			tempLogin.setHashedPassword(tempHashedPw);
 			ldh.makeTempLogin(tempLogin);
-			isCorrect = ldh.loginAuthenticity(userData);
-			return isCorrect;
+
+			/*
+			 * Check if the username and password are correct! First a LoginData object
+			 * with this information needs to be created.
+			 */
+			LoginData userData = new LoginData(userNameText.getText().toString());
+			String userPw = passwordText.getText().toString();
+
+			//Get the SALT used for this user from database!
+			String userSalt = ldh.getSalt(userData);
+
+			/**
+			 * TODO: Här vill vi egentligen ansluta till serversidan och se om användaren finns där,
+			 * just nu säger vi bara att det är fel!
+			 */
+			if(userSalt == null){
+				Thread.yield();
+				return isCorrect;
+			}
+			else{
+				//Set the salt in our user object
+				userData.setSalt(userSalt);
+				//generate the hash from salt + the password the user entered
+				String userHashedPw = hs.getSHA256Hash(userSalt+userPw);
+
+				userData.setHashedPassword(userHashedPw);
+
+				//Compare if username and hashed password matches what's in the database
+				isCorrect = ldh.loginAuthenticity(userData);
+				return isCorrect;
+			}
 		}
 	}
 }

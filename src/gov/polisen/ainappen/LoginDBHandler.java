@@ -1,8 +1,6 @@
 package gov.polisen.ainappen;
 
 import android.content.Context;
-import android.widget.Toast;
-
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class LoginDBHandler {
@@ -36,5 +34,16 @@ public class LoginDBHandler {
 		loginDataDao.createIfNotExists(loginData);
 		loginDataDao = null;
 		return;
+	}
+	public String getSalt(LoginData userData){
+		RuntimeExceptionDao<LoginData, String> loginDataDao = ldbh.getLoginDataRuntimeExceptionDao();
+		LoginData foundUser = loginDataDao.queryForId(userData.getUserName());
+		if(foundUser == null){
+			return null;
+		}
+		else{
+			String theSalt = foundUser.getSalt();
+			return theSalt;
+		}
 	}
 }

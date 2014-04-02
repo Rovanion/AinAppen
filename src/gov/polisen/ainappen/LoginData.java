@@ -9,10 +9,11 @@ public class LoginData {
 	private String userName;
 	@DatabaseField
 	private String hashedPassword;
+	@DatabaseField
+	private String salt;
 
-	public LoginData(String userName, String hashedPassword){
+	public LoginData(String userName){
 		this.userName = userName;
-		this.hashedPassword = hashedPassword;
 	}
 	public LoginData(){
 		//Needed by ORMLite
@@ -29,6 +30,12 @@ public class LoginData {
 	}
 	public void setHashedPassword(String hashedPassword){
 		this.hashedPassword = hashedPassword;
+	}
+	public String getSalt(){
+		return this.salt;
+	}
+	public void setSalt(String salt){
+		this.salt = salt;
 	}
 
 	@Override
