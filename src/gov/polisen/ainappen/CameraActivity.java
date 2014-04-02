@@ -24,28 +24,49 @@ public class CameraActivity extends Activity {
 	public static final int		MEDIA_TYPE_IMAGE					= 1;
 	public static final int		MEDIA_TYPE_VIDEO					= 2;
 	private String				selectedCaseId;
+	private int					selectedMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
 
-		if (savedInstanceState == null) {
-		}
 		this.selectedCaseId = getSelectedCaseID();
+		this.selectedMode = getSelectedMode();
 
-		// create Intent to take a picture and return control to the calling
-		// application
+		if (selectedMode == 1)
+			captureImage();
+		else if (selectedMode == 2)
+			recordVideo();
+		else
+			Toast.makeText(this, "Error mode.", Toast.LENGTH_LONG).show();
+
+	}
+
+	private void captureImage() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-		// create a file to save the image
 		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE, selectedCaseId);
 
-		// set the image file name
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	}
+
+	private void recordVideo() {
+		Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO, selectedCaseId);
+
+		// set video quality
+		// 1- for high quality video
+		intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+		// start the video capture Intent
+		startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
 	}
 
 	// Get the selected caseID included when the Camera activity was started.
@@ -60,6 +81,17 @@ public class CameraActivity extends Activity {
 			caseId = extras.getString("SELECTED_CASE_ID");
 		}
 		return caseId;
+	}
+
+	private int getSelectedMode() {
+		Bundle extras = getIntent().getExtras();
+		int mode;
+		if (extras == null) {
+			mode = 0;
+		} else {
+			mode = extras.getInt("SELECTED_MODE");
+		}
+		return mode;
 	}
 
 	@Override
@@ -91,10 +123,18 @@ public class CameraActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				// Video captured and saved to fileUri specified in the Intent
 				Toast.makeText(this, "Video saved", Toast.LENGTH_LONG).show();
+				finish();
+
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the video capture
+				finish();
 			} else {
 				// Video capture failed, advise user
+				Toast.makeText(this,
+						"Videoh kunde inte sparas. Något gick fel.",
+						Toast.LENGTH_LONG).show();
+				finish();
+
 			}
 		}
 	}

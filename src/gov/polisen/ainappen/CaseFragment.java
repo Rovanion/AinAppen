@@ -94,7 +94,7 @@ public class CaseFragment extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		Intent intent = null;
 		// Get item selected and deal with it
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -102,13 +102,24 @@ public class CaseFragment extends Fragment {
 			getActivity().onBackPressed();
 			return true;
 		case R.id.camera_actionbar_button:
-			Intent intent = new Intent(getActivity(), CameraActivity.class);
+			intent = new Intent(getActivity(), CameraActivity.class);
 			// TODO: Change crime classification to case id.
 			intent.putExtra("SELECTED_CASE_ID",
 					selectedCase.getCrimeClassification());
+			intent.putExtra("SELECTED_MODE", 1);
 			startActivity(intent);
 			return true;
+		case R.id.video_camera_actionbar_button:
+			intent = new Intent(getActivity(), CameraActivity.class);
+			// TODO: Change crime classification to case id.
+			intent.putExtra("SELECTED_CASE_ID",
+					selectedCase.getCrimeClassification());
+			intent.putExtra("SELECTED_MODE", 2);
+			startActivity(intent);
+			return true;
+
 		}
+
 		return false;
 	}
 

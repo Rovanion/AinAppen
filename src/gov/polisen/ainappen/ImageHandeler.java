@@ -11,15 +11,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
-public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
+public class ImageHandeler extends AsyncTask<String, Void, Object> {
 
 	int						imageHeight;
 	int						imageWidth;
@@ -28,6 +32,7 @@ public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
 	String					imageType;
 	BitmapFactory.Options	options;
 	View					rootView;
+	protected String		videoPath;
 
 	public ImageHandeler(View rootView) {
 		this.rootView = rootView;
@@ -81,7 +86,7 @@ public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
 		imageType = options.outMimeType;
 	}
 
-	public void createImageViewForImage(Bitmap bitmap) {
+	public void createImageView(Bitmap bitmap, boolean isVideo) {
 		LinearLayout layout = (LinearLayout) rootView
 				.findViewById(R.id.linear_layout_case);
 		ImageView imageView = new ImageView(rootView.getContext());
@@ -91,7 +96,23 @@ public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
 		imageView.setAdjustViewBounds(true);
 		imageView.setPadding(0, 20, 0, 20);
 		imageView.setImageBitmap(bitmap);
+		if (isVideo) {
+			imageView.setOnClickListener(getVideoThumbNailListener());
+		}
 		layout.addView(imageView);
+	}
+
+	private OnClickListener getVideoThumbNailListener() {
+		OnClickListener l = new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				MainActivity mainActivity = (MainActivity) rootView
+						.getContext();
+				mainActivity.gotoPlayVideo(rootView, videoPath);
+			}
+		};
+		return l;
 	}
 
 	public int calculateInSampleSize() {
@@ -194,13 +215,51 @@ public class ImageHandeler extends AsyncTask<String, Void, Bitmap> {
 	}
 
 	@Override
-	protected Bitmap doInBackground(String... params) {
-		return decodeSampledBitmapFromResource(params[0]);
+	protected Object doInBackground(String... params) {
+		String mediaPath = params[0];
+		if (isImage(mediaPath))
+			return decodeSampledBitmapFromResource(mediaPath);
+		else if (isVideo(mediaPath))
+			return mediaPath;
+		else
+			return null;
+
 	}
 
+	private boolean isVideo(String mediaPath) {
+		if (mediaPath.endsWith(".mp4")) {
+			return true;
+
+		} else
+			return false;
+	}
+
+	private boolean isImage(String mediaPath) {
+		if (mediaPath.endsWith(".jpg"))
+			return true;
+		else
+			return false;
+	}
+
+	private Bitmap createVideoThumbnail(String videoFilePath) {
+		Bitmap thumb = ThumbnailUtils.createVideoThumbnail(videoFilePath,
+				MediaStore.Images.Thumbnails.MINI_KIND);
+		return thumb;
+	}
+
+	// Object is a Bitmap or videopath
 	@Override
-	protected void onPostExecute(Bitmap bitmap) {
-		createImageViewForImage(bitmap);
+	protected void onPostExecute(Object object) {
+		if (object instanceof Bitmap)
+			createImageView((Bitmap) object, false);
+		else if (object instanceof String) {
+			Bitmap thumbnail = createVideoThumbnail((String) object);
+			this.videoPath = (String) object;
+			createImageView(thumbnail, true);
+		} else
+			Toast.makeText(rootView.getContext(),
+					"Error: Inget stöd för filtypen.", Toast.LENGTH_LONG)
+					.show();
 	}
 
 }

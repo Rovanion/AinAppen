@@ -7,5 +7,12 @@
         android:showAsAction="always"
         android:title="@string/camera_actionbar_button">
     </item>
+    
+     <item
+        android:id="@+id/video_camera_actionbar_button"
+        android:icon="@drawable/ic_action_video"
+        android:showAsAction="always"
+        android:title="@string/camera_actionbar_button">
+    </item>
 
 </menu>
