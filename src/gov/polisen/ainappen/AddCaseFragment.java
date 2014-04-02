@@ -157,8 +157,8 @@ public class AddCaseFragment extends Fragment {
 	 */
 	private Case addCaseToDB(Case newCase){
 		Case returnCase;
-		LocalDBHandler lh = new LocalDBHandler();
-		returnCase = lh.addNewCaseToDB(newCase, getActivity());
+		LocalDBHandler lh = new LocalDBHandler(getActivity());
+		returnCase = lh.addNewCaseToDB(newCase);
 		return returnCase;
 	}
 }

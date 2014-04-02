@@ -1,6 +1,5 @@
 package gov.polisen.ainappen;
 
-import java.security.MessageDigest;
 import java.util.List;
 
 import android.content.Context;
@@ -16,6 +15,24 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
  */
 public class LocalDBHandler {
 
+	DatabaseHelper dbHelper;
+	public LocalDBHandler(Context context){
+		/*
+		 * Open a DatabaseHelper, this object helps us handle the database connection and keeps
+		 * track of all the current connections to the database.
+		 */
+		dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+	}
+
+	/*
+	 * IMPORTANTE! : release the OpenHelperManager!
+	 */
+	public void release(){
+		OpenHelperManager.releaseHelper();
+		dbHelper.close();
+		dbHelper = null;
+	}
+
 	/**
 	 * This method is used to store user-generated Cases in database. Returns the Case it stored
 	 * in database (now containing it's very unique parameter "caseID".
@@ -23,12 +40,7 @@ public class LocalDBHandler {
 	 * @param context
 	 * @return
 	 */
-	public Case addNewCaseToDB(Case newCase, Context context){
-		/*
-		 * Open a DatabaseHelper, this object helps us handle the database connection and keeps
-		 * track of all the current connections to the database.
-		 */
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+	public Case addNewCaseToDB(Case newCase){
 		//Create the necessary RuntimeExceptionDao's, one for each type of object to be stored
 		RuntimeExceptionDao<Case, String> caseDao = dbHelper.getCaseRuntimeExceptionDao();
 		RuntimeExceptionDao<LocalID, Integer> localIdDao = dbHelper.getLocalIdRuntimeExceptionDao();
@@ -60,18 +72,12 @@ public class LocalDBHandler {
 		String lastEntryID = newCase.getCaseID();
 		newCase = caseDao.queryForId(lastEntryID);
 
-		/*
-		 * IMPORTANTE! : release the OpenHelperManager before returning.
-		 */
-		OpenHelperManager.releaseHelper();
 		return newCase;
 	}
 
-	public List<Case> getCasesFromDB(Context context){
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+	public List<Case> getCasesFromDB(){
 		RuntimeExceptionDao<Case, String> caseDao = dbHelper.getCaseRuntimeExceptionDao();
 		List<Case> caseList = caseDao.queryForAll();
-		OpenHelperManager.releaseHelper();
 		return caseList;
 	}
 }

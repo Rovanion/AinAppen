@@ -1,6 +1,7 @@
 package gov.polisen.ainappen;
 
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +25,9 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<LoginData, String> loginDataDao = null;
 	private RuntimeExceptionDao<LoginData, String> runtimeExceptionLoginDataDao = null;
 
+	private static final AtomicInteger usageCounter = new AtomicInteger(0);
+	private static LoginDatabaseHelper loginHelper = null;
+
 	public LoginDatabaseHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_login_config);
 	}
@@ -33,6 +37,7 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 			ConnectionSource connectionSource) {
 		try {
 			TableUtils.createTable(connectionSource, LoginData.class);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,6 +49,22 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database,
 			ConnectionSource connectionSource, int oldVersion, int newVersion) {
 		// TODO Auto-generated method stub
+	}
+
+	public static synchronized LoginDatabaseHelper getHelper(Context context){
+		if(loginHelper == null){
+			loginHelper = new LoginDatabaseHelper(context);
+		}
+		usageCounter.incrementAndGet();
+		return loginHelper;
+	}
+
+	public void close(){
+		if(usageCounter.decrementAndGet() == 0){
+			super.close();
+			loginDataDao = null;
+			runtimeExceptionLoginDataDao = null;
+		}
 	}
 
 	public Dao<LoginData, String> getLoginDataDao() throws SQLException{

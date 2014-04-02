@@ -33,6 +33,9 @@ public class LoginData {
 
 	@Override
 	public boolean equals(Object obj){
+		if(obj == null){
+			return false;
+		}
 		if(this.userName.equals(((LoginData) obj).getUserName()) &&
 				(this.hashedPassword.equals(((LoginData) obj).getHashedPassword()))){
 			return true;

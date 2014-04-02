@@ -7,14 +7,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class LoginAcitivity extends Activity {
+public class LoginAcitivity extends Activity{
 
+	public LoginAcitivity(){
+
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,20 +51,21 @@ public class LoginAcitivity extends Activity {
 			return rootView;
 		}
 
-		public void checkLogin(View view){
-			Intent intent = new Intent(getActivity(), MainActivity.class);
-			startActivity(intent);
-		}
-
 		public void setupQuickLoginButtonListener(){
 			quickLogButton = (Button) rootView.findViewById(R.id.quickLoginButton);
 			quickLogButton.setOnClickListener( new View.OnClickListener(){
 
 				@Override
 				public void onClick(View v) {
-					checkLogin(v);
+					checkLogin();
 				}
 			});
+		}
+
+		public void checkLogin(){
+			Toast.makeText(getActivity(), "Wallaaaaa", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(getActivity(), MainActivity.class);
+			startActivity(intent);
 		}
 
 		public void setupLoginToDatabaseButtonListener(){
@@ -72,9 +75,11 @@ public class LoginAcitivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					textFieldSetter();
-					boolean access = checkIfCorrect();
+					boolean access;
+					access = checkIfCorrect();
+
 					if(access){
-						checkLogin(v);
+						checkLogin();
 					}
 					else{
 						makeFailedToast();
@@ -94,9 +99,12 @@ public class LoginAcitivity extends Activity {
 
 		public boolean checkIfCorrect(){
 			Boolean isCorrect = false;
-			LoginData userData = new LoginData(userNameText.toString(),passwordText.toString());
-			LoginDBHandler ldh = new LoginDBHandler();
-			isCorrect = ldh.loginAuthenticity(userData, getActivity());
+			LoginData userData = new LoginData(userNameText.getText().toString(),passwordText.getText().toString());
+			LoginDBHandler ldh = new LoginDBHandler(getActivity());
+			LoginData tempLogin = new LoginData("polisen", "aina");
+			ldh.makeTempLogin(tempLogin);
+			isCorrect = ldh.loginAuthenticity(userData);
+			ldh.release();
 			return isCorrect;
 		}
 	}
