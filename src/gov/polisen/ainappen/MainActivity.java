@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
@@ -66,6 +67,8 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+
+		showLoggedInUser();
 	}
 
 	@Override
@@ -151,11 +154,11 @@ public class MainActivity extends Activity {
 	public void gotoAddCase(View view){
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
-	
+
 	public void gotoAddContact(View view){
 		gotoLowLevelFragment(new AddContactFragment());
 	}
-	
+
 	public void gotoCase(View view, Case selectedCase){
 		this.selectedCase = selectedCase;
 		gotoLowLevelFragment(new CaseFragment());
@@ -178,12 +181,12 @@ public class MainActivity extends Activity {
 	public void setTitle(CharSequence title) {
 		getActionBar().setTitle(title);
 	}
-	
+
 	// Drawer will not be able to open with gestures.
 	public void lockDrawer(){
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 	}
-	
+
 	// Drawer will be able to open with gestures.
 	public void unlockDrawer(){
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -192,7 +195,17 @@ public class MainActivity extends Activity {
 	public Case getSelectedCase() {
 		return this.selectedCase;
 	}
-	
-	
+
+	/*
+	 * Shows logged in user.
+	 */
+	public void showLoggedInUser(){
+		final GlobalData appData = (GlobalData)getApplicationContext();
+		if(appData.getUserID() != null){
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+
 
 }

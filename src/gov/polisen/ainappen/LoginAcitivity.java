@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -30,7 +31,8 @@ public class LoginAcitivity extends Activity{
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	public static class PlaceholderFragment extends Fragment {
+	@SuppressLint("ValidFragment")
+	public class PlaceholderFragment extends Fragment {
 
 		EditText userNameText;
 		EditText passwordText;
@@ -39,7 +41,8 @@ public class LoginAcitivity extends Activity{
 		View rootView;
 		LoginDBHandler ldh;
 
-		public PlaceholderFragment() {
+		public PlaceholderFragment(){
+
 		}
 
 		@Override
@@ -59,15 +62,28 @@ public class LoginAcitivity extends Activity{
 
 				@Override
 				public void onClick(View v) {
-					checkLogin();
+					cheatLogin();
 				}
 			});
 		}
-
 		public void checkLogin(){
 			Intent intent = new Intent(getActivity(), MainActivity.class);
+			makeGlobal();
 			ldh.release();
 			startActivity(intent);
+		}
+
+		public void cheatLogin(){
+			Intent intent = new Intent(getActivity(), MainActivity.class);
+			final GlobalData appData = ((GlobalData)getApplicationContext());
+			appData.setUserID("fuskLog");
+			ldh.release();
+			startActivity(intent);
+		}
+
+		public void makeGlobal(){
+			final GlobalData appData = ((GlobalData)getApplicationContext());
+			appData.setUserID(userNameText.getText().toString());
 		}
 
 		public void setupLoginToDatabaseButtonListener(){
