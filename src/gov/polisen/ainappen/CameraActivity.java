@@ -25,13 +25,11 @@ public class CameraActivity extends Activity {
 	public static final int		MEDIA_TYPE_VIDEO					= 2;
 	private String				selectedCaseId;
 	private int					selectedMode;
-	public static Activity		thisActivity						= null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
-		thisActivity = this;
 
 		this.selectedCaseId = getSelectedCaseID();
 		this.selectedMode = getSelectedMode();
