@@ -49,6 +49,7 @@ public class EditCaseFragment extends Fragment {
 		case android.R.id.home:
 
 			showSaveOptionsPopUp();
+
 			return true;
 
 		case R.id.saveeditcase_item:
