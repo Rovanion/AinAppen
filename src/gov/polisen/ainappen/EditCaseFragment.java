@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,8 +47,7 @@ public class EditCaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setMessage("Vill du spara dina ändringar?");
 			builder.setCancelable(true);
 			builder.setPositiveButton("Ja",
@@ -164,7 +162,6 @@ public class EditCaseFragment extends Fragment {
 	private int getSelectedIndex(String status) {
 		String[] statuses = getResources().getStringArray(R.array.case_status);
 		for (int i = 0; i < statuses.length; i++) {
-			Log.d(statuses[i], status);
 			if (statuses[i].equals(status))
 				return i;
 		}
