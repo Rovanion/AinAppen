@@ -5,45 +5,60 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "contacts")
 public class Contact {
+	@DatabaseField
+	String firstName;
+	@DatabaseField
+	String lastName;
 
 	@DatabaseField(id = true)
-	int contactID;
-	@DatabaseField
-	String name;
+	int userID;
+
 	@DatabaseField
 	String title;
 	@DatabaseField
 	String phone;
 
-	public Contact (String name, String title, String phone, int contactID){
-		this.name = name;
-		this.title=title;
-		this.phone=phone;
-		this.contactID = contactID;
+	public Contact(String firstName, String lastName, String title,
+			String phone, int userID) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.title = title;
+		this.phone = phone;
+		this.userID = userID;
 	}
 
-	public Contact(){
-		//Needed by ORMLite
+	public Contact() {
+		// Needed by ORMLite
 	}
 
-	public String toString(){
-		return "Contact [ContactID=" + this.contactID + ", Name=" + this.name + ", Title=" +
-				this.title + ", Phone=" + this.phone + "]";
+	public String toString() {
+		return "Contact [UserID=" + this.userID + ", firstName="
+				+ this.firstName + ", lastName=" + this.lastName + ", Title="
+				+ this.title + ", Phone=" + this.phone + "]";
 	}
 
-	public int getContactID(){
-		return this.contactID;
-	}
-	public void setContactID(int cid){
-		this.contactID = cid;
+	public int getUserID() {
+		return this.userID;
 	}
 
-	public String getName() {
-		return name;
+	public void setUserID(int cid) {
+		this.userID = cid;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getTitle() {

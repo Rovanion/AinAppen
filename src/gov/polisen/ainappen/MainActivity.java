@@ -147,8 +147,8 @@ public class MainActivity extends Activity{
 		case 0: gotoFragment(new CaseListFragment()); break; // Case
 		case 1:	Intent a = new Intent(getBaseContext(), MapFragment.class);
 				startActivity(a);
+		case 2: gotoFragment(new ContactListFragment()); break; // Contacts	
 		break; // Map
-		case 2: gotoFragment(new ContactsFragment()); break; // Contacts	
 		case 3: gotoFragment(new InformationFragment()); break; // Information	
 		default: 
 		}
