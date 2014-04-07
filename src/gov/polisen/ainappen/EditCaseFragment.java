@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +37,7 @@ public class EditCaseFragment extends Fragment {
 
 		setupStatusSpinner(rootView);
 		fillTextFieldsWithCurrentCase();
+
 		return rootView;
 	}
 
@@ -48,29 +48,7 @@ public class EditCaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					getActivity());
-			builder.setMessage("Vill du spara dina ändringar?");
-			builder.setCancelable(true);
-			builder.setPositiveButton("Ja",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							saveEditedCase();
-							getActivity().onBackPressed();
-						}
-					});
-			builder.setNegativeButton("Nej",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							getActivity().onBackPressed();
-						}
-					});
-			AlertDialog alert11 = builder.create();
-			alert11.show();
+			showSaveOptionsPopUp();
 			return true;
 
 		case R.id.saveeditcase_item:
@@ -79,6 +57,33 @@ public class EditCaseFragment extends Fragment {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Shows a popup where the user can choose if wanting to save changes or
+	 * not,
+	 */
+	private void showSaveOptionsPopUp() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage("Vill du spara dina ändringar?");
+		builder.setCancelable(true);
+		builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				saveEditedCase();
+				getActivity().onBackPressed();
+			}
+		});
+		builder.setNegativeButton("Nej", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				getActivity().onBackPressed();
+			}
+		});
+		AlertDialog alert11 = builder.create();
+		alert11.show();
 	}
 
 	/*
@@ -164,7 +169,6 @@ public class EditCaseFragment extends Fragment {
 	private int getSelectedIndex(String status) {
 		String[] statuses = getResources().getStringArray(R.array.case_status);
 		for (int i = 0; i < statuses.length; i++) {
-			Log.d(statuses[i], status);
 			if (statuses[i].equals(status))
 				return i;
 		}
