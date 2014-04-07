@@ -5,8 +5,10 @@ import java.util.concurrent.Executor;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CaseFragment extends Fragment {
 
@@ -100,23 +103,49 @@ public class CaseFragment extends Fragment {
 			getActivity().onBackPressed();
 			return true;
 		case R.id.camera_actionbar_button:
-			intent = new Intent(getActivity(), CameraActivity.class);
-			intent.putExtra("SELECTED_CASE_ID",
-					selectedCase.getCrimeClassification());
-			intent.putExtra("SELECTED_MODE", 1);
-			startActivity(intent);
-			return true;
-		case R.id.video_camera_actionbar_button:
-			intent = new Intent(getActivity(), CameraActivity.class);
-			// TODO: Change crime classification to case id.
-			intent.putExtra("SELECTED_CASE_ID",
-					selectedCase.getCrimeClassification());
-			intent.putExtra("SELECTED_MODE", 2);
-			startActivity(intent);
+			if (hasCamera() && hasExternalStorage()) {
+				intent = new Intent(getActivity(), CameraActivity.class);
+				intent.putExtra("SELECTED_CASE_ID",
+						selectedCase.getCrimeClassification());
+				intent.putExtra("SELECTED_MODE", 1);
+				startActivity(intent);
+			} else
+				printToast("Ingen kamera eller lagringsutrymme hittad.");
 			return true;
 
+		case R.id.video_camera_actionbar_button:
+			if (hasCamera() && hasExternalStorage()) {
+				intent = new Intent(getActivity(), CameraActivity.class);
+				// TODO: Change crime classification to case id.
+				intent.putExtra("SELECTED_CASE_ID",
+						selectedCase.getCrimeClassification());
+				intent.putExtra("SELECTED_MODE", 2);
+				startActivity(intent);
+			} else
+				printToast("Ingen kamera eller lagringsutrymme hittad.");
+			return true;
 		}
 		return false;
+	}
+
+	private boolean hasExternalStorage() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			return true;
+		} else
+			return false;
+	}
+
+	private boolean hasCamera() {
+		int numCameras = Camera.getNumberOfCameras();
+		if (numCameras > 0)
+			return true;
+		else
+			return false;
+	}
+
+	private void printToast(String message) {
+		Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 	}
 
 	/*
