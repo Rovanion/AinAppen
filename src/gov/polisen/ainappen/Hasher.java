@@ -15,22 +15,18 @@ public class Hasher {
 	 * purposes!
 	 * @param input
 	 * @return
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public String getSHA256Hash(String input) {
+	public String getSHA256Hash(String input) throws NoSuchAlgorithmException {
 		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
+		md = MessageDigest.getInstance("SHA-256");
 
-			md.update(input.getBytes(Charset.forName("ISO-8859-1")));
-			StringBuffer hexString = new StringBuffer();
-			byte[] bytes = md.digest();
-			for (int i = 0; i < bytes.length; i++) {
-				hexString.append(String.format("%02x", bytes[i] & 0xff));
-			}
-			return hexString.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		md.update(input.getBytes(Charset.forName("ISO-8859-1")));
+		StringBuffer hexString = new StringBuffer();
+		byte[] bytes = md.digest();
+		for (int i = 0; i < bytes.length; i++) {
+			hexString.append(String.format("%02x", bytes[i] & 0xff));
 		}
-		return null;
+		return hexString.toString();
 	}
 }

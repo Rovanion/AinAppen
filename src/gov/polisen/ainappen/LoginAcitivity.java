@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import java.security.NoSuchAlgorithmException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
@@ -129,7 +131,13 @@ public class LoginAcitivity extends Activity{
 			String tempPassword = "aina";
 
 			//Generate and set hashed password from salt+password
-			String tempHashedPw = hs.getSHA256Hash(tempSalt+tempPassword);
+			String tempHashedPw = null;
+			String noAlgorithmTxt = "Can't login due to no algorithm";
+			try {
+				tempHashedPw = hs.getSHA256Hash(tempSalt+tempPassword);
+			} catch (NoSuchAlgorithmException e1) {
+				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG).show();
+			}
 			tempLogin.setHashedPassword(tempHashedPw);
 			ldh.makeTempLogin(tempLogin);
 
@@ -155,7 +163,12 @@ public class LoginAcitivity extends Activity{
 				//Set the salt in our user object
 				userData.setSalt(userSalt);
 				//generate the hash from salt + the password the user entered
-				String userHashedPw = hs.getSHA256Hash(userSalt+userPw);
+				String userHashedPw = null;
+				try {
+					userHashedPw = hs.getSHA256Hash(userSalt+userPw);
+				} catch (NoSuchAlgorithmException e) {
+					Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG).show();
+				}
 
 				userData.setHashedPassword(userHashedPw);
 
