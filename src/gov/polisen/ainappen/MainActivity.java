@@ -136,6 +136,8 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		// turn on the Navigation Drawer image; this is called in the
+		// LowerLevelFragments
 	}
 
 	// Decides what happens when drawer button is pressed.
@@ -188,6 +190,10 @@ public class MainActivity extends Activity {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
+	}
+
+	public void gotoEditCase(View view) {
+		gotoLowLevelFragment(new EditCaseFragment());
 	}
 
 	public void gotoLowLevelFragment(Fragment fragment) {
