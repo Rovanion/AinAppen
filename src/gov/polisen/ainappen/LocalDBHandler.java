@@ -20,6 +20,24 @@ import com.j256.ormlite.stmt.UpdateBuilder;
  */
 public class LocalDBHandler {
 
+	DatabaseHelper dbHelper;
+	public LocalDBHandler(Context context){
+		/*
+		 * Open a DatabaseHelper, this object helps us handle the database connection and keeps
+		 * track of all the current connections to the database.
+		 */
+		dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+	}
+
+	/*
+	 * IMPORTANTE! : release the OpenHelperManager!
+	 */
+	public void release(){
+		OpenHelperManager.releaseHelper();
+		dbHelper.close();
+		dbHelper = null;
+	}
+
 	/**
 	 * This method is used to store user-generated Cases in database. Returns
 	 * the Case it stored in database (now containing it's very unique parameter

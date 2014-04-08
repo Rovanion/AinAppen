@@ -53,8 +53,8 @@ public class CaseListFragment extends Fragment {
 
 	private void setupCaseList() {
 		caseListView = (ListView)rootView.findViewById(R.id.case_list);
-		LocalDBHandler lh = new LocalDBHandler();
-		List<Case> caseList = lh.getCasesFromDB(getActivity());
+		LocalDBHandler lh = new LocalDBHandler(getActivity());
+		List<Case> caseList = lh.getCasesFromDB();
 		caseList.add(new Case(1337,1454,"Snatteri","Hemköp Ryd",80085,Date.valueOf("2007-12-03"),"asdsa","Odrägliga ynglingar som snattat choklad på Hemköp."));
 		caseList.add(new Case(1337,1455,"Helikopterrån","Pengadepå",80085,Date.valueOf("2013-12-05"),"Snaasdsadtteri","Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
 		caseList.add(new Case(1337,1456,"Tvångsgifte","Kyrka",80085,Date.valueOf("2014-01-10"),"Snatteraasdi","Inte okej."));
