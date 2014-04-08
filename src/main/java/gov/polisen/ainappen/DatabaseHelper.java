@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import android.content.Context;
@@ -37,7 +38,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	private RuntimeExceptionDao<LocalID, Integer> localIdRuntimeDao = null;
 
 	public DatabaseHelper(Context context){
-		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION, new File(""));
 	}
 
 	/**

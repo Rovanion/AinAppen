@@ -11,10 +11,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CalendarView;
 
 public class AddCaseFragment extends Fragment {
 
@@ -88,7 +88,6 @@ public class AddCaseFragment extends Fragment {
 		Button addCaseButton = (Button) rootView.findViewById(R.id.addCaseButton);
 		addCaseButton.setOnClickListener( new OnClickListener(){
 
-			@Override
 			public void onClick(View v) {
 				//read from all the textfields in the GUI
 				textFieldSetter();
@@ -116,7 +115,7 @@ public class AddCaseFragment extends Fragment {
 	public void makeToast(View v, Case caseToBeAdded){
 		String toastMessage = "Nytt ärende med ID: " + caseToBeAdded.getCaseID() +
 				" angående " + caseToBeAdded.getCrimeClassification() + " vid: " + caseToBeAdded.getLocation() + " har lagts till i databasen.";
-		Toast.makeText(getActivity(), (CharSequence)toastMessage , Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), toastMessage , Toast.LENGTH_LONG).show();
 	}
 
 	/**

@@ -10,15 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class CaseListAdapter extends BaseAdapter {
-	private Context context;
-	private List<Case> caseList;
+	private final Context context;
+	private final List<Case> caseList;
 
 	public CaseListAdapter(Context context, List<Case> caseList) {
 		this.context = context;
 		this.caseList = caseList;
 	}
 
-	@Override
 	public int getCount() {
 		return caseList.size();
 	}
@@ -27,17 +26,14 @@ public class CaseListAdapter extends BaseAdapter {
 		return context;
 	}
 
-	@Override
 	public Object getItem(int pos) {
 		return caseList.get(pos);
 	}
 
-	@Override
 	public long getItemId(int pos) {
 		return pos;
 	}
 
-	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
 		// get selected entry
 		Case entry = caseList.get(pos);
