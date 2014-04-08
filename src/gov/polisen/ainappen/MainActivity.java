@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private DrawerLayout			mDrawerLayout;
@@ -71,6 +72,8 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+
+		showLoggedInUser();
 	}
 
 	@Override
@@ -225,9 +228,16 @@ public class MainActivity extends Activity {
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 	}
 
-	public void enableDrawerIndicator() {
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
+	/*
+	 * Shows logged in user.
+	 */
+	public void showLoggedInUser(){
+		final GlobalData appData = (GlobalData)getApplicationContext();
+		if(appData.getUserID() != null){
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(), Toast.LENGTH_LONG).show();
+		}
 	}
+
 
 	public Case getSelectedCase() {
 		return this.selectedCase;

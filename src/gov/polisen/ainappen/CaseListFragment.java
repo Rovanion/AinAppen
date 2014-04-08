@@ -57,8 +57,8 @@ public class CaseListFragment extends Fragment {
 
 	private void setupCaseList() {
 		caseListView = (ListView) rootView.findViewById(R.id.case_list);
-		LocalDBHandler lh = new LocalDBHandler();
-		List<Case> caseList = lh.getCasesFromDB(getActivity());
+		LocalDBHandler lh = new LocalDBHandler(getActivity());
+		List<Case> caseList = lh.getCasesFromDB();
 		caseList.add(new Case(1337, 1454, "Snatteri", "Hemköp Ryd", 80085, Date
 				.valueOf("2007-12-03"), "asdsa",
 				"Odrägliga ynglingar som snattat choklad på Hemköp."));
