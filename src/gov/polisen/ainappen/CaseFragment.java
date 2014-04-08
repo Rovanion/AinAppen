@@ -90,7 +90,7 @@ public class CaseFragment extends Fragment {
 	// Adds an actionbar to the fragment
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.actionbar_case, menu);
+		inflater.inflate(R.menu.actionbar_fragment_case, menu);
 	}
 
 	@Override
@@ -124,7 +124,13 @@ public class CaseFragment extends Fragment {
 			} else
 				printToast("Ingen kamera eller lagringsutrymme hittad.");
 			return true;
+
+		case R.id.editcase_item:
+			View rootView = item.getActionView();
+			((MainActivity) getActivity()).gotoEditCase(rootView);
+			return true;
 		}
+
 		return false;
 	}
 
@@ -132,12 +138,9 @@ public class CaseFragment extends Fragment {
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			return true;
-		case R.id.editcase_item:
-			View rootView = item.getActionView();
+
 		} else
 			return false;
-			((MainActivity) getActivity()).gotoEditCase(rootView);
-			return true;
 	}
 
 	private boolean hasCamera() {
@@ -164,11 +167,6 @@ public class CaseFragment extends Fragment {
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 		// locks navigation drawer from open in lower lever fragment.
 		((MainActivity) getActivity()).lockDrawer();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.actionbar_fragment_editcase, menu);
 	}
 
 }

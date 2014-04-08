@@ -93,7 +93,7 @@ public class CaseListFragment extends Fragment {
 	// Adds an actionbar to the fragment
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.actionbar_fragment_case, menu);
+		inflater.inflate(R.menu.actionbar_fragment_case_list, menu);
 
 	}
 
