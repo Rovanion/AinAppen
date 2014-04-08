@@ -69,7 +69,6 @@ public class EditCaseFragment extends Fragment {
 		builder.setMessage("Vill du spara dina ändringar?");
 		builder.setCancelable(true);
 		builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 				saveEditedCase();
@@ -77,7 +76,6 @@ public class EditCaseFragment extends Fragment {
 			}
 		});
 		builder.setNegativeButton("Nej", new DialogInterface.OnClickListener() {
-			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 				getActivity().onBackPressed();

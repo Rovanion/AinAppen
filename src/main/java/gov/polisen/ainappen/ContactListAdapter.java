@@ -10,15 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class ContactListAdapter extends BaseAdapter {
-	private Context context;
-	private List<Contact> contactList;
+	private final Context context;
+	private final List<Contact> contactList;
 
 	public ContactListAdapter(Context context, List<Contact> contactList) {
 		this.context = context;
 		this.contactList = contactList;
 	}
 
-	@Override
 	public int getCount() {
 		return contactList.size();
 	}
@@ -27,17 +26,14 @@ public class ContactListAdapter extends BaseAdapter {
 		return context;
 	}
 
-	@Override
 	public Object getItem(int pos) {
 		return contactList.get(pos);
 	}
 
-	@Override
 	public long getItemId(int pos) {
 		return pos;
 	}
 
-	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
 		// get selected entry
 		Contact entry = contactList.get(pos);

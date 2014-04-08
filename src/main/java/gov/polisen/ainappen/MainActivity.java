@@ -18,12 +18,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout			mDrawerLayout;
-	private ListView				mDrawerList;
-	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case					selectedCase;
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private Case selectedCase; 
 
-	private String[]				mMenuOptions;
+	private String[] mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,11 @@ public class MainActivity extends Activity {
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-				mDrawerLayout, /* DrawerLayout object */
-				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-				R.string.drawer_open, /* "open drawer" description for accessibility */
-				R.string.drawer_close /* "close drawer" description for accessibility */
-				) {
+		mDrawerLayout, /* DrawerLayout object */
+		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		R.string.drawer_open, /* "open drawer" description for accessibility */
+		R.string.drawer_close /* "close drawer" description for accessibility */
+		) {
 			@Override
 			public void onDrawerClosed(View view) {
 				invalidateOptionsMenu(); // creates call to
@@ -109,8 +109,7 @@ public class MainActivity extends Activity {
 
 	/* The click listner for ListView in the navigation drawer */
 	private class DrawerItemClickListener implements
-	ListView.OnItemClickListener {
-		@Override
+			ListView.OnItemClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			selectItem(position);
@@ -141,6 +140,7 @@ public class MainActivity extends Activity {
 		super.onBackPressed();
 		// turn on the Navigation Drawer image; this is called in the
 		// LowerLevelFragments
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
 	}
 
 	// Decides what happens when drawer button is pressed.
@@ -192,7 +192,7 @@ public class MainActivity extends Activity {
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
-		.replace(R.id.content_frame, fragment).commit();
+				.replace(R.id.content_frame, fragment).commit();
 	}
 
 	public void gotoEditCase(View view) {
@@ -201,12 +201,13 @@ public class MainActivity extends Activity {
 
 	public void gotoLowLevelFragment(Fragment fragment) {
 		// Drawer wont be able to open with gestures at lower level fragments.
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		FragmentManager fragmentManager = getFragmentManager();
 		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
 		fragmentManager.beginTransaction()
-		.replace(R.id.content_frame, fragment).addToBackStack(null)
-		.commit();
+				.replace(R.id.content_frame, fragment).addToBackStack(null)
+				.commit();
 	}
 
 	@Override

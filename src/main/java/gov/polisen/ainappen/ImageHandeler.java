@@ -115,7 +115,6 @@ public class ImageHandeler extends AsyncTask<String, Void, Object> {
 	private OnClickListener getVideoThumbNailListener() {
 		OnClickListener l = new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				MainActivity mainActivity = (MainActivity) rootView
 						.getContext();

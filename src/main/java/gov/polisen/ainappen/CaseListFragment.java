@@ -43,7 +43,6 @@ public class CaseListFragment extends Fragment {
 
 	private void addCaseListListener() {
 		caseListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView,
 					int myItemInt, long mylng) {
 				Case selectedFromList = (Case) (caseListView
