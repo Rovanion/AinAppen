@@ -63,7 +63,6 @@ public class LoginAcitivity extends Activity{
 			quickLogButton = (Button) rootView.findViewById(R.id.quickLoginButton);
 			quickLogButton.setOnClickListener( new View.OnClickListener(){
 
-				@Override
 				public void onClick(View v) {
 					cheatLogin();
 				}
@@ -96,7 +95,6 @@ public class LoginAcitivity extends Activity{
 			databaseLoginButton = (Button) rootView.findViewById(R.id.database_login_button);
 			databaseLoginButton.setOnClickListener( new View.OnClickListener(){
 
-				@Override
 				public void onClick(View v) {
 					textFieldSetter();
 					boolean access;
@@ -112,7 +110,7 @@ public class LoginAcitivity extends Activity{
 		}
 		public void makeFailedToast(){
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), (CharSequence)toastMessage , Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), toastMessage , Toast.LENGTH_LONG).show();
 		}
 
 		public void textFieldSetter(){

@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,7 +14,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 /**
- * This class is used to handle the database we connect to when authenticating 
+ * This class is used to handle the database we connect to when authenticating
  * users locally.
  * @author Joakim
  *
@@ -29,7 +30,7 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static LoginDatabaseHelper loginHelper = null;
 
 	public LoginDatabaseHelper(Context context){
-		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_login_config);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION, new File(""));
 	}
 
 	@Override
@@ -59,6 +60,7 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return loginHelper;
 	}
 
+	@Override
 	public void close(){
 		if(usageCounter.decrementAndGet() == 0){
 			super.close();
