@@ -3,6 +3,8 @@ package gov.polisen.ainappen;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,14 @@ public class CaseFragment extends Fragment {
 		// Empty constructor required for fragment subclasses
 	}
 
-	private Case selectedCase;
-	private TextView crimeClassification;
-	private TextView location; 
-	private TextView commander; 
-	private TextView date; 
-	private TextView status; 
-	private TextView description; 
-	private View rootView;
+	private Case		selectedCase;
+	private TextView	crimeClassification;
+	private TextView	location;
+	private TextView	commander;
+	private TextView	date;
+	private TextView	status;
+	private TextView	description;
+	private View		rootView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,12 +39,13 @@ public class CaseFragment extends Fragment {
 	}
 
 	private void setupComponents() {
-		crimeClassification = (TextView) rootView.findViewById(R.id.crime_classification);
+		crimeClassification = (TextView) rootView
+				.findViewById(R.id.crime_classification);
 		commander = (TextView) rootView.findViewById(R.id.commander);
-		location = (TextView)rootView.findViewById(R.id.location);
-		date = (TextView)rootView.findViewById(R.id.date);
-		status = (TextView)rootView.findViewById(R.id.status);
-		description = (TextView)rootView.findViewById(R.id.description);
+		location = (TextView) rootView.findViewById(R.id.location);
+		date = (TextView) rootView.findViewById(R.id.date);
+		status = (TextView) rootView.findViewById(R.id.status);
+		description = (TextView) rootView.findViewById(R.id.description);
 	}
 
 	private void fillTextfields() {
@@ -61,25 +64,35 @@ public class CaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			//called when the up affordance/carat in actionbar is pressed
+			// called when the up affordance/carat in actionbar is pressed
 			getActivity().onBackPressed();
 
+			return true;
+		case R.id.editcase_item:
+			View rootView = item.getActionView();
+			((MainActivity) getActivity()).gotoEditCase(rootView);
 			return true;
 		}
 		return false;
 	}
 
-	/* 
-	 * Needs to be included in low level fragments
-	 * Low level fragments = fragments that is not in main drawer menu.
+	/*
+	 * Needs to be included in low level fragments Low level fragments =
+	 * fragments that is not in main drawer menu.
 	 */
-	private void setUpLowLevelFragment(){
-		//needed to indicate that the fragment would like to add items to the Options Menu      
+	private void setUpLowLevelFragment() {
+		// needed to indicate that the fragment would like to add items to the
+		// Options Menu
 		setHasOptionsMenu(true);
-		//update the actionbar to show the up carat/affordance 
+		// update the actionbar to show the up carat/affordance
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		//locks navigation drawer from open in lower lever fragment. 
+		// locks navigation drawer from open in lower lever fragment.
 		((MainActivity) getActivity()).lockDrawer();
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.actionbar_fragment_editcase, menu);
 	}
 
 }
