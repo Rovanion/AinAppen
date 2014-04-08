@@ -13,10 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class ContactListFragment extends Fragment{
+public class ContactListFragment extends Fragment {
 
-	private ListView testList;
-	private View rootView;
+	private ListView	testList;
+	private View		rootView;
 
 	public ContactListFragment() {
 		// Empty constructor required for fragment subclasses
@@ -25,22 +25,25 @@ public class ContactListFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_contact_list, container, false);
+		rootView = inflater.inflate(R.layout.fragment_contact_list, container,
+				false);
 		getActivity().setTitle("Kontakter");
 		setUpHighLevelFragment();
 		setHasOptionsMenu(true);
 
 		setupContactList();
-		//setupAddContactButton();
+		// setupAddContactButton();
 
 		return rootView;
 	}
-	
+
 	// This method handles onClick at our actionbar
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// handle item selection
 		switch (item.getItemId()) {
-		// If we press the addcontactbutton in the actionbar, call the addContact
+		// If we press the addcontactbutton in the actionbar, call the
+		// addContact
 		// function in MainActivity
 		case R.id.addcontact_item:
 			View rootView = item.getActionView();
@@ -51,26 +54,29 @@ public class ContactListFragment extends Fragment{
 		}
 	}
 
-	private void setupContactList(){
-		testList = (ListView)rootView.findViewById(R.id.listPhone);
+	private void setupContactList() {
+		testList = (ListView) rootView.findViewById(R.id.listPhone);
 		List<Contact> contactList = new ArrayList<Contact>();
-		contactList.add(new Contact("Peter","Johansson","polis","112", '1'));
-		contactList.add(new Contact("Alfons","Åberg","befäl","114114", '2'));
-		contactList.add(new Contact("Jocke","Pajas","sopa","000000", '3'));
-		ContactListAdapter adapter = new ContactListAdapter(getActivity(), contactList);
+		contactList.add(new Contact("Peter", "Johansson", "polis", "112", '1'));
+		contactList.add(new Contact("Alfons", "Åberg", "befäl", "114114", '2'));
+		contactList.add(new Contact("Jocke", "Pajas", "sopa", "000000", '3'));
+		ContactListAdapter adapter = new ContactListAdapter(getActivity(),
+				contactList);
 		testList.setAdapter(adapter);
 	}
-	
-	/* 
-	* Needs to be included in high level fragments
-	* high level fragments = fragments that is main drawer menu.
-	*/
-	private void setUpHighLevelFragment(){
-		//unlocks navigation drawer to open after visited a low level fragment
+
+	/*
+	 * Needs to be included in high level fragments high level fragments =
+	 * fragments that is main drawer menu.
+	 */
+	private void setUpHighLevelFragment() {
+		// unlocks navigation drawer to open after visited a low level fragment
 		((MainActivity) getActivity()).unlockDrawer();
+		((MainActivity) getActivity()).enableDrawerIndicator();
 	}
-	
+
 	// Adds an actionbar to the fragment
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.actionbar_fragment_contactlist, menu);
 

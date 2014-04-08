@@ -10,6 +10,7 @@
         <item>Information</item>
     </string-array>
 
+    <string name="camera_actionbar_button">Camera</string>
     <string name="edit_case">Redigera ärende</string>
     <string name="action_settings">Settings</string>
     <string name="case_string">Ärende</string>
