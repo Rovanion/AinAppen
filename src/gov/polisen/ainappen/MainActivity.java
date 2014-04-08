@@ -50,21 +50,21 @@ public class MainActivity extends Activity {
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
-		) {
+				mDrawerLayout, /* DrawerLayout object */
+				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description for accessibility */
+				R.string.drawer_close /* "close drawer" description for accessibility */
+				) {
 			@Override
 			public void onDrawerClosed(View view) {
 				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
+				// onPrepareOptionsMenu()
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
+				// onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 
 	/* The click listner for ListView in the navigation drawer */
 	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -192,7 +192,7 @@ public class MainActivity extends Activity {
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		.replace(R.id.content_frame, fragment).commit();
 	}
 
 	public void gotoEditCase(View view) {
@@ -205,8 +205,8 @@ public class MainActivity extends Activity {
 		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).addToBackStack(null)
-				.commit();
+		.replace(R.id.content_frame, fragment).addToBackStack(null)
+		.commit();
 	}
 
 	@Override
@@ -226,6 +226,10 @@ public class MainActivity extends Activity {
 
 	public void disableDrawerIndicator() {
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
+	}
+
+	public void enableDrawerIndicator(){
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
 	}
 
 	/*
