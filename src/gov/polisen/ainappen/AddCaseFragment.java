@@ -87,7 +87,7 @@ public class AddCaseFragment extends Fragment {
 	public void setupAddCaseButtonListener(){
 		Button addCaseButton = (Button) rootView.findViewById(R.id.addCaseButton);
 		addCaseButton.setOnClickListener( new OnClickListener(){
-			
+
 			@Override
 			public void onClick(View v) {
 				//read from all the textfields in the GUI
@@ -141,7 +141,10 @@ public class AddCaseFragment extends Fragment {
 	 * @return
 	 */
 	private Case createCaseFromForm(){
-		Case newCase = new Case(1337, 0, crime_classText.getText().toString(),
+		final GlobalData appData = ((GlobalData)getActivity().getApplicationContext());
+		//Unique ID for this device
+		int dId = appData.getDeviceID();
+		Case newCase = new Case(dId, 0, crime_classText.getText().toString(),
 				location_Text.getText().toString(),
 				Integer.parseInt(commanderText.getText().toString()),
 				new Date(dateDate.getDate()),

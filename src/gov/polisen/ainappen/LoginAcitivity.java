@@ -1,6 +1,7 @@
 package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -85,7 +86,10 @@ public class LoginAcitivity extends Activity{
 
 		public void makeGlobal(){
 			final GlobalData appData = ((GlobalData)getApplicationContext());
+			Random rnd = new Random();
+			int dId = rnd.nextInt(1000000);
 			appData.setUserID(userNameText.getText().toString());
+			appData.setDeviceID(dId);
 		}
 
 		public void setupLoginToDatabaseButtonListener(){

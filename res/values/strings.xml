@@ -35,6 +35,7 @@
     <string name="phone_number">Telefonnummer</string>
     <string name="add_contact">Skapa kontakt</string>
     <string name="done">Klar</string>
+    <string name="incorrectLoginToast">Fel användarnamn eller lösenord!</string>
 
     <string-array name="case_status">
         <item>Inrapporterad</item>
