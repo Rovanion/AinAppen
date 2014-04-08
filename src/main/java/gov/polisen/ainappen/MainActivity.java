@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
@@ -57,13 +58,13 @@ public class MainActivity extends Activity {
 			@Override
 			public void onDrawerClosed(View view) {
 				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
+				// onPrepareOptionsMenu()
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				invalidateOptionsMenu(); // creates call to
-											// onPrepareOptionsMenu()
+				// onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -71,6 +72,8 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+
+		showLoggedInUser();
 	}
 
 	@Override
@@ -168,6 +171,15 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
+	public void gotoPlayVideo(View view, String videoPath) {
+		Bundle bundle = new Bundle();
+		bundle.putString("videoPath", videoPath);
+		VideoFragment fragment = new VideoFragment();
+		fragment.setArguments(bundle);
+
+		gotoLowLevelFragment(fragment);
+	}
+
 	public void gotoAddContact(View view) {
 		gotoLowLevelFragment(new AddContactFragment());
 	}
@@ -177,7 +189,7 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new CaseFragment());
 	}
 
-	public void gotoFragment(Fragment fragment){
+	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
@@ -191,6 +203,7 @@ public class MainActivity extends Activity {
 		// Drawer wont be able to open with gestures at lower level fragments.
 		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		FragmentManager fragmentManager = getFragmentManager();
+		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).addToBackStack(null)
@@ -212,10 +225,27 @@ public class MainActivity extends Activity {
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 	}
 
+	public void disableDrawerIndicator() {
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
+	}
+
+	public void enableDrawerIndicator(){
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
+	}
+
+	/*
+	 * Shows logged in user.
+	 */
+	public void showLoggedInUser(){
+		final GlobalData appData = (GlobalData)getApplicationContext();
+		if(appData.getUserID() != null){
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(), Toast.LENGTH_LONG).show();
+		}
+	}
+
+
 	public Case getSelectedCase() {
 		return this.selectedCase;
 	}
-	
-	
 
 }

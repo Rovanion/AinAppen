@@ -18,31 +18,34 @@ public class MapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_map, container,
+				false);
 		getActivity().setTitle("Karta");
 		setUpHighLevelFragment();
 
 		setHasOptionsMenu(true);
 		return rootView;
 	}
-	
-	
-	/* 
-	* Needs to be included in high level fragments
-	* high level fragments = fragments that is main drawer menu.
-	*/
-	private void setUpHighLevelFragment(){
-		//unlocks navigation drawer to open after visited a low level fragment
+
+	/*
+	 * Needs to be included in high level fragments high level fragments =
+	 * fragments that is main drawer menu.
+	 */
+	private void setUpHighLevelFragment() {
+		// unlocks navigation drawer to open after visited a low level fragment
 		((MainActivity) getActivity()).unlockDrawer();
+		((MainActivity) getActivity()).enableDrawerIndicator();
 	}
 
 	// Adds an actionbar to the fragment
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.actionbar_fragment_map, menu);
 
 	}
 
 	// This method handles onClick at our actionbar
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// handle item selection
 		switch (item.getItemId()) {
