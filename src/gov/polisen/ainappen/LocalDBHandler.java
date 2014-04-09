@@ -20,11 +20,13 @@ import com.j256.ormlite.stmt.UpdateBuilder;
  */
 public class LocalDBHandler {
 
-	DatabaseHelper dbHelper;
-	public LocalDBHandler(Context context){
+	DatabaseHelper	dbHelper;
+
+	public LocalDBHandler(Context context) {
 		/*
-		 * Open a DatabaseHelper, this object helps us handle the database connection and keeps
-		 * track of all the current connections to the database.
+		 * Open a DatabaseHelper, this object helps us handle the database
+		 * connection and keeps track of all the current connections to the
+		 * database.
 		 */
 		dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
 	}
@@ -32,7 +34,7 @@ public class LocalDBHandler {
 	/*
 	 * IMPORTANTE! : release the OpenHelperManager!
 	 */
-	public void release(){
+	public void release() {
 		OpenHelperManager.releaseHelper();
 		dbHelper.close();
 		dbHelper = null;
@@ -82,6 +84,7 @@ public class LocalDBHandler {
 		caseDao.create(newCase);
 		String lastEntryID = newCase.getCaseID();
 		newCase = caseDao.queryForId(lastEntryID);
+		// Runtime exception Daos are important to set to null.
 		localIdDao = null;
 		caseDao = null;
 		return newCase;

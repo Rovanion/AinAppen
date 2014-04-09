@@ -22,6 +22,7 @@ public class CaseListFragment extends Fragment {
 
 	private ListView	caseListView;
 	private View		rootView;
+	private GlobalData	appData;
 
 	public CaseListFragment() {
 		// Empty constructor required for fragment subclasses
@@ -35,6 +36,8 @@ public class CaseListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
 		setUpHighLevelFragment();
+		appData = (GlobalData) getActivity().getApplicationContext();
+
 		setupCaseList();
 		addCaseListListener();
 
@@ -58,7 +61,31 @@ public class CaseListFragment extends Fragment {
 	private void setupCaseList() {
 		caseListView = (ListView) rootView.findViewById(R.id.case_list);
 		LocalDBHandler lh = new LocalDBHandler(getActivity());
+		appData.getUserID();
+
+		// Fills list with cases from local DB
 		List<Case> caseList = lh.getCasesFromDB();
+
+		// Releases local db helper. Important when finished.
+		lh.release();
+
+		// Adds some hard coded cases.
+		caseList = addDummyCases(caseList);
+
+		// Create list with local cases
+		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
+		caseListView.setAdapter(adapter);
+
+		// Add new cases from external DB if there are new ones.
+		ExternalDBHandeler eh = new ExternalDBHandeler();
+		caseList = eh.getCasesFromDB(caseList, appData.getUserID());
+
+		adapter = new CaseListAdapter(getActivity(), caseList);
+		caseListView.setAdapter(adapter);
+
+	}
+
+	private List<Case> addDummyCases(List<Case> caseList) {
 		caseList.add(new Case(1337, 1454, "Snatteri", "Hemköp Ryd", 80085, Date
 				.valueOf("2007-12-03"), "asdsa",
 				"Odrägliga ynglingar som snattat choklad på Hemköp."));
@@ -76,8 +103,7 @@ public class CaseListFragment extends Fragment {
 				Date.valueOf("1983-10-29"),
 				"asdsadsad",
 				"Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
-		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
-		caseListView.setAdapter(adapter);
+		return caseList;
 	}
 
 	/*
