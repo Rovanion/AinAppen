@@ -141,7 +141,10 @@ public class AddCaseFragment extends Fragment {
 	 * @return
 	 */
 	private Case createCaseFromForm(){
-		Case newCase = new Case(1337, 0, crime_classText.getText().toString(),
+		final GlobalData appData = ((GlobalData)getActivity().getApplicationContext());
+		//Unique ID for this device
+		int dId = appData.getDeviceID();
+		Case newCase = new Case(dId, 0, crime_classText.getText().toString(),
 				location_Text.getText().toString(),
 				Integer.parseInt(commanderText.getText().toString()),
 				new Date(dateDate.getDate()),
@@ -157,8 +160,8 @@ public class AddCaseFragment extends Fragment {
 	 */
 	private Case addCaseToDB(Case newCase){
 		Case returnCase;
-		LocalDBHandler lh = new LocalDBHandler();
-		returnCase = lh.addNewCaseToDB(newCase, getActivity());
+		LocalDBHandler lh = new LocalDBHandler(getActivity());
+		returnCase = lh.addNewCaseToDB(newCase);
 		return returnCase;
 	}
 }

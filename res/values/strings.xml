@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Ainappen</string>
@@ -9,6 +10,7 @@
         <item>Information</item>
     </string-array>
 
+    <string name="camera_actionbar_button">Camera</string>
     <string name="edit_case">Redigera ärende</string>
     <string name="action_settings">Settings</string>
     <string name="case_string">Ärende</string>
@@ -35,6 +37,7 @@
     <string name="phone_number">Telefonnummer</string>
     <string name="add_contact">Skapa kontakt</string>
     <string name="done">Klar</string>
+    <string name="incorrectLoginToast">Fel anvÃ¤ndarnamn eller lÃ¶senord!</string>
 
     <string-array name="case_status">
         <item>Inrapporterad</item>
@@ -51,5 +54,9 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="first">First</string>
     <string name="call">Call</string>
+    <string name="title_activity_call">CallActivity</string>
+    <string name="databaseLoginButton">Login(DATABASECHECK)</string>
+    <string name="crimeDate">Datum då brott begicks</string>
+    <string name="save_case">Spara ärende</string>
 
 </resources>

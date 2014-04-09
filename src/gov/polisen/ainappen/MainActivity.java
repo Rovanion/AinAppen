@@ -16,14 +16,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout					mDrawerLayout;
-	private ListView							mDrawerList;
+	private DrawerLayout			mDrawerLayout;
+	private ListView				mDrawerList;
 	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case									selectedCase;
+	private Case					selectedCase;
 
-	private String[]							mMenuOptions;
+	private String[]				mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,10 @@ public class MainActivity extends Activity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		// set a custom shadow that overlays the main content when the drawer opens
-		mDrawerLayout
-				.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		// set a custom shadow that overlays the main content when the drawer
+		// opens
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, mMenuOptions));
@@ -49,19 +51,21 @@ public class MainActivity extends Activity {
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
-		) {
+				mDrawerLayout, /* DrawerLayout object */
+				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description for accessibility */
+				R.string.drawer_close /* "close drawer" description for accessibility */
+				) {
 			@Override
 			public void onDrawerClosed(View view) {
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				invalidateOptionsMenu(); // creates call to
+				// onPrepareOptionsMenu()
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				invalidateOptionsMenu(); // creates call to
+				// onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -69,6 +73,8 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+
+		showLoggedInUser();
 	}
 
 	@Override
@@ -81,7 +87,8 @@ public class MainActivity extends Activity {
 	/* Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// If the nav drawer is open, hide action items related to the content view
+		// If the nav drawer is open, hide action items related to the content
+		// view
 		// boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -102,7 +109,8 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+	ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -134,7 +142,6 @@ public class MainActivity extends Activity {
 		super.onBackPressed();
 		// turn on the Navigation Drawer image; this is called in the
 		// LowerLevelFragments
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
 	}
 
 	// Decides what happens when drawer button is pressed.
@@ -166,6 +173,15 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
+	public void gotoPlayVideo(View view, String videoPath) {
+		Bundle bundle = new Bundle();
+		bundle.putString("videoPath", videoPath);
+		VideoFragment fragment = new VideoFragment();
+		fragment.setArguments(bundle);
+
+		gotoLowLevelFragment(fragment);
+	}
+
 	public void gotoAddContact(View view) {
 		gotoLowLevelFragment(new AddContactFragment());
 	}
@@ -182,17 +198,22 @@ public class MainActivity extends Activity {
 
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.commit();
+		fragmentManager.beginTransaction()
+		.replace(R.id.content_frame, fragment).commit();
+	}
+
+	public void gotoEditCase(View view) {
+		gotoLowLevelFragment(new EditCaseFragment());
 	}
 
 	public void gotoLowLevelFragment(Fragment fragment) {
 		// Drawer wont be able to open with gestures at lower level fragments.
-		mDrawerToggle.setDrawerIndicatorEnabled(false);
 		FragmentManager fragmentManager = getFragmentManager();
+		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.addToBackStack(null).commit();
+		fragmentManager.beginTransaction()
+		.replace(R.id.content_frame, fragment).addToBackStack(null)
+		.commit();
 	}
 
 	@Override
@@ -209,6 +230,25 @@ public class MainActivity extends Activity {
 	public void unlockDrawer() {
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 	}
+
+	public void disableDrawerIndicator() {
+		mDrawerToggle.setDrawerIndicatorEnabled(false);
+	}
+
+	public void enableDrawerIndicator(){
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
+	}
+
+	/*
+	 * Shows logged in user.
+	 */
+	public void showLoggedInUser(){
+		final GlobalData appData = (GlobalData)getApplicationContext();
+		if(appData.getUserID() != null){
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(), Toast.LENGTH_LONG).show();
+		}
+	}
+
 
 	public Case getSelectedCase() {
 		return this.selectedCase;
