@@ -54,9 +54,6 @@ public class AddCaseFragment extends Fragment {
 
 			showSaveOptionsPopUp();
 
-			// called when the up affordance/carat in actionbar is pressed
-			getActivity().onBackPressed();
-
 			return true;
 		case R.id.saveeditcase_item:
 			saveEditedCase();
