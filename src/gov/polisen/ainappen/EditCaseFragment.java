@@ -140,7 +140,7 @@ public class EditCaseFragment extends Fragment {
 				.findViewById(R.id.calendarView1);
 		selectedCase.setDate(new Date(calendar.getDate()));
 
-		LocalDBHandler localDBHandler = new LocalDBHandler();
+		LocalDBHandler localDBHandler = new LocalDBHandler(getActivity());
 		localDBHandler.editCase(selectedCase, getActivity());
 	}
 

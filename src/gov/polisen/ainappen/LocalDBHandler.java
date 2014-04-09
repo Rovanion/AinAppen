@@ -20,6 +20,24 @@ import com.j256.ormlite.stmt.UpdateBuilder;
  */
 public class LocalDBHandler {
 
+	DatabaseHelper dbHelper;
+	public LocalDBHandler(Context context){
+		/*
+		 * Open a DatabaseHelper, this object helps us handle the database connection and keeps
+		 * track of all the current connections to the database.
+		 */
+		dbHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+	}
+
+	/*
+	 * IMPORTANTE! : release the OpenHelperManager!
+	 */
+	public void release(){
+		OpenHelperManager.releaseHelper();
+		dbHelper.close();
+		dbHelper = null;
+	}
+
 	/**
 	 * This method is used to store user-generated Cases in database. Returns
 	 * the Case it stored in database (now containing it's very unique parameter
@@ -29,14 +47,7 @@ public class LocalDBHandler {
 	 * @param context
 	 * @return
 	 */
-	public Case addNewCaseToDB(Case newCase, Context context) {
-		/*
-		 * Open a DatabaseHelper, this object helps us handle the database
-		 * connection and keeps track of all the current connections to the
-		 * database.
-		 */
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(context,
-				DatabaseHelper.class);
+	public Case addNewCaseToDB(Case newCase) {
 		// Create the necessary RuntimeExceptionDao's, one for each type of
 		// object to be stored
 		RuntimeExceptionDao<Case, String> caseDao = dbHelper
@@ -71,11 +82,8 @@ public class LocalDBHandler {
 		caseDao.create(newCase);
 		String lastEntryID = newCase.getCaseID();
 		newCase = caseDao.queryForId(lastEntryID);
-
-		/*
-		 * IMPORTANTE! : release the OpenHelperManager before returning.
-		 */
-		OpenHelperManager.releaseHelper();
+		localIdDao = null;
+		caseDao = null;
 		return newCase;
 	}
 
@@ -86,8 +94,6 @@ public class LocalDBHandler {
 	 * @param context The current context
 	 */
 	public void editCase(Case editedCase, Context context) {
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(context,
-				DatabaseHelper.class);
 		RuntimeExceptionDao<Case, String> caseDao = dbHelper
 				.getCaseRuntimeExceptionDao();
 		UpdateBuilder<Case, String> updateBuilder = caseDao.updateBuilder();
@@ -109,16 +115,14 @@ public class LocalDBHandler {
 			Log.d("failed to add to database", "failed to add to database");
 			e.printStackTrace();
 		}
-		OpenHelperManager.releaseHelper();
+		caseDao = null;
 	}
 
-	public List<Case> getCasesFromDB(Context context) {
-		DatabaseHelper dbHelper = OpenHelperManager.getHelper(context,
-				DatabaseHelper.class);
+	public List<Case> getCasesFromDB() {
 		RuntimeExceptionDao<Case, String> caseDao = dbHelper
 				.getCaseRuntimeExceptionDao();
 		List<Case> caseList = caseDao.queryForAll();
-		OpenHelperManager.releaseHelper();
+		caseDao = null;
 		return caseList;
 	}
 
