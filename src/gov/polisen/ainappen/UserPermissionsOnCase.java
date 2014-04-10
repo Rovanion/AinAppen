@@ -2,17 +2,25 @@ package gov.polisen.ainappen;
 
 import java.security.AccessControlException;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class UserPermissionsOnCase extends Object{
-	
+	@DatabaseField
 	private int deviceID;
-	private int caseID;
-	private int userID;
+	@DatabaseField
+	private String caseID;
+	@DatabaseField
+	private String userID;
+	@DatabaseField
 	private boolean read;
+	@DatabaseField
 	private boolean addData;
+	@DatabaseField
 	private boolean modify;
+	@DatabaseField
 	private boolean changePermissions;
 	
-	public UserPermissionsOnCase (int deviceID, int caseID, int userID, boolean read, boolean addData, boolean modify, boolean changePermissions){
+	public UserPermissionsOnCase (int deviceID, String caseID, String userID, boolean read, boolean addData, boolean modify, boolean changePermissions){
 		this.deviceID = deviceID;
 		this.caseID = caseID;
 		this.userID = userID;
@@ -42,7 +50,7 @@ public class UserPermissionsOnCase extends Object{
 		if(!changePermissions){
 			throw new AccessControlException("User does not have permission to change permissions.");
 		} else{
-			//TODO: Write code to change the read permission.
+			//TODO: Write code to change the add data permission.
 		}
 	}
 
@@ -54,7 +62,7 @@ public class UserPermissionsOnCase extends Object{
 		if(!changePermissions){
 			throw new AccessControlException("User does not have permission to change permissions.");
 		} else{
-			//TODO: Write code to change the read permission.
+			//TODO: Write code to change the modify permission.
 		}
 	}
 
@@ -66,7 +74,7 @@ public class UserPermissionsOnCase extends Object{
 			if(!changePermissions){
 				throw new AccessControlException("User does not have permission to change permissions.");
 			} else{
-				//TODO: Write code to change the read permission.
+				//TODO: Write code to change the change permission.
 			}
 		}
 	

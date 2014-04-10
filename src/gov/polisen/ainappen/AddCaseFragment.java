@@ -160,16 +160,16 @@ public class AddCaseFragment extends Fragment {
 		//Unique ID for this device
 		int dId = appData.getDeviceID();
 		Case newCase = new Case(dId, 0, crime_classText.getText().toString(),
-		/**
-		 * TODO: Create a UserPermissionsOnCase object based on the deviceID,
-		 * caseID and userID with all permissions, then push it to the database.
-		 */
 				location_Text.getText().toString(),
 				Integer.parseInt(commanderText.getText().toString()),
 				new Date(dateDate.getDate()),
 				statusText.getSelectedItem().toString(),
 				descriptionText.getText().toString()
 				);
+		//UserPermissionsOnCase permissions = new UserPermissionsOnCase(dId, newCase.getCaseID(), appData.getUserID(), true, true, true, true);
+		/*
+		 * TODO: Send permissions to the external database.
+		 */
 		return newCase;
 	}
 
