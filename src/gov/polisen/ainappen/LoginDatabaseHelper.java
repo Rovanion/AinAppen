@@ -13,23 +13,26 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 /**
- * This class is used to handle the database we connect to when authenticating 
+ * This class is used to handle the database we connect to when authenticating
  * users locally.
+ * 
  * @author Joakim
- *
+ * 
  */
 public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String DATABASE_NAME = "ainappenslogindb.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final String											DATABASE_NAME									= "ainappenslogindb.db";
+	private static final int												DATABASE_VERSION							= 1;
 
-	private Dao<LoginData, String> loginDataDao = null;
-	private RuntimeExceptionDao<LoginData, String> runtimeExceptionLoginDataDao = null;
+	private Dao<LoginData, String>									loginDataDao									= null;
+	private RuntimeExceptionDao<LoginData, String>	runtimeExceptionLoginDataDao	= null;
 
-	private static final AtomicInteger usageCounter = new AtomicInteger(0);
-	private static LoginDatabaseHelper loginHelper = null;
+	private static final AtomicInteger							usageCounter									= new AtomicInteger(
+																																										0);
+	private static LoginDatabaseHelper							loginHelper										= null;
 
-	public LoginDatabaseHelper(Context context){
-		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_login_config);
+	public LoginDatabaseHelper(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION,
+				R.raw.ormlite_login_config);
 	}
 
 	@Override
@@ -51,31 +54,32 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 		// TODO Auto-generated method stub
 	}
 
-	public static synchronized LoginDatabaseHelper getHelper(Context context){
-		if(loginHelper == null){
+	public static synchronized LoginDatabaseHelper getHelper(Context context) {
+		if (loginHelper == null) {
 			loginHelper = new LoginDatabaseHelper(context);
 		}
 		usageCounter.incrementAndGet();
 		return loginHelper;
 	}
 
-	public void close(){
-		if(usageCounter.decrementAndGet() == 0){
+	@Override
+	public void close() {
+		if (usageCounter.decrementAndGet() == 0) {
 			super.close();
 			loginDataDao = null;
 			runtimeExceptionLoginDataDao = null;
 		}
 	}
 
-	public Dao<LoginData, String> getLoginDataDao() throws SQLException{
-		if(loginDataDao == null){
+	public Dao<LoginData, String> getLoginDataDao() throws SQLException {
+		if (loginDataDao == null) {
 			loginDataDao = getDao(LoginData.class);
 		}
 		return loginDataDao;
 	}
 
-	public RuntimeExceptionDao<LoginData, String> getLoginDataRuntimeExceptionDao(){
-		if (runtimeExceptionLoginDataDao == null){
+	public RuntimeExceptionDao<LoginData, String> getLoginDataRuntimeExceptionDao() {
+		if (runtimeExceptionLoginDataDao == null) {
 			runtimeExceptionLoginDataDao = getRuntimeExceptionDao(LoginData.class);
 		}
 		return runtimeExceptionLoginDataDao;
