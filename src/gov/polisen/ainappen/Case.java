@@ -3,6 +3,7 @@ package gov.polisen.ainappen;
 
 import java.util.Date;
 
+import com.google.gson.Gson;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -32,7 +33,6 @@ public class Case {
 	public Case(){
 		//Empty constructor needed by ORMLite
 	}
-
 	public Case (
 			int deviceID,
 			int localCaseID,
