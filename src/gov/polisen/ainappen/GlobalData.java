@@ -9,7 +9,7 @@ public class GlobalData extends Application {
 	public void onCreate(){
 		super.onCreate();
 	}
-	public String getUserID(){
+	public String getUsername(){
 		return userID;
 	}
 	public int getDeviceID(){

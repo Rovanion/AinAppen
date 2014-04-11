@@ -10,8 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class CaseListAdapter extends BaseAdapter {
-	private Context context;
-	private List<Case> caseList;
+	private Context		context;
+	private List<Case>	caseList;
 
 	public CaseListAdapter(Context context, List<Case> caseList) {
 		this.context = context;
@@ -23,7 +23,7 @@ public class CaseListAdapter extends BaseAdapter {
 		return caseList.size();
 	}
 
-	public Context getContext(){
+	public Context getContext() {
 		return context;
 	}
 
@@ -43,21 +43,20 @@ public class CaseListAdapter extends BaseAdapter {
 		Case entry = caseList.get(pos);
 
 		// inflating list view layout if null
-		if(convertView == null) {
+		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(context);
 			convertView = inflater.inflate(R.layout.caselist_item, null);
 		}
 
 		// set crime classification
-		TextView name = (TextView) convertView.findViewById(R.id.crime_classification);
-		name.setText(entry.getCrimeClassification());
+		TextView name = (TextView) convertView
+				.findViewById(R.id.crime_classification);
+		name.setText(String.valueOf(entry.getClassification()));
 
 		// set case id
 		TextView caseId = (TextView) convertView.findViewById(R.id.date);
-		caseId.setText(entry.getCaseID().toString());		
+		caseId.setText(entry.getLocalCaseID().toString());
 
 		return convertView;
 	}
-
-
 }

@@ -3,7 +3,7 @@ package gov.polisen.ainappen;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "logindata")
+@DatabaseTable(tableName = "userdata")
 public class User {
 	@DatabaseField(id = true)
 	private int		userId;
@@ -12,6 +12,11 @@ public class User {
 
 	public User() {
 		// Needed by ORMLite
+	}
+
+	public User(int userID, String username) {
+		this.userId = userID;
+		this.username = username;
 	}
 
 	public String getUsername() {

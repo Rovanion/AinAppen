@@ -120,10 +120,10 @@ public class EditCaseFragment extends Fragment {
 	 * database.
 	 */
 	private void saveEditedCase() {
-		EditText crimeClassification = (EditText) rootView
+		EditText classification = (EditText) rootView
 				.findViewById(R.id.crime_classification_text_edit);
-		selectedCase.setCrimeClassification(crimeClassification.getText()
-				.toString());
+		selectedCase.setClassification(Short.valueOf(classification.getText()
+				.toString()));
 		EditText location = (EditText) rootView
 				.findViewById(R.id.location_text_edit);
 		selectedCase.setLocation(location.getText().toString());
@@ -132,16 +132,17 @@ public class EditCaseFragment extends Fragment {
 		selectedCase.setCommander(Integer.parseInt(commander.getText()
 				.toString()));
 		Spinner status = (Spinner) rootView.findViewById(R.id.spinner_status);
-		selectedCase.setStatus(status.getSelectedItem().toString());
+		selectedCase.setStatus((short) status.getSelectedItemPosition());
 		EditText description = (EditText) rootView
 				.findViewById(R.id.description_text_edit);
 		selectedCase.setDescription(description.getText().toString());
 		CalendarView calendar = (CalendarView) rootView
 				.findViewById(R.id.calendarView1);
-		selectedCase.setDate(new Date(calendar.getDate()));
+		selectedCase.setTimeOfCrime(new Date(calendar.getDate()));
 
 		LocalDBHandler localDBHandler = new LocalDBHandler(getActivity());
 		localDBHandler.editCase(selectedCase, getActivity());
+		localDBHandler.release();
 	}
 
 	/**
@@ -150,7 +151,8 @@ public class EditCaseFragment extends Fragment {
 	private void fillTextFieldsWithCurrentCase() {
 		EditText crimeClassification = (EditText) rootView
 				.findViewById(R.id.crime_classification_text_edit);
-		crimeClassification.setText(selectedCase.getCrimeClassification());
+		crimeClassification.setText(String.valueOf(selectedCase
+				.getClassification()));
 		EditText location = (EditText) rootView
 				.findViewById(R.id.location_text_edit);
 		location.setText(selectedCase.getLocation());
@@ -158,22 +160,13 @@ public class EditCaseFragment extends Fragment {
 				.findViewById(R.id.commander_text_edit);
 		commander.setText(Integer.toString(selectedCase.getCommander()));
 		Spinner status = (Spinner) rootView.findViewById(R.id.spinner_status);
-		status.setSelection(getSelectedIndex(selectedCase.getStatus()));
+		status.setSelection(selectedCase.getStatus());
 		EditText description = (EditText) rootView
 				.findViewById(R.id.description_text_edit);
 		description.setText(selectedCase.getDescription());
 		CalendarView calendar = (CalendarView) rootView
 				.findViewById(R.id.calendarView1);
-		calendar.setDate(selectedCase.getDate().getTime());
-	}
-
-	private int getSelectedIndex(String status) {
-		String[] statuses = getResources().getStringArray(R.array.case_status);
-		for (int i = 0; i < statuses.length; i++) {
-			if (statuses[i].equals(status))
-				return i;
-		}
-		return 0;
+		calendar.setDate(selectedCase.getTimeOfCrime().getTime());
 	}
 
 	@Override

@@ -237,8 +237,8 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser(){
 		final GlobalData appData = (GlobalData)getApplicationContext();
-		if(appData.getUserID() != null){
-			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(), Toast.LENGTH_LONG).show();
+		if(appData.getUsername() != null){
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUsername(), Toast.LENGTH_LONG).show();
 		}
 	}
 
