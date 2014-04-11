@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 public class LoginAcitivity extends Activity{
 
 	public LoginAcitivity(){
