@@ -22,5 +22,4 @@ public class GlobalData extends Application {
 		this.deviceID = deviceID;
 	}
 
-
 }

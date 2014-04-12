@@ -10,6 +10,6 @@ public class DbLoginConfigUtil extends OrmLiteConfigUtil{
 	private static final Class<?>[] classes = new Class[]{LoginData.class};
 
 	public static void main(String[] args) throws SQLException, IOException{
-		writeConfigFile("ormlite_login_config", classes);
+		writeConfigFile("ormlite_login_config.txt", classes);
 	}
 }
