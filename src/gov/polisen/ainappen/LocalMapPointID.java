@@ -11,21 +11,21 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Joakim
  *
  */
-@DatabaseTable(tableName = "obstacleids")
-public class LocalObstacleID {
+@DatabaseTable(tableName = "mappointids")
+public class LocalMapPointID {
 	@DatabaseField(generatedId = true)
-	private int localObstacleID;
+	private int localMapPointID;
 
-	public LocalObstacleID(int localObstacleID){
-		this.localObstacleID = localObstacleID;
+	public LocalMapPointID(int localMapPointID){
+		this.localMapPointID = localMapPointID;
 	}
-	public LocalObstacleID(){
+	public LocalMapPointID(){
 		//needed for ORMLite
 	}
 	public int getLocalObstacleID(){
-		return this.localObstacleID;
+		return this.localMapPointID;
 	}
-	public void setLocalObstacleID(int localObstacleID){
-		this.localObstacleID = localObstacleID;
+	public void setLocalObstacleID(int localMapPointID){
+		this.localMapPointID = localMapPointID;
 	}
 }

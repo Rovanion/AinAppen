@@ -7,18 +7,18 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Joakim
  *
  */
-@DatabaseTable (tableName = "obstacles")
-public class Obstacle {
+@DatabaseTable (tableName = "mappoints")
+public class MapPoint {
 	@DatabaseField
-	int localObstacleID;
+	int localMapPointID;
 	@DatabaseField
 	int deviceID;
 	@DatabaseField(useGetSet = true, id = true)
-	String obstacleID;
+	String mapPointID;
 	@DatabaseField
-	String obstacleTitle;
+	String mapPointTitle;
 	@DatabaseField
-	String obstacleSnippet;
+	String mapPointSnippet;
 	@DatabaseField
 	double latitude;
 	@DatabaseField
@@ -26,11 +26,11 @@ public class Obstacle {
 	@DatabaseField
 	boolean isObstacle;
 
-	public Obstacle(){
+	public MapPoint(){
 		//Empty constructor needed by ORMLite
 	}
 
-	public Obstacle(
+	public MapPoint(
 			int localObstacleID, 
 			int deviceID, 
 			String obstacleTitle,
@@ -39,33 +39,33 @@ public class Obstacle {
 			double longitude,
 			boolean isObstacle
 			){
-		this.localObstacleID = localObstacleID;
+		this.localMapPointID = localObstacleID;
 		this.deviceID = deviceID;
-		this.obstacleTitle = obstacleTitle;
-		this.obstacleSnippet = obstacleSnippet;
+		this.mapPointTitle = obstacleTitle;
+		this.mapPointSnippet = obstacleSnippet;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.isObstacle = isObstacle;
 	}
 
 	public String toString(){
-		return "Obstacle [ObstacleID=" + this.obstacleID + ", Device ID=" + this.deviceID + ", localObstacleID=" +
-				this.localObstacleID + ", ObstacleTitle = " + this.obstacleTitle + ", ObstacleSnippet = " 
-				+ this.obstacleSnippet + ", Latitude" + this.latitude + ", Longitude" + this.longitude +
+		return "Obstacle [ObstacleID=" + this.mapPointID + ", Device ID=" + this.deviceID + ", localObstacleID=" +
+				this.localMapPointID + ", ObstacleTitle = " + this.mapPointTitle + ", ObstacleSnippet = " 
+				+ this.mapPointSnippet + ", Latitude" + this.latitude + ", Longitude" + this.longitude +
 				", isObstacle=" + (Boolean.valueOf(this.isObstacle)) + "]";		
 	}
 
 	public String getObstacleID(){
-		return (this.deviceID + "-" + this.localObstacleID);
+		return (this.deviceID + "-" + this.localMapPointID);
 	}
 	public void setObstacleID(String obstacleID){
-		this.obstacleID = obstacleID;
+		this.mapPointID = obstacleID;
 	}
 	public int getLocalObstacleID(){
-		return this.localObstacleID;
+		return this.localMapPointID;
 	}
 	public void setLocalObstacleID(int localObstacleID){
-		this.localObstacleID = localObstacleID;
+		this.localMapPointID = localObstacleID;
 	}
 	public int getDeviceID(){
 		return this.deviceID;
@@ -74,16 +74,16 @@ public class Obstacle {
 		this.deviceID = deviceID;
 	}
 	public String getObstacleTitle(){
-		return this.obstacleTitle;
+		return this.mapPointTitle;
 	}
 	public void setObstacleTitle(String obstacleTitle){
-		this.obstacleTitle = obstacleTitle;
+		this.mapPointTitle = obstacleTitle;
 	}
 	public String getObstacleSnippet(){
-		return this.obstacleSnippet;
+		return this.mapPointSnippet;
 	}
 	public void setObstacleSnippet(String obstacleSnippet){
-		this.obstacleSnippet = obstacleSnippet;
+		this.mapPointSnippet = obstacleSnippet;
 	}
 	public double getLatitude(){
 		return this.latitude;
@@ -103,7 +103,4 @@ public class Obstacle {
 	public void setIsObstacle(boolean isObstacle){
 		this.isObstacle = isObstacle;
 	}
-
-
-
 }
