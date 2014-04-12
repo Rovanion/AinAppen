@@ -1,6 +1,10 @@
 package gov.polisen.ainappen;
 
+import java.util.Calendar;
 import java.util.Date;
+
+import android.content.Context;
+import android.content.res.Resources;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -24,25 +28,13 @@ public class Case {
 	@DatabaseField
 	private Short	classification;
 	@DatabaseField
-	@Deprecated
-	private String	crimeClassificationDeprecated;
-	@DatabaseField
 	private Short	status;
-	@DatabaseField
-	@Deprecated
-	private String	statusDeprecated;
 	@DatabaseField
 	private Short	priority;
 	@DatabaseField
 	private Float	longitude;
 	@DatabaseField
 	private Float	latitude;
-	@DatabaseField
-	@Deprecated
-	private String	location;
-	@DatabaseField
-	@Deprecated
-	private int		commander;
 	@DatabaseField
 	private Date	timeOfCrime;
 	@DatabaseField
@@ -54,16 +46,24 @@ public class Case {
 		// Empty constructor needed by ORMLite
 	}
 
-	public Case(int deviceID, int localCaseID, Short classification,
-			String location, int commander, Date date, Short status,
+	public Case(int deviceID, int caseID, int author, Date modificationTime,
+			int firstRevisionCaseID, int firstRevisionDeviceID,
+			Date deletionTime, Short classification, Short status,
+			Short priority, Float longitude, Float latitude, Date timeOfCrime,
 			String description) {
-		this.deviceID = deviceID;
-		this.caseID = localCaseID;
+		this.setDeviceID(deviceID);
+		this.setCaseID(caseID);
+		this.setAuthor(author);
+		this.setModificationTime(modificationTime);
+		this.setFirstRevisionCaseID(firstRevisionCaseID);
+		this.setFirstRevisionDeviceID(firstRevisionDeviceID);
+		this.setDeletionTime(deletionTime);
 		this.setClassification(classification);
-		this.setLocation(location);
-		this.setCommander(commander);
-		this.setTimeOfCrime(date);
 		this.setStatus(status);
+		this.setPriority(priority);
+		this.setLongitude(longitude);
+		this.setLatitude(latitude);
+		this.setTimeOfCrime(timeOfCrime);
 		this.setDescription(description);
 	}
 
@@ -87,16 +87,6 @@ public class Case {
 		this.latitude = latitude;
 		this.timeOfCrime = timeofcrime;
 		this.description = description;
-	}
-
-	@Override
-	public String toString() {
-		return "Case [CaseID=" + this.localCaseID + ", Device ID="
-				+ this.deviceID + ", LocalCaseID=" + this.caseID
-				+ ", location=" + this.location + ", Commander="
-				+ this.commander + ", Date=" + this.timeOfCrime + ", Status="
-				+ this.statusDeprecated + ", Description=" + this.description
-				+ "]";
 	}
 
 	/**
@@ -173,17 +163,23 @@ public class Case {
 		return classification;
 	}
 
+	/*
+	 * Getting classification title from string array in strings.xml If
+	 * classification index is outside the known array the title will be set to
+	 * the string with index 0 which is unknown.
+	 */
+	public String getClassificationTitle(Context context) {
+		Resources res = context.getResources();
+		String[] classifications = res.getStringArray(R.array.classifications);
+		int index = Integer.valueOf(getClassification());
+		int lastArrayIndex = classifications.length - 1;
+		if (index > lastArrayIndex || index < 0)
+			index = 0;
+		return classifications[index];
+	}
+
 	public void setClassification(Short classification) {
 		this.classification = classification;
-	}
-
-	public String getCrimeClassificationDeprecated() {
-		return crimeClassificationDeprecated;
-	}
-
-	public void setCrimeClassificationDeprecated(
-			String crimeClassificationDeprecated) {
-		this.crimeClassificationDeprecated = crimeClassificationDeprecated;
 	}
 
 	public Short getStatus() {
@@ -192,14 +188,6 @@ public class Case {
 
 	public void setStatus(Short status) {
 		this.status = status;
-	}
-
-	public String getStatusDeprecated() {
-		return statusDeprecated;
-	}
-
-	public void setStatusDeprecated(String statusDeprecated) {
-		this.statusDeprecated = statusDeprecated;
 	}
 
 	public Short getPriority() {
@@ -226,24 +214,19 @@ public class Case {
 		this.latitude = latitude;
 	}
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public int getCommander() {
-		return commander;
-	}
-
-	public void setCommander(int commander) {
-		this.commander = commander;
-	}
-
 	public Date getTimeOfCrime() {
 		return timeOfCrime;
+	}
+
+	/*
+	 * Returns the time of crime in short form. Example: "23 Mars"
+	 */
+	public String getShortDateOfCrime() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(timeOfCrime);
+		String shortDate = "" + cal.get(Calendar.DATE) + " "
+				+ getMonthName(cal.get(Calendar.MONTH));
+		return shortDate;
 	}
 
 	public void setTimeOfCrime(Date timeOfCrime) {
@@ -256,6 +239,63 @@ public class Case {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	private String getMonthName(int monthNumber) {
+		String month = null;
+		switch (monthNumber) {
+		case 0:
+			month = "Januari";
+			break;
+
+		case 1:
+			month = "Februari";
+			break;
+
+		case 2:
+			month = "Mars";
+			break;
+
+		case 3:
+			month = "April";
+			break;
+
+		case 4:
+			month = "Maj";
+			break;
+
+		case 5:
+			month = "Juni";
+			break;
+
+		case 6:
+			month = "Juli";
+			break;
+
+		case 7:
+			month = "Augisti";
+			break;
+
+		case 8:
+			month = "September";
+			break;
+
+		case 9:
+			month = "Oktober";
+			break;
+
+		case 10:
+			month = "November";
+			break;
+
+		case 11:
+			month = "December";
+			break;
+
+		default:
+			break;
+		}
+		return month;
 	}
 
 }

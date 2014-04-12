@@ -80,7 +80,7 @@ public class CaseFragment extends Fragment {
 
 	private void fillTextfields() {
 		crimeClassification.setText(String.valueOf(selectedCase
-				.getClassification()));
+				.getClassificationTitle(rootView.getContext())));
 		commander.setText(Integer.toString(selectedCase.getCommander()));
 		location.setText(selectedCase.getLocation());
 		date.setText(selectedCase.getTimeOfCrime().toString());
