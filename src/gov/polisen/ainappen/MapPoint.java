@@ -31,18 +31,18 @@ public class MapPoint {
 	}
 
 	public MapPoint(
-			int localObstacleID, 
+			int localMapPointID, 
 			int deviceID, 
-			String obstacleTitle,
-			String obstacleSnippet,
+			String mapPointTitle,
+			String mapPointSnippet,
 			double latitude,
 			double longitude,
 			boolean isObstacle
 			){
-		this.localMapPointID = localObstacleID;
+		this.localMapPointID = localMapPointID;
 		this.deviceID = deviceID;
-		this.mapPointTitle = obstacleTitle;
-		this.mapPointSnippet = obstacleSnippet;
+		this.mapPointTitle = mapPointTitle;
+		this.mapPointSnippet = mapPointSnippet;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.isObstacle = isObstacle;
@@ -55,17 +55,17 @@ public class MapPoint {
 				", isObstacle=" + (Boolean.valueOf(this.isObstacle)) + "]";		
 	}
 
-	public String getObstacleID(){
+	public String getMapPointID(){
 		return (this.deviceID + "-" + this.localMapPointID);
 	}
-	public void setObstacleID(String obstacleID){
-		this.mapPointID = obstacleID;
+	public void setMapPointID(String mapPointID){
+		this.mapPointID = mapPointID;
 	}
-	public int getLocalObstacleID(){
+	public int getLocalMapPointID(){
 		return this.localMapPointID;
 	}
-	public void setLocalObstacleID(int localObstacleID){
-		this.localMapPointID = localObstacleID;
+	public void setLocalMapPointID(int localMapPointID){
+		this.localMapPointID = localMapPointID;
 	}
 	public int getDeviceID(){
 		return this.deviceID;
@@ -73,17 +73,17 @@ public class MapPoint {
 	public void setDeviceID(int deviceID){
 		this.deviceID = deviceID;
 	}
-	public String getObstacleTitle(){
+	public String getMapPointTitle(){
 		return this.mapPointTitle;
 	}
-	public void setObstacleTitle(String obstacleTitle){
-		this.mapPointTitle = obstacleTitle;
+	public void setMapPointTitle(String mapPointTitle){
+		this.mapPointTitle = mapPointTitle;
 	}
-	public String getObstacleSnippet(){
+	public String getMapPointSnippet(){
 		return this.mapPointSnippet;
 	}
-	public void setObstacleSnippet(String obstacleSnippet){
-		this.mapPointSnippet = obstacleSnippet;
+	public void setMapPointSnippet(String mapPointSnippet){
+		this.mapPointSnippet = mapPointSnippet;
 	}
 	public double getLatitude(){
 		return this.latitude;

@@ -117,19 +117,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 		}
 		return mapPointDao;
 	}
-	public RuntimeExceptionDao<MapPoint, String> getObstacleRuntimeExceptionDao(){
+	public RuntimeExceptionDao<MapPoint, String> getMapPointRuntimeExceptionDao(){
 		if(mapPointRuntimeDao == null){
 			mapPointRuntimeDao = getRuntimeExceptionDao(MapPoint.class);
 		}
 		return mapPointRuntimeDao;
 	}
-	public Dao<LocalMapPointID, Integer> getLocalObstacleIdDao() throws SQLException{
+	public Dao<LocalMapPointID, Integer> getLocalMapPointIdDao() throws SQLException{
 		if(localMapPointIdDao == null){
 			localMapPointIdDao = getDao(LocalMapPointID.class);
 		}
 		return localMapPointIdDao;
 	}
-	public RuntimeExceptionDao<LocalMapPointID, Integer> getLocalObsIdRuntimeDao(){
+	public RuntimeExceptionDao<LocalMapPointID, Integer> getLocalMapPointIdRuntimeDao(){
 		if(localMapPointIdRuntimeDao == null){
 			localMapPointIdRuntimeDao = getRuntimeExceptionDao(LocalMapPointID.class);
 		}
