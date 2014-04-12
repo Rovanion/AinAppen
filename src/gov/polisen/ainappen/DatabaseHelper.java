@@ -31,10 +31,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	 */
 	private Dao<Case, String> caseDao = null;
 	private Dao<Contact, Integer> contactDao = null;
-	private Dao<LocalID, Integer> localIdDao = null;
+	private Dao<LocalID, Integer> localCaseIdDao = null;
+	private Dao<Obstacle, String> obstacleDao = null;
+	private Dao<LocalObstacleID, Integer> localObsIdDao = null;
 	private RuntimeExceptionDao<Case, String> caseRuntimeDao = null;
 	private RuntimeExceptionDao<Contact, Integer> contactRuntimeDao = null;
-	private RuntimeExceptionDao<LocalID, Integer> localIdRuntimeDao = null;
+	private RuntimeExceptionDao<LocalID, Integer> localCaseIdRuntimeDao = null;
+	private RuntimeExceptionDao<Obstacle, String> obstacleRuntimeDao = null;
+	private RuntimeExceptionDao<LocalObstacleID, Integer> localObsIdRuntimeDao = null;
+
 
 	public DatabaseHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -51,6 +56,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 			TableUtils.createTable(connectionSource, Case.class);
 			TableUtils.createTable(connectionSource, Contact.class);
 			TableUtils.createTable(connectionSource, LocalID.class);
+			TableUtils.createTable(connectionSource, Obstacle.class);
+			TableUtils.createTable(connectionSource, LocalObstacleID.class);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,17 +99,41 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	}
 
 	public Dao<LocalID, Integer> getLocalIdDao() throws SQLException{
-		if(localIdDao == null){
-			localIdDao = getDao(LocalID.class);
+		if(localCaseIdDao == null){
+			localCaseIdDao = getDao(LocalID.class);
 		}
-		return localIdDao;
+		return localCaseIdDao;
 	}
 
 	public RuntimeExceptionDao<LocalID, Integer> getLocalIdRuntimeExceptionDao(){
-		if(localIdRuntimeDao == null){
-			localIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
+		if(localCaseIdRuntimeDao == null){
+			localCaseIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
 		}
-		return localIdRuntimeDao;
+		return localCaseIdRuntimeDao;
+	}
+	public Dao<Obstacle, String> getObstacleDao() throws SQLException{
+		if(obstacleDao == null){
+			obstacleDao = getDao(Obstacle.class);
+		}
+		return obstacleDao;
+	}
+	public RuntimeExceptionDao<Obstacle, String> getObstacleRuntimeExceptionDao(){
+		if(obstacleRuntimeDao == null){
+			obstacleRuntimeDao = getRuntimeExceptionDao(Obstacle.class);
+		}
+		return obstacleRuntimeDao;
+	}
+	public Dao<LocalObstacleID, Integer> getLocalObstacleIdDao() throws SQLException{
+		if(localObsIdDao == null){
+			localObsIdDao = getDao(LocalObstacleID.class);
+		}
+		return localObsIdDao;
+	}
+	public RuntimeExceptionDao<LocalObstacleID, Integer> getLocalObsIdRuntimeDao(){
+		if(localObsIdRuntimeDao == null){
+			localObsIdRuntimeDao = getRuntimeExceptionDao(LocalObstacleID.class);
+		}
+		return localObsIdRuntimeDao;
 	}
 
 }
