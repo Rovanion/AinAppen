@@ -1,6 +1,5 @@
 package gov.polisen.ainappen;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -82,6 +81,7 @@ public class LocalDBHandler {
 		 */
 		int lid = newId.getLocalCaseID();
 		newCase.setCaseID(lid);
+		newCase.setFirstRevisionCaseID(lid);
 		// Put the data into database
 		caseDao.create(newCase);
 		String lastEntryID = newCase.getLocalCaseID();
@@ -105,13 +105,13 @@ public class LocalDBHandler {
 		Log.d("in edit case", "in edit case");
 		try {
 			updateBuilder.where()
-					.eq("localCaseID", editedCase.getLocalCaseID());
-			updateBuilder.updateColumnValue("location",
-					editedCase.getLocation());
+			.eq("localCaseID", editedCase.getLocalCaseID());
+			updateBuilder.updateColumnValue("priority",
+					editedCase.getPriority());
 			updateBuilder.updateColumnValue("classification",
 					editedCase.getClassification());
-			updateBuilder.updateColumnValue("commander",
-					editedCase.getCommander());
+			updateBuilder.updateColumnValue("author",
+					editedCase.getAuthor());
 			updateBuilder.updateColumnValue("timeOfCrime",
 					editedCase.getTimeOfCrime());
 			updateBuilder.updateColumnValue("status", editedCase.getStatus());
@@ -140,31 +140,31 @@ public class LocalDBHandler {
 		Where<User, Integer> users;
 		try {
 			users = userDao.queryBuilder().where().eq("username", username);
-			userId = users.queryForFirst().getId();
+			userId = users.queryForFirst().getUserId();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return userId;
 	}
 
-	public List<Case> addDummyCases(List<Case> caseList) {
-		caseList.add(new Case(1337, 1454, (short) 1, "Hemköp Ryd", 80085, Date
-				.valueOf("2007-12-03"), (short) 1,
-				"Odrägliga ynglingar som snattat choklad på Hemköp."));
-		caseList.add(new Case(1337, 1455, (short) 2, "Pengadepå", 80085, Date
-				.valueOf("2013-12-05"), (short) 2,
-				"Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
-		caseList.add(new Case(1337, 1456, (short) 3, "Kyrka", 80085, Date
-				.valueOf("2014-01-10"), (short) 2, "Inte okej."));
-		caseList.add(new Case(
-				1337,
-				1457,
-				(short) 4,
-				"Stan",
-				800085,
-				Date.valueOf("1983-10-29"),
-				(short) 1,
-				"Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
-		return caseList;
-	}
+	//	public List<Case> addDummyCases(List<Case> caseList) {
+	//		caseList.add(new Case(1337, 1454, (short) 1, "Hemköp Ryd", 80085, Date
+	//				.valueOf("2007-12-03"), (short) 1,
+	//				"Odrägliga ynglingar som snattat choklad på Hemköp."));
+	//		caseList.add(new Case(1337, 1455, (short) 2, "Pengadepå", 80085, Date
+	//				.valueOf("2013-12-05"), (short) 2,
+	//				"Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
+	//		caseList.add(new Case(1337, 1456, (short) 3, "Kyrka", 80085, Date
+	//				.valueOf("2014-01-10"), (short) 2, "Inte okej."));
+	//		caseList.add(new Case(
+	//				1337,
+	//				1457,
+	//				(short) 4,
+	//				"Stan",
+	//				800085,
+	//				Date.valueOf("1983-10-29"),
+	//				(short) 1,
+	//				"Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
+	//		return caseList;
+	//	}
 }

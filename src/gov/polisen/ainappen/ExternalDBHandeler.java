@@ -1,5 +1,8 @@
 package gov.polisen.ainappen;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -21,8 +24,8 @@ public class ExternalDBHandeler {
 		// List<Case> mergedCaseList;
 
 		// Get external caselist from server
-
-		String json = "[{\"author\":1,\"modificationtime\":\"Apr 10, 2014 3:04:36 PM\",\"firstrevisioncaseid\":1,\"firstrevisiondeviceid\":1,\"classification\":1,\"status\":1,\"description\":\"Snatteri på skånskgatan, skåning misstänkt.\",\"deviceid\":1,\"caseid\":1}]";
+		Date dummyDate = new Date();
+		String json = "[{\"author\":1,\"modificationTime\":\"Apr 10, 2014 3:04:36 PM\",\"firstrevisioncaseid\":1,\"firstrevisiondeviceid\":1,\"classification\":1,\"status\":1,\"description\":\"Snatteri på skånskgatan, skåning misstänkt.\",\"deviceID\":1337,\"priority\":1,\"caseID\":1}]";
 		// try {
 		// json = readUrl("http://localhost:1337/casesForUser/1");
 		// } catch (Exception e) {
@@ -32,9 +35,10 @@ public class ExternalDBHandeler {
 
 		List<Case> data = new Gson().fromJson(json,
 				new TypeToken<List<Case>>() {
-				}.getType());
+		}.getType());
 
 		for (Case currentCase : data) {
+			currentCase.setTimeOfCrime(currentCase.getModificationTime());
 			localCaseList.add(currentCase);
 		}
 
@@ -69,6 +73,16 @@ public class ExternalDBHandeler {
 		HttpEntity entity = response.getEntity();
 		String responseString = EntityUtils.toString(entity, "UTF-8");
 		return responseString;
+	}
+	public Date extractDate(String data) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a zzz"); //zzz
+		try {
+			Date date = sdf.parse(data);
+			return date;
+		} catch (ParseException ex) {
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 }

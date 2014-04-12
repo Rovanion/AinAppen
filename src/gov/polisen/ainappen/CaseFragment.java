@@ -24,16 +24,18 @@ public class CaseFragment extends Fragment {
 		// Empty constructor required for fragment subclasses
 	}
 
-	private Case		selectedCase;
 	private TextView	crimeClassification;
-	private TextView	location;
-	private TextView	commander;
 	private TextView	date;
 	private TextView	status;
 	private TextView	description;
-	private View		rootView;
+	private TextView	priority;
+	private TextView	author;
 
+
+	private View		rootView;
+	private Case		selectedCase;
 	String				foldername;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,9 +73,9 @@ public class CaseFragment extends Fragment {
 	private void setupComponents() {
 		crimeClassification = (TextView) rootView
 				.findViewById(R.id.crime_classification);
-		commander = (TextView) rootView.findViewById(R.id.commander);
-		location = (TextView) rootView.findViewById(R.id.location);
-		date = (TextView) rootView.findViewById(R.id.date);
+		author = (TextView) rootView.findViewById(R.id.author);
+		priority = (TextView) rootView.findViewById(R.id.priority);
+		date = (TextView) rootView.findViewById(R.id.crime_date);
 		status = (TextView) rootView.findViewById(R.id.status);
 		description = (TextView) rootView.findViewById(R.id.description);
 	}
@@ -81,8 +83,8 @@ public class CaseFragment extends Fragment {
 	private void fillTextfields() {
 		crimeClassification.setText(String.valueOf(selectedCase
 				.getClassificationTitle(rootView.getContext())));
-		commander.setText(Integer.toString(selectedCase.getCommander()));
-		location.setText(selectedCase.getLocation());
+		author.setText(Integer.toString(selectedCase.getAuthor()));
+		priority.setText(Short.toString(selectedCase.getPriority()));
 		date.setText(selectedCase.getTimeOfCrime().toString());
 		status.setText(selectedCase.getStatus().toString());
 		description.setText(selectedCase.getDescription());
@@ -117,7 +119,6 @@ public class CaseFragment extends Fragment {
 		case R.id.video_camera_actionbar_button:
 			if (hasCamera() && hasExternalStorage()) {
 				intent = new Intent(getActivity(), CameraActivity.class);
-				// TODO: Change crime classification to case id.
 				intent.putExtra("SELECTED_CASE_ID",
 						selectedCase.getLocalCaseID());
 				intent.putExtra("SELECTED_MODE", 2);

@@ -22,6 +22,15 @@ public class EditCaseFragment extends Fragment {
 	private Case	selectedCase;
 	private View	rootView;
 
+	EditText classification;
+	EditText priority;
+	Spinner status ;
+
+	EditText description;
+	CalendarView calendar;
+
+
+
 	public EditCaseFragment() {
 		// Empty constructor required for fragment subclasses
 	}
@@ -30,15 +39,34 @@ public class EditCaseFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		selectedCase = ((MainActivity) getActivity()).getSelectedCase();
-		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
+		rootView = inflater.inflate(R.layout.fragment_add_case, container,
 				false);
 		getActivity().setTitle("Redigera ärende");
 		setUpLowLevelFragment();
 
 		setupStatusSpinner(rootView);
+
+		setupFields();
 		fillTextFieldsWithCurrentCase();
 
 		return rootView;
+	}
+
+	private void setupFields() {
+		classification = (EditText) rootView
+				.findViewById(R.id.classification_add_case);
+
+		priority = (EditText) rootView
+				.findViewById(R.id.priority_add_case);
+
+		status = (Spinner) rootView.findViewById(R.id.spinner_status);
+
+		description = (EditText) rootView
+				.findViewById(R.id.description_add_case);
+
+		calendar = (CalendarView) rootView
+				.findViewById(R.id.crimedate_add_case);
+
 	}
 
 	@Override
@@ -120,24 +148,11 @@ public class EditCaseFragment extends Fragment {
 	 * database.
 	 */
 	private void saveEditedCase() {
-		EditText classification = (EditText) rootView
-				.findViewById(R.id.crime_classification_text_edit);
 		selectedCase.setClassification(Short.valueOf(classification.getText()
 				.toString()));
-		EditText location = (EditText) rootView
-				.findViewById(R.id.location_text_edit);
-		selectedCase.setLocation(location.getText().toString());
-		EditText commander = (EditText) rootView
-				.findViewById(R.id.commander_text_edit);
-		selectedCase.setCommander(Integer.parseInt(commander.getText()
-				.toString()));
-		Spinner status = (Spinner) rootView.findViewById(R.id.spinner_status);
+		selectedCase.setPriority(Short.valueOf(priority.getText().toString()));
 		selectedCase.setStatus((short) status.getSelectedItemPosition());
-		EditText description = (EditText) rootView
-				.findViewById(R.id.description_text_edit);
 		selectedCase.setDescription(description.getText().toString());
-		CalendarView calendar = (CalendarView) rootView
-				.findViewById(R.id.calendarView1);
 		selectedCase.setTimeOfCrime(new Date(calendar.getDate()));
 
 		LocalDBHandler localDBHandler = new LocalDBHandler(getActivity());
@@ -149,23 +164,16 @@ public class EditCaseFragment extends Fragment {
 	 * Fills the textfields with the current case information.
 	 */
 	private void fillTextFieldsWithCurrentCase() {
-		EditText crimeClassification = (EditText) rootView
-				.findViewById(R.id.crime_classification_text_edit);
-		crimeClassification.setText(String.valueOf(selectedCase
+
+		classification.setText(String.valueOf(selectedCase
 				.getClassification()));
-		EditText location = (EditText) rootView
-				.findViewById(R.id.location_text_edit);
-		location.setText(selectedCase.getLocation());
-		EditText commander = (EditText) rootView
-				.findViewById(R.id.commander_text_edit);
-		commander.setText(Integer.toString(selectedCase.getCommander()));
-		Spinner status = (Spinner) rootView.findViewById(R.id.spinner_status);
-		status.setSelection(selectedCase.getStatus());
-		EditText description = (EditText) rootView
-				.findViewById(R.id.description_text_edit);
+
+		priority.setText(Integer.toString(selectedCase.getPriority()));
+
+		status.setSelection(Integer.valueOf(selectedCase.getStatus()));
+
 		description.setText(selectedCase.getDescription());
-		CalendarView calendar = (CalendarView) rootView
-				.findViewById(R.id.calendarView1);
+
 		calendar.setDate(selectedCase.getTimeOfCrime().getTime());
 	}
 

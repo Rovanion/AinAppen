@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 public class AddCaseFragment extends Fragment {
 
-	EditText		crime_classText;
-	EditText		location_Text;
-	EditText		commanderText;
-	CalendarView	dateDate;
-	Spinner			statusText;
-	EditText		descriptionText;
 	View			rootView;
+
+	EditText		classificationField;
+	EditText		descriptionField;
+	EditText		priorityField;
+	Spinner			spinnerField;
+	CalendarView	timeOfCrimeField;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -123,8 +123,7 @@ public class AddCaseFragment extends Fragment {
 	public void makeToast(View v, Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
 				+ caseToBeAdded.getLocalCaseID() + " angående "
-				+ caseToBeAdded.getClassification() + " vid: "
-				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
+				+ caseToBeAdded.getClassification() + " vid: ";
 		Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG).show();
 	}
 
@@ -135,16 +134,15 @@ public class AddCaseFragment extends Fragment {
 		/*
 		 * This part fetches what's input into the GUI
 		 */
-		crime_classText = (EditText) rootView
-				.findViewById(R.id.crime_classification_text_edit);
-		location_Text = (EditText) rootView
-				.findViewById(R.id.location_text_edit);
-		commanderText = (EditText) rootView
-				.findViewById(R.id.commander_text_edit);
-		dateDate = (CalendarView) rootView.findViewById(R.id.calendarView1);
-		statusText = (Spinner) rootView.findViewById(R.id.spinner_status);
-		descriptionText = (EditText) rootView
-				.findViewById(R.id.description_text_edit);
+		classificationField = (EditText) rootView
+				.findViewById(R.id.classification_add_case);
+		timeOfCrimeField = (CalendarView) rootView
+				.findViewById(R.id.crimedate_add_case);
+		spinnerField = (Spinner) rootView.findViewById(R.id.spinner_status);
+		descriptionField = (EditText) rootView
+				.findViewById(R.id.description_add_case);
+		priorityField = (EditText) rootView
+				.findViewById(R.id.priority_add_case);
 	}
 
 	/**
@@ -157,14 +155,28 @@ public class AddCaseFragment extends Fragment {
 	private Case createCaseFromForm() {
 		final GlobalData appData = ((GlobalData) getActivity()
 				.getApplicationContext());
-		// Unique ID for this device
-		int dId = appData.getDeviceID();
-		Case newCase = new Case(dId, 0, Short.valueOf(crime_classText.getText()
-				.toString()), location_Text.getText().toString(),
-				Integer.parseInt(commanderText.getText().toString()), new Date(
-						dateDate.getDate()),
-				(short) statusText.getSelectedItemPosition(), descriptionText
-						.getText().toString());
+
+		// Setting all values except caseID and firstRevisionCaseID which is
+		// generated from ORMLite Autoincrement later.
+
+		// Will be set to 0 then the dadtabase will autoincrement this value
+		// which is what we want.
+		int caseID = 0;
+		int firstRevisionCaseID = 0;
+		int deviceID = appData.getDeviceID();
+		int author = appData.getUser().getUserId();
+		Date modificationDate = new Date();
+		int firstRevisionDeviceID = deviceID;
+		Date deletionTime = null;
+		Short classification = Short.valueOf(classificationField.getText().toString());
+		Short status = (short) spinnerField.getSelectedItemPosition();
+		Short priority = Short.valueOf(priorityField.getText().toString());
+		Float longitude = null;
+		Float latitude = null;
+		Date timeOfCrime = new Date(timeOfCrimeField.getDate());
+		String description = descriptionField.getText().toString();
+
+		Case newCase = new Case(deviceID,caseID,author,modificationDate,firstRevisionCaseID,firstRevisionDeviceID,deletionTime, classification, status,priority,longitude,latitude,timeOfCrime,description);
 		return newCase;
 	}
 

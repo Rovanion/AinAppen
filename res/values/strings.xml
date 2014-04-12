@@ -67,5 +67,8 @@
     <string name="databaseLoginButton">Login(DATABASECHECK)</string>
     <string name="crimeDate">Datum då brott begicks</string>
     <string name="save_case">Spara ärende</string>
+    <string name="priority">Prioritet</string>
+    <string name="author">Skapare</string>
+    
 
 </resources>

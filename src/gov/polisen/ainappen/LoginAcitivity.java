@@ -15,19 +15,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+public class LoginAcitivity extends Activity {
 
-public class LoginAcitivity extends Activity{
-
-	public LoginAcitivity(){
+	public LoginAcitivity() {
 
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_acitivity);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-			.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -37,14 +37,14 @@ public class LoginAcitivity extends Activity{
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText userNameText;
-		EditText passwordText;
-		private Button quickLogButton;
-		private Button databaseLoginButton;
-		View rootView;
-		LoginDBHandler ldh;
+		EditText		userNameText;
+		EditText		passwordText;
+		private Button	quickLogButton;
+		private Button	databaseLoginButton;
+		View			rootView;
+		LoginDBHandler	ldh;
 
-		public PlaceholderFragment(){
+		public PlaceholderFragment() {
 
 		}
 
@@ -59,9 +59,10 @@ public class LoginAcitivity extends Activity{
 			return rootView;
 		}
 
-		public void setupQuickLoginButtonListener(){
-			quickLogButton = (Button) rootView.findViewById(R.id.quickLoginButton);
-			quickLogButton.setOnClickListener( new View.OnClickListener(){
+		public void setupQuickLoginButtonListener() {
+			quickLogButton = (Button) rootView
+					.findViewById(R.id.quickLoginButton);
+			quickLogButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -69,114 +70,121 @@ public class LoginAcitivity extends Activity{
 				}
 			});
 		}
-		public void checkLogin(){
+
+		public void checkLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			makeGlobal();
 			ldh.release();
 			startActivity(intent);
 		}
 
-		public void cheatLogin(){
+		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
-			final GlobalData appData = ((GlobalData)getApplicationContext());
-			appData.setUserID("fuskLog");
+			final GlobalData appData = ((GlobalData) getApplicationContext());
+			appData.setUser(new User(1337, "FuskLog"));
 			ldh.release();
 			startActivity(intent);
 		}
 
-		public void makeGlobal(){
-			final GlobalData appData = ((GlobalData)getApplicationContext());
+		public void makeGlobal() {
+			final GlobalData appData = ((GlobalData) getApplicationContext());
 			Random rnd = new Random();
 			int dId = rnd.nextInt(1000000);
-			appData.setUserID(userNameText.getText().toString());
+			appData.getUser().setUserName((userNameText.getText().toString()));
 			appData.setDeviceID(dId);
 		}
 
-		public void setupLoginToDatabaseButtonListener(){
-			databaseLoginButton = (Button) rootView.findViewById(R.id.database_login_button);
-			databaseLoginButton.setOnClickListener( new View.OnClickListener(){
+		public void setupLoginToDatabaseButtonListener() {
+			databaseLoginButton = (Button) rootView
+					.findViewById(R.id.database_login_button);
+			databaseLoginButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					textFieldSetter();
 					boolean access;
 					access = checkIfCorrect();
-					if(access){
+					if (access) {
 						checkLogin();
-					}
-					else{
+					} else {
 						makeFailedToast();
 					}
 				}
 			});
 		}
-		public void makeFailedToast(){
+
+		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), (CharSequence)toastMessage , Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
+					.show();
 		}
 
-		public void textFieldSetter(){
+		public void textFieldSetter() {
 			userNameText = (EditText) rootView.findViewById(R.id.userIdInput);
 			passwordText = (EditText) rootView.findViewById(R.id.userPassword);
 		}
 
-		public boolean checkIfCorrect(){
+		public boolean checkIfCorrect() {
 			Boolean isCorrect = false;
 			LoginDBHandler ldh = new LoginDBHandler(getActivity());
 			Hasher hs = new Hasher();
 
 			/*
-			 * This part is temporary for creating our (for now) only existing saved user
-			 * in the login database. If such a user already exists, nothing is changed in the database.
+			 * This part is temporary for creating our (for now) only existing
+			 * saved user in the login database. If such a user already exists,
+			 * nothing is changed in the database.
 			 */
 			LoginData tempLogin = new LoginData("polisen");
 			String tempSalt = "henning";
 			tempLogin.setSalt(tempSalt);
 			String tempPassword = "aina";
 
-			//Generate and set hashed password from salt+password
+			// Generate and set hashed password from salt+password
 			String tempHashedPw = null;
 			String noAlgorithmTxt = "Can't login due to no algorithm";
 			try {
-				tempHashedPw = hs.getSHA256Hash(tempSalt+tempPassword);
+				tempHashedPw = hs.getSHA256Hash(tempSalt + tempPassword);
 			} catch (NoSuchAlgorithmException e1) {
-				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
+						.show();
 			}
 			tempLogin.setHashedPassword(tempHashedPw);
 			ldh.makeTempLogin(tempLogin);
 
 			/*
-			 * Check if the username and password are correct! First a LoginData object
-			 * with this information needs to be created.
+			 * Check if the username and password are correct! First a LoginData
+			 * object with this information needs to be created.
 			 */
-			LoginData userData = new LoginData(userNameText.getText().toString());
+			LoginData userData = new LoginData(userNameText.getText()
+					.toString());
 			String userPw = passwordText.getText().toString();
 
-			//Get the SALT used for this user from database!
+			// Get the SALT used for this user from database!
 			String userSalt = ldh.getSalt(userData);
 
 			/**
-			 * TODO: Här vill vi egentligen ansluta till serversidan och se om användaren finns där,
-			 * just nu säger vi bara att det är fel!
+			 * TODO: Här vill vi egentligen ansluta till serversidan och se om
+			 * användaren finns där, just nu säger vi bara att det är fel!
 			 */
-			if(userSalt == null){
+			if (userSalt == null) {
 				Thread.yield();
 				return isCorrect;
-			}
-			else{
-				//Set the salt in our user object
+			} else {
+				// Set the salt in our user object
 				userData.setSalt(userSalt);
-				//generate the hash from salt + the password the user entered
+				// generate the hash from salt + the password the user entered
 				String userHashedPw = null;
 				try {
-					userHashedPw = hs.getSHA256Hash(userSalt+userPw);
+					userHashedPw = hs.getSHA256Hash(userSalt + userPw);
 				} catch (NoSuchAlgorithmException e) {
-					Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), noAlgorithmTxt,
+							Toast.LENGTH_LONG).show();
 				}
 
 				userData.setHashedPassword(userHashedPw);
 
-				//Compare if username and hashed password matches what's in the database
+				// Compare if username and hashed password matches what's in the
+				// database
 				isCorrect = ldh.loginAuthenticity(userData);
 				return isCorrect;
 			}
