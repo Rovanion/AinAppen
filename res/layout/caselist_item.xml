@@ -1,9 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:orientation="vertical"
-     android:layout_height="wrap_content" 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+     android:layout_height="match_parent" 
      android:padding="10dp">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp" >
+        
     <TextView
         android:id="@+id/crime_classification"
         android:layout_width="wrap_content"
@@ -11,8 +16,17 @@
         android:textSize="@dimen/case_list_item_font_size" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/case_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    
+    </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/crime_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>

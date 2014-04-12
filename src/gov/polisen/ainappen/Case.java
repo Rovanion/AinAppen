@@ -1,6 +1,10 @@
 package gov.polisen.ainappen;
 
+import java.util.Calendar;
 import java.util.Date;
+
+import android.content.Context;
+import android.content.res.Resources;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -173,6 +177,21 @@ public class Case {
 		return classification;
 	}
 
+	/*
+	 * Getting classification title from string array in strings.xml If
+	 * classification index is outside the known array the title will be set to
+	 * the string with index 0 which is unknown.
+	 */
+	public String getClassificationTitle(Context context) {
+		Resources res = context.getResources();
+		String[] classifications = res.getStringArray(R.array.classifications);
+		int index = Integer.valueOf(getClassification());
+		int lastArrayIndex = classifications.length - 1;
+		if (index > lastArrayIndex || index < 0)
+			index = 0;
+		return classifications[index];
+	}
+
 	public void setClassification(Short classification) {
 		this.classification = classification;
 	}
@@ -246,6 +265,17 @@ public class Case {
 		return timeOfCrime;
 	}
 
+	/*
+	 * Returns the time of crime in short form. Example: "23 Mars"
+	 */
+	public String getShortDateOfCrime() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(timeOfCrime);
+		String shortDate = "" + cal.get(Calendar.DATE) + " "
+				+ getMonthName(cal.get(Calendar.MONTH));
+		return shortDate;
+	}
+
 	public void setTimeOfCrime(Date timeOfCrime) {
 		this.timeOfCrime = timeOfCrime;
 	}
@@ -256,6 +286,63 @@ public class Case {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	private String getMonthName(int monthNumber) {
+		String month = null;
+		switch (monthNumber) {
+		case 0:
+			month = "Januari";
+			break;
+
+		case 1:
+			month = "Februari";
+			break;
+
+		case 2:
+			month = "Mars";
+			break;
+
+		case 3:
+			month = "April";
+			break;
+
+		case 4:
+			month = "Maj";
+			break;
+
+		case 5:
+			month = "Juni";
+			break;
+
+		case 6:
+			month = "Juli";
+			break;
+
+		case 7:
+			month = "Augisti";
+			break;
+
+		case 8:
+			month = "September";
+			break;
+
+		case 9:
+			month = "Oktober";
+			break;
+
+		case 10:
+			month = "November";
+			break;
+
+		case 11:
+			month = "December";
+			break;
+
+		default:
+			break;
+		}
+		return month;
 	}
 
 }

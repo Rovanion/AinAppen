@@ -167,5 +167,4 @@ public class LocalDBHandler {
 				"Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
 		return caseList;
 	}
-
 }
