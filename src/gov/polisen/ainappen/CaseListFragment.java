@@ -64,7 +64,7 @@ public class CaseListFragment extends Fragment {
 		// Fills list with cases from local DB
 		List<Case> caseList = ldbh.getCasesFromDB();
 
-		// Adds some hard coded cases.
+		// Adds some had coded cases.
 		//caseList = ldbh.addDummyCases(caseList);
 
 		// Create list with local cases
