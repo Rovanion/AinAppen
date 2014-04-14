@@ -13,20 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CalendarView;
 
 public class AddCaseFragment extends Fragment {
 
-	EditText crime_classText;
-	EditText location_Text;
-	EditText commanderText;
-	CalendarView dateDate;
-	Spinner statusText;
-	EditText descriptionText;
-	View rootView;
+	EditText		crime_classText;
+	EditText		location_Text;
+	EditText		commanderText;
+	CalendarView	dateDate;
+	Spinner			statusText;
+	EditText		descriptionText;
+	View			rootView;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -113,6 +113,7 @@ public class AddCaseFragment extends Fragment {
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
+	 * @param v
 	 * @param caseToBeAdded
 	 */
 	public void makeToast(Case caseToBeAdded) {
@@ -120,8 +121,7 @@ public class AddCaseFragment extends Fragment {
 				+ caseToBeAdded.getCaseID() + " angående "
 				+ caseToBeAdded.getCrimeClassification() + " vid: "
 				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
-		Toast.makeText(getActivity(), (CharSequence) toastMessage,
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -144,8 +144,9 @@ public class AddCaseFragment extends Fragment {
 	}
 
 	/**
-	 * Uses the global fields defined in the AddCaseFragment to create a case,
-	 * the created case is returned to the calling parent.
+	 * Helpmethod used by setupButtonListener. Uses the global fields defined in
+	 * the AddCaseFragment to create a case, the created case is returned to the
+	 * calling parent.
 	 * 
 	 * @return
 	 */
