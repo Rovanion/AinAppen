@@ -11,22 +11,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CalendarView;
 
 public class AddCaseFragment extends Fragment {
 
-	EditText crime_classText;
-	EditText location_Text;
-	EditText commanderText;
-	CalendarView dateDate;
-	Spinner statusText;
-	EditText descriptionText;
-	View rootView;
+	EditText		crime_classText;
+	EditText		location_Text;
+	EditText		commanderText;
+	CalendarView	dateDate;
+	Spinner			statusText;
+	EditText		descriptionText;
+	View			rootView;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -39,6 +41,7 @@ public class AddCaseFragment extends Fragment {
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
+		setupAddCaseButtonListener();
 
 		setupStatusSpinner(rootView);
 
@@ -110,9 +113,36 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);
 	}
 
+	public void setupAddCaseButtonListener() {
+		Button addCaseButton = (Button) rootView.findViewById(R.id.doneButton);
+		addCaseButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// read from all the textfields in the GUI
+				textFieldSetter();
+				// Create a caseObject from the set fields
+				Case caseToBeAdded = createCaseFromForm();
+				// add the case to database
+				caseToBeAdded = addCaseToDB(caseToBeAdded);
+				// notify the user about successfull commitment
+				makeToast(caseToBeAdded);
+				/*
+				 * Nästa line ser till att vi kommer tillbaka till case-listan
+				 * (från "ärendevyn man per automatik skickas till vid creation)
+				 * när vi trycker bakåt. Detta istället för att komma tillbaka
+				 * till "skapa nytt ärende"-vyn.
+				 */
+				getActivity().getFragmentManager().popBackStack();
+				((MainActivity) getActivity()).gotoCase(v, caseToBeAdded);
+			}
+		});
+	}
+
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
+	 * @param v
 	 * @param caseToBeAdded
 	 */
 	public void makeToast(Case caseToBeAdded) {
@@ -120,8 +150,7 @@ public class AddCaseFragment extends Fragment {
 				+ caseToBeAdded.getCaseID() + " angående "
 				+ caseToBeAdded.getCrimeClassification() + " vid: "
 				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
-		Toast.makeText(getActivity(), (CharSequence) toastMessage,
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -144,8 +173,9 @@ public class AddCaseFragment extends Fragment {
 	}
 
 	/**
-	 * Uses the global fields defined in the AddCaseFragment to create a case,
-	 * the created case is returned to the calling parent.
+	 * Helpmethod used by setupButtonListener. Uses the global fields defined in
+	 * the AddCaseFragment to create a case, the created case is returned to the
+	 * calling parent.
 	 * 
 	 * @return
 	 */

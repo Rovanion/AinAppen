@@ -37,12 +37,12 @@ public class LoginAcitivity extends Activity {
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText userNameText;
-		EditText passwordText;
-		private Button quickLogButton;
-		private Button databaseLoginButton;
-		View rootView;
-		LoginDBHandler ldh;
+		EditText		userNameText;
+		EditText		passwordText;
+		private Button	quickLogButton;
+		private Button	databaseLoginButton;
+		View			rootView;
+		LoginDBHandler	ldh;
 
 		public PlaceholderFragment() {
 
@@ -76,8 +76,6 @@ public class LoginAcitivity extends Activity {
 			makeGlobal();
 			ldh.release();
 			startActivity(intent);
-			// closes LoginActivity
-			finish();
 		}
 
 		public void cheatLogin() {
@@ -95,6 +93,7 @@ public class LoginAcitivity extends Activity {
 			int dId = rnd.nextInt(1000000);
 			appData.setUserID(userNameText.getText().toString());
 			appData.setDeviceID(dId);
+			appData.setPassword(passwordText.getText().toString());
 		}
 
 		public void setupLoginToDatabaseButtonListener() {
@@ -118,8 +117,8 @@ public class LoginAcitivity extends Activity {
 
 		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), (CharSequence) toastMessage,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
+					.show();
 		}
 
 		public void textFieldSetter() {
@@ -137,22 +136,30 @@ public class LoginAcitivity extends Activity {
 			 * saved user in the login database. If such a user already exists,
 			 * nothing is changed in the database.
 			 */
-			LoginData tempLogin = new LoginData("polisen");
-			String tempSalt = "henning";
-			tempLogin.setSalt(tempSalt);
-			String tempPassword = "aina";
+			LoginData tempLogin1 = new LoginData("7001");
+			LoginData tempLogin2 = new LoginData("7002");
+			String tempSalt1 = "henning";
+			String tempSalt2 = "henning2";
+			tempLogin1.setSalt(tempSalt1);
+			tempLogin2.setSalt(tempSalt2);
+			String tempPassword1 = "polisen1";
+			String tempPassword2 = "polisen2";
 
 			// Generate and set hashed password from salt+password
-			String tempHashedPw = null;
+			String tempHashedPw1 = null;
+			String tempHashedPw2 = null;
 			String noAlgorithmTxt = "Can't login due to no algorithm";
 			try {
-				tempHashedPw = hs.getSHA256Hash(tempSalt + tempPassword);
+				tempHashedPw1 = hs.getSHA256Hash(tempSalt1 + tempPassword1);
+				tempHashedPw2 = hs.getSHA256Hash(tempSalt2 + tempPassword2);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
 						.show();
 			}
-			tempLogin.setHashedPassword(tempHashedPw);
-			ldh.makeTempLogin(tempLogin);
+			tempLogin1.setHashedPassword(tempHashedPw1);
+			tempLogin2.setHashedPassword(tempHashedPw2);
+			ldh.makeTempLogin(tempLogin1);
+			ldh.makeTempLogin(tempLogin2);
 
 			/*
 			 * Check if the username and password are correct! First a LoginData
