@@ -11,10 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -41,7 +39,6 @@ public class AddCaseFragment extends Fragment {
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
-		setupAddCaseButtonListener();
 
 		setupStatusSpinner(rootView);
 
@@ -111,32 +108,6 @@ public class AddCaseFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
-	}
-
-	public void setupAddCaseButtonListener() {
-		Button addCaseButton = (Button) rootView.findViewById(R.id.doneButton);
-		addCaseButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// read from all the textfields in the GUI
-				textFieldSetter();
-				// Create a caseObject from the set fields
-				Case caseToBeAdded = createCaseFromForm();
-				// add the case to database
-				caseToBeAdded = addCaseToDB(caseToBeAdded);
-				// notify the user about successfull commitment
-				makeToast(caseToBeAdded);
-				/*
-				 * Nästa line ser till att vi kommer tillbaka till case-listan
-				 * (från "ärendevyn man per automatik skickas till vid creation)
-				 * när vi trycker bakåt. Detta istället för att komma tillbaka
-				 * till "skapa nytt ärende"-vyn.
-				 */
-				getActivity().getFragmentManager().popBackStack();
-				((MainActivity) getActivity()).gotoCase(v, caseToBeAdded);
-			}
-		});
 	}
 
 	/**
