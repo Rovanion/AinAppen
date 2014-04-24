@@ -178,6 +178,8 @@ public class Case {
 		return classifications[index];
 	}
 
+	}
+
 	public void setClassification(Short classification) {
 		this.classification = classification;
 	}
