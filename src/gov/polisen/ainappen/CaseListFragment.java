@@ -71,6 +71,8 @@ public class CaseListFragment extends Fragment {
 		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
 		caseListView.setAdapter(adapter);
 
+
+
 		// Add new cases from external DB if there are new ones.
 
 		int loggedInUserId = appData.getUser().getUserId();
@@ -78,11 +80,8 @@ public class CaseListFragment extends Fragment {
 		// Until we get proper user ids.
 		loggedInUserId = 1;
 
-		ExternalDBHandeler eh = new ExternalDBHandeler();
-		caseList = eh.getCasesFromDB(caseList, loggedInUserId);
-
-		adapter = new CaseListAdapter(getActivity(), caseList);
-		caseListView.setAdapter(adapter);
+		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
+		eh.getCasesFromDB(caseList, loggedInUserId, caseListView);
 
 		// Releases local db helper. Important when finished.
 		ldbh.release();
