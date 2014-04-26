@@ -1,6 +1,7 @@
 package gov.polisen.ainappen;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -92,6 +93,25 @@ public class LocalDBHandler {
 		return newCase;
 	}
 
+
+	/*
+	 * Put Case from external DB to local DB
+	 */
+	public Case addExistingCase(Case existingCase){
+		// Create the necessary RuntimeExceptionDao's, one for each type of
+		// object to be stored
+		RuntimeExceptionDao<Case, String> caseDao = dbHelper
+				.getCaseRuntimeExceptionDao();
+
+		// Put the data into database
+		caseDao.create(existingCase);
+		String lastEntryID = existingCase.getLocalCaseID();
+		existingCase = caseDao.queryForId(lastEntryID);
+		// Runtime exception Daos are important to set to null.
+		caseDao = null;
+		return existingCase;
+	}
+
 	/**
 	 * Updates values of a case in the database.
 	 * 
@@ -117,6 +137,7 @@ public class LocalDBHandler {
 			updateBuilder.updateColumnValue("status", editedCase.getStatus());
 			updateBuilder.updateColumnValue("description",
 					editedCase.getDescription());
+			updateBuilder.updateColumnValue("modificationTime", new Date());
 			updateBuilder.update();
 		} catch (SQLException e) {
 			Log.d("failed to add to database", "failed to add to database");
@@ -131,6 +152,13 @@ public class LocalDBHandler {
 		List<Case> caseList = caseDao.queryForAll();
 		caseDao = null;
 		return caseList;
+	}
+
+	public void removeCaseFromDB(Case caseToRemove){
+		RuntimeExceptionDao<Case, String> caseDao = dbHelper
+				.getCaseRuntimeExceptionDao();
+		caseDao.delete(caseToRemove);
+		caseDao = null;
 	}
 
 	public int getUserId(String username) {

@@ -188,6 +188,7 @@ public class AddCaseFragment extends Fragment {
 		Case returnCase;
 		LocalDBHandler lh = new LocalDBHandler(getActivity());
 		returnCase = lh.addNewCaseToDB(newCase);
+		lh.release();
 		return returnCase;
 	}
 }

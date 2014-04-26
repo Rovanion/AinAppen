@@ -64,27 +64,22 @@ public class CaseListFragment extends Fragment {
 		// Fills list with cases from local DB
 		List<Case> caseList = ldbh.getCasesFromDB();
 
-		// Adds some had coded cases.
-		//caseList = ldbh.addDummyCases(caseList);
-
 		// Create list with local cases
 		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
 		caseListView.setAdapter(adapter);
 
-
-
-		// Add new cases from external DB if there are new ones.
+		// Releases local db helper. Important when finished.
+		ldbh.release();
 
 		int loggedInUserId = appData.getUser().getUserId();
 
 		// Until we get proper user ids.
 		loggedInUserId = 1;
 
+		// 1. Updates local db with external cases
+		// 2. Updats listview
 		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
-		eh.getCasesFromDB(caseList, loggedInUserId, caseListView);
-
-		// Releases local db helper. Important when finished.
-		ldbh.release();
+		eh.syncDatabases(caseList, loggedInUserId, caseListView);
 	}
 
 	/*
