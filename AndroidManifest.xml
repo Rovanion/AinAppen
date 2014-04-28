@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapFragment"
+        <activity android:name=".MapActivity"
             android:label="@string/map" >
         </activity>
     </application>

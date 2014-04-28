@@ -39,12 +39,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private RuntimeExceptionDao<Case, String>		caseRuntimeDao		= null;
 	private RuntimeExceptionDao<Contact, Integer>	contactRuntimeDao	= null;
-	private RuntimeExceptionDao<LocalID, Integer>	localIdRuntimeDao	= null;
-	private RuntimeExceptionDao<LocalID, Integer> localCaseIdRuntimeDao = null;
+	private RuntimeExceptionDao<LocalID, Integer>	localCaseIdRuntimeDao	= null;
 	private RuntimeExceptionDao<MapPoint, String> mapPointRuntimeDao = null;
 	private RuntimeExceptionDao<User, Integer>		userRuntimeDao		= null;
 	private RuntimeExceptionDao<LocalMapPointID, Integer> localMapPointIdRuntimeDao = null;
-camelCase
+	private RuntimeExceptionDao<LocalID, Integer>	localIdRuntimeDao	= null;
+
+
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -142,5 +143,26 @@ camelCase
 			localMapPointIdRuntimeDao = getRuntimeExceptionDao(LocalMapPointID.class);
 		}
 		return localMapPointIdRuntimeDao;
+	}
+	public Dao<User, Integer> getUserDao() throws SQLException {
+		if (userDao == null) {
+			userDao = getDao(User.class);
+		}
+		return userDao;
+	}
+
+	public RuntimeExceptionDao<User, Integer> getUserRuntimeExceptionDao() {
+		if (userRuntimeDao == null) {
+			userRuntimeDao = getRuntimeExceptionDao(User.class);
+		}
+		return userRuntimeDao;
+	}
+
+
+	public RuntimeExceptionDao<LocalID, Integer> getLocalIdRuntimeExceptionDao() {
+		if (localIdRuntimeDao == null) {
+			localIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
+		}
+		return localIdRuntimeDao;
 	}
 }

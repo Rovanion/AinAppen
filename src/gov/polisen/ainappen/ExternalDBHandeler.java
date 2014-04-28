@@ -85,28 +85,30 @@ public class ExternalDBHandeler{
 
 		@Override
 		protected void onPostExecute(String result) {
+			if (result != null){
 
-			// Converting json to list of case objects
-			String camelCasedJson = camelCase(result);
-			List<Case> externalCaseList = new Gson().fromJson(camelCasedJson, new TypeToken<List<Case>>() {}.getType());
+				// Converting json to list of case objects
+				String camelCasedJson = camelCase(result);
+				List<Case> externalCaseList = new Gson().fromJson(camelCasedJson, new TypeToken<List<Case>>() {}.getType());
 
-			// Example case on server doesn't contain every field
-			externalCaseList = addMissedFields(externalCaseList);
+				// Example case on server doesn't contain every field
+				externalCaseList = addMissedFields(externalCaseList);
 
-			// Do the actual syncing
-			List<Case> mergedCaseList = syncWithLocalDB(externalCaseList);
+				// Do the actual syncing
+				List<Case> mergedCaseList = syncWithLocalDB(externalCaseList);
 
-			// Updates listview
-			if (caseListView != null) {
-				updateListView(mergedCaseList);
+				// Updates listview
+				if (caseListView != null) {
+					updateListView(mergedCaseList);
+				}
+
+				showToast("Synced with external DB.");
 			}
-
-			showToast("Synced with external DB.");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {
 
-			// Gets alla local cases from local database
+			// Gets all local cases from local database
 			LocalDBHandler ldbh = new LocalDBHandler(rootview);
 			List<Case> localCaseList = ldbh.getCasesFromDB();
 

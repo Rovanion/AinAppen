@@ -35,7 +35,7 @@ public class AddCaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
+		rootView = inflater.inflate(R.layout.fragment_add_case, container,
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
@@ -111,7 +111,6 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);
 	}
 
-				 * till "skapa nytt ärende"-vyn.
 
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
@@ -121,9 +120,8 @@ public class AddCaseFragment extends Fragment {
 	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
 				+ caseToBeAdded.getCaseID() + " angående "
-				+ caseToBeAdded.getCrimeClassification() + " vid: "
-				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
-		Toast.makeText(getActivity(), (CharSequence) toastMessage,
+				+ caseToBeAdded.getClassification();
+		Toast.makeText(getActivity(), toastMessage,
 				Toast.LENGTH_LONG).show();
 	}
 
@@ -139,7 +137,7 @@ public class AddCaseFragment extends Fragment {
 		timeOfCrimeField = (CalendarView) rootView
 				.findViewById(R.id.crimedate_add_case);
 		spinnerField = (Spinner) rootView.findViewById(R.id.spinner_status);
-		descriptionField = (EditText) rootViewcamelCase
+		descriptionField = (EditText) rootView
 				.findViewById(R.id.description_add_case);
 		priorityField = (EditText) rootView
 				.findViewById(R.id.priority_add_case);

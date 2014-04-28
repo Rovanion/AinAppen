@@ -18,7 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MapFragment extends Activity implements LocationListener {
+public class MapActivity extends Activity implements LocationListener {
 
 	String									PROVIDER						= LocationManager.GPS_PROVIDER;
 
