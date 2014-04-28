@@ -2,15 +2,17 @@ package gov.polisen.ainappen;
 
 import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,11 +35,10 @@ public class AddCaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_add_case, container,
+		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
-		setupAddCaseButtonListener();
 
 		setupStatusSpinner(rootView);
 
@@ -51,12 +52,35 @@ public class AddCaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			// called when the up affordance/carat in actionbar is pressed
-			getActivity().onBackPressed();
+			//called when the up affordance/carat in actionbar is pressed
+			showSaveOptionsPopUp();
 
+			return true;
+		case R.id.saveeditcase_item:
+			saveEditedCase();
+			getActivity().onBackPressed();
 			return true;
 		}
 		return false;
+	}
+
+	private void saveEditedCase() {
+		// read from all the textfields in the GUI
+		textFieldSetter();
+		// Create a caseObject from the set fields
+		Case caseToBeAdded = createCaseFromForm();
+		// add the case to database
+		caseToBeAdded = addCaseToDB(caseToBeAdded);
+		// notify the user about successfull commitment
+		makeToast(caseToBeAdded);
+		/*
+		 * Nästa line ser till att vi kommer tillbaka till case-listan (från
+		 * "ärendevyn man per automatik skickas till vid creation) när vi
+		 * trycker bakåt. Detta istället för att komma tillbaka till
+		 * "skapa nytt ärende"-vyn.
+		 */
+		getActivity().getFragmentManager().popBackStack();
+		((MainActivity) getActivity()).gotoCase(rootView, caseToBeAdded);
 	}
 
 	/*
@@ -87,44 +111,20 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);
 	}
 
-	public void setupAddCaseButtonListener() {
-		Button addCaseButton = (Button) rootView
-				.findViewById(R.id.addCaseButton);
-		addCaseButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// read from all the textfields in the GUI
-				textFieldSetter();
-				// Create a caseObject from the set fields
-				Case caseToBeAdded = createCaseFromForm();
-				// add the case to database
-				caseToBeAdded = addCaseToDB(caseToBeAdded);
-				// notify the user about successfull commitment
-				makeToast(v, caseToBeAdded);
-				/*
-				 * Nästa line ser till att vi kommer tillbaka till case-listan
-				 * (från "ärendevyn man per automatik skickas till vid creation)
-				 * när vi trycker bakåt. Detta istället för att komma tillbaka
 				 * till "skapa nytt ärende"-vyn.
-				 */
-				getActivity().getFragmentManager().popBackStack();
-				((MainActivity) getActivity()).gotoCase(v, caseToBeAdded);
-			}
-		});
-	}
 
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
-	 * @param v
 	 * @param caseToBeAdded
 	 */
-	public void makeToast(View v, Case caseToBeAdded) {
+	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
-				+ caseToBeAdded.getLocalCaseID() + " angående "
-				+ caseToBeAdded.getClassification() + " vid: ";
-		Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG).show();
+				+ caseToBeAdded.getCaseID() + " angående "
+				+ caseToBeAdded.getCrimeClassification() + " vid: "
+				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
+		Toast.makeText(getActivity(), (CharSequence) toastMessage,
+				Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -139,23 +139,23 @@ public class AddCaseFragment extends Fragment {
 		timeOfCrimeField = (CalendarView) rootView
 				.findViewById(R.id.crimedate_add_case);
 		spinnerField = (Spinner) rootView.findViewById(R.id.spinner_status);
-		descriptionField = (EditText) rootView
+		descriptionField = (EditText) rootViewcamelCase
 				.findViewById(R.id.description_add_case);
 		priorityField = (EditText) rootView
 				.findViewById(R.id.priority_add_case);
 	}
 
 	/**
-	 * Helpmethod used by setupButtonListener. Uses the global fields defined in
-	 * the AddCaseFragment to create a case, the created case is returned to the
-	 * calling parent.
+	 * Uses the global fields defined in the AddCaseFragment to create a case,
+	 * the created case is returned to the calling parent.
+	 * 
 	 * 
 	 * @return
 	 */
 	private Case createCaseFromForm() {
 		final GlobalData appData = ((GlobalData) getActivity()
 				.getApplicationContext());
-
+		// Unique ID for this device
 		// Setting all values except caseID and firstRevisionCaseID which is
 		// generated from ORMLite Autoincrement later.
 
@@ -190,5 +190,38 @@ public class AddCaseFragment extends Fragment {
 		returnCase = lh.addNewCaseToDB(newCase);
 		lh.release();
 		return returnCase;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// adds save button in action barcamelCase
+		inflater.inflate(R.menu.actionbar_fragment_save_editcase, menu);
+	}
+
+	/**
+	 * Shows a popup where the user can choose if wanting to save changes or
+	 * not,
+	 */
+	private void showSaveOptionsPopUp() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage("Vill du spara dina ändringar?");
+		builder.setCancelable(true);
+		builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				saveEditedCase();
+				getActivity().onBackPressed();
+			}
+		});
+		builder.setNegativeButton("Nej", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				getActivity().onBackPressed();
+			}
+		});
+		AlertDialog alert11 = builder.create();
+		alert11.show();
 	}
 }

@@ -1,0 +1,20 @@
+#
+# generated on 2014/04/10 02:07:59
+#
+# --table-start--
+dataClass=gov.polisen.ainappen.LoginData
+tableName=logindata
+# --table-fields-start--
+# --field-start--
+fieldName=userName
+id=true
+# --field-end--
+# --field-start--
+fieldName=hashedPassword
+# --field-end--
+# --field-start--
+fieldName=salt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

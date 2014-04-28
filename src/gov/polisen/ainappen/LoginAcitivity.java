@@ -76,6 +76,8 @@ public class LoginAcitivity extends Activity {
 			makeGlobal();
 			ldh.release();
 			startActivity(intent);
+			// closes LoginActivity
+			finish();
 		}
 
 		public void cheatLogin() {
@@ -84,6 +86,7 @@ public class LoginAcitivity extends Activity {
 			appData.setUser(new User(1337, "FuskLog"));
 			ldh.release();
 			startActivity(intent);
+			finish();
 		}
 
 		public void makeGlobal() {
@@ -115,8 +118,8 @@ public class LoginAcitivity extends Activity {
 
 		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getActivity(), (CharSequence) toastMessage,
+					Toast.LENGTH_LONG).show();
 		}
 
 		public void textFieldSetter() {

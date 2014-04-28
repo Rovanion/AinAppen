@@ -3,8 +3,10 @@ package gov.polisen.ainappen;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,12 +20,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout			mDrawerLayout;
-	private ListView				mDrawerList;
+	private DrawerLayout					mDrawerLayout;
+	private ListView							mDrawerList;
 	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case					selectedCase;
+	private Case									selectedCase;
 
-	private String[]				mMenuOptions;
+	private String[]							mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class MainActivity extends Activity {
 
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
+		mDrawerLayout
+				.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, mMenuOptions));
@@ -108,8 +110,7 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -151,8 +152,12 @@ public class MainActivity extends Activity {
 			gotoFragment(new CaseListFragment());
 			break; // Case
 		case 1:
-			gotoFragment(new MapFragment());
-			break; // Map
+			if (hasExternalStorage() == true) {
+				Intent a = new Intent(getBaseContext(), MapFragment.class);
+				startActivity(a);
+				break; // Map
+			}
+
 		case 2:
 			gotoFragment(new ContactListFragment());
 			break; // Contacts
@@ -171,6 +176,14 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
+	private boolean hasExternalStorage() {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state))
+			return true;
+		else
+			return false;
+	}
+
 	public void gotoPlayVideo(View view, String videoPath) {
 		Bundle bundle = new Bundle();
 		bundle.putString("videoPath", videoPath);
@@ -184,6 +197,11 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new AddContactFragment());
 	}
 
+	public void gotoMap(View view) {
+		Intent intent = new Intent(MainActivity.this, MapFragment.class);
+		startActivity(intent);
+	}
+
 	public void gotoCase(View view, Case selectedCase) {
 		this.selectedCase = selectedCase;
 		gotoLowLevelFragment(new CaseFragment());
@@ -191,8 +209,8 @@ public class MainActivity extends Activity {
 
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
+				.commit();
 	}
 
 	public void gotoEditCase(View view) {
@@ -204,9 +222,8 @@ public class MainActivity extends Activity {
 		FragmentManager fragmentManager = getFragmentManager();
 		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).addToBackStack(null)
-				.commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
+				.addToBackStack(null).commit();
 	}
 
 	@Override
@@ -237,9 +254,9 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.getUser().getUsername() != null) {
-			Toast.makeText(
-					this,
+		if (appData.getUserID() != null) {
+			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(),
+					Toast.LENGTH_LONG).show();
 					"Inloggad som användare: "
 							+ appData.getUser().getUsername(),
 					Toast.LENGTH_LONG).show();
