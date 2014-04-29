@@ -202,9 +202,13 @@ public class AddCaseFragment extends Fragment {
 	}
 
 	private void addCaseToServer(Case newCase) {
+		// Get the adress to the server
+		final GlobalData appData = ((GlobalData) getActivity()
+				.getApplicationContext());
+		String url = appData.getServerAdress();
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost("http://www.polisen.se/case");
+		HttpPost httppost = new HttpPost(url+"/case");
 
 		try {
 			// convert newCase into JSON object
@@ -216,7 +220,7 @@ public class AddCaseFragment extends Fragment {
 
 			// Execute HTTP Post Request
 			HttpResponse response = httpclient.execute(httppost);
-			
+			Log.d("HTTPRESPONSE", response.toString());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 		} catch (IOException e) {
