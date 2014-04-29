@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.Contact;
+
 import java.util.List;
 
 import android.content.Context;

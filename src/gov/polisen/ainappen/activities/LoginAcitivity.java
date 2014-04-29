@@ -1,4 +1,13 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.activities;
+
+import gov.polisen.ainappen.GlobalData;
+import gov.polisen.ainappen.Hasher;
+import gov.polisen.ainappen.LoginDBHandler;
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.orm.LoginData;
+import gov.polisen.ainappen.orm.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;

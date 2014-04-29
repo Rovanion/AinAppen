@@ -1,4 +1,7 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.orm;
+
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.array;
 
 import java.util.Calendar;
 import java.util.Date;

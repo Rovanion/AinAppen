@@ -1,5 +1,9 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.fragments;
 
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.activities.MainActivity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.DisplayMetrics;

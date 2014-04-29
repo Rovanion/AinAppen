@@ -1,4 +1,12 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.fragments;
+
+import gov.polisen.ainappen.ContactListAdapter;
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.R.menu;
+import gov.polisen.ainappen.activities.MainActivity;
+import gov.polisen.ainappen.orm.Contact;
 
 import java.util.ArrayList;
 import java.util.List;

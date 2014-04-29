@@ -1,4 +1,4 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.orm;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

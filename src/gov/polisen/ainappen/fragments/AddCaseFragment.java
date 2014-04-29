@@ -1,4 +1,14 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.fragments;
+
+import gov.polisen.ainappen.GlobalData;
+import gov.polisen.ainappen.LocalDBHandler;
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.array;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.R.menu;
+import gov.polisen.ainappen.activities.MainActivity;
+import gov.polisen.ainappen.orm.Case;
 
 import java.util.Date;
 

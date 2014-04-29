@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.LoginData;
+
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 

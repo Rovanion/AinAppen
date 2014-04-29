@@ -1,5 +1,22 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.activities;
 
+import gov.polisen.ainappen.GlobalData;
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.array;
+import gov.polisen.ainappen.R.drawable;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.R.menu;
+import gov.polisen.ainappen.R.string;
+import gov.polisen.ainappen.fragments.AddCaseFragment;
+import gov.polisen.ainappen.fragments.AddContactFragment;
+import gov.polisen.ainappen.fragments.CaseFragment;
+import gov.polisen.ainappen.fragments.CaseListFragment;
+import gov.polisen.ainappen.fragments.ContactListFragment;
+import gov.polisen.ainappen.fragments.EditCaseFragment;
+import gov.polisen.ainappen.fragments.InformationFragment;
+import gov.polisen.ainappen.fragments.VideoFragment;
+import gov.polisen.ainappen.orm.Case;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;

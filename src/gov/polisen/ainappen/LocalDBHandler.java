@@ -1,5 +1,9 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.Case;
+import gov.polisen.ainappen.orm.LocalID;
+import gov.polisen.ainappen.orm.User;
+
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;

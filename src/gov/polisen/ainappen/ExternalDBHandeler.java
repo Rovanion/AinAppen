@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.Case;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

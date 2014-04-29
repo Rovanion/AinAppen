@@ -1,4 +1,9 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.activities;
+
+import gov.polisen.ainappen.R;
+import gov.polisen.ainappen.R.id;
+import gov.polisen.ainappen.R.layout;
+import gov.polisen.ainappen.R.menu;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

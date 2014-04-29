@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.User;
 import android.app.Application;
 
 public class GlobalData extends Application {

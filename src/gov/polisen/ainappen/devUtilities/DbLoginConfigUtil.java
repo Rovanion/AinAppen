@@ -1,4 +1,6 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.devUtilities;
+
+import gov.polisen.ainappen.orm.LoginData;
 
 import java.io.IOException;
 import java.sql.SQLException;

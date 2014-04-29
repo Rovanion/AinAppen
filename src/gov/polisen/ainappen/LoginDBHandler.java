@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.orm.LoginData;
 import android.content.Context;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
