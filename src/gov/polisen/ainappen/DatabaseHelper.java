@@ -32,14 +32,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 */
 	private Dao<Case, String>						caseDao				= null;
 	private Dao<Contact, Integer>					contactDao			= null;
-	private Dao<LocalID, Integer> localCaseIdDao = null;
 	private Dao<MapPoint, String> mapPointDao = null;
-	private Dao<LocalMapPointID,Integer> localMapPointIdDao = null;
 	private Dao<User, Integer>						userDao				= null;
+	private Dao<LocalMapPointID,Integer> localMapPointIdDao = null;
+	private Dao<LocalID, Integer> localIdDao = null;
 
 	private RuntimeExceptionDao<Case, String>		caseRuntimeDao		= null;
 	private RuntimeExceptionDao<Contact, Integer>	contactRuntimeDao	= null;
-	private RuntimeExceptionDao<LocalID, Integer>	localCaseIdRuntimeDao	= null;
 	private RuntimeExceptionDao<MapPoint, String> mapPointRuntimeDao = null;
 	private RuntimeExceptionDao<User, Integer>		userRuntimeDao		= null;
 	private RuntimeExceptionDao<LocalMapPointID, Integer> localMapPointIdRuntimeDao = null;
@@ -108,17 +107,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 
 	public Dao<LocalID, Integer> getLocalIdDao() throws SQLException {
-		if(localCaseIdDao == null){
-			localCaseIdDao = getDao(LocalID.class);
+		if(localIdDao == null){
+			localIdDao = getDao(LocalID.class);
 		}
-		return localCaseIdDao;
+		return localIdDao;
 	}
 
 	public RuntimeExceptionDao<LocalID, Integer> getLcamelCaseocalIdRuntimeExceptionDao() {
-		if(localCaseIdRuntimeDao == null){
-			localCaseIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
+		if(localIdRuntimeDao == null){
+			localIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
 		}
-		return localCaseIdRuntimeDao;
+		return localIdRuntimeDao;
 	}
 	public Dao<MapPoint, String> getMapPointDao() throws SQLException{
 		if(mapPointDao == null){
