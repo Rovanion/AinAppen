@@ -51,7 +51,6 @@ public class AddCaseFragment extends Fragment {
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
-		setupAddCaseButtonListener();
 
 		setupStatusSpinner(rootView);
 
@@ -81,6 +80,11 @@ public class AddCaseFragment extends Fragment {
 		textFieldSetter();
 		// Create a caseObject from the set fields
 		Case caseToBeAdded = createCaseFromForm();
+		// add the case to the server
+		//addCaseToServer(caseToBeAdded);
+		Gson gson = new Gson();
+		String json = gson.toJson(caseToBeAdded);
+		Log.d("LOOOOOOOOOG", json);
 		// add the case to database
 		caseToBeAdded = addCaseToDB(caseToBeAdded);
 		// notify the user about successfull commitment
@@ -121,38 +125,6 @@ public class AddCaseFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
-	}
-
-	public void setupAddCaseButtonListener() {
-		Button addCaseButton = (Button) rootView
-				.findViewById(R.id.addCaseButton);
-		addCaseButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// read from all the textfields in the GUI
-				textFieldSetter();
-				// Create a caseObject from the set fields
-				Case caseToBeAdded = createCaseFromForm();
-				// add the case to the server
-				//addCaseToServer(caseToBeAdded);
-				Gson gson = new Gson();
-				String json = gson.toJson(caseToBeAdded);
-				Log.d("LOOOOOOOOOG", json);
-				// add the case to database
-				caseToBeAdded = addCaseToDB(caseToBeAdded);
-				// notify the user about successfull commitment
-				makeToast(v, caseToBeAdded);
-				/*
-				 * Nästa line ser till att vi kommer tillbaka till case-listan
-				 * (från "ärendevyn man per automatik skickas till vid creation)
-				 * när vi trycker bakåt. Detta istället för att komma tillbaka
-				 * till "skapa nytt ärende"-vyn.
-				 */
-				getActivity().getFragmentManager().popBackStack();
-				((MainActivity) getActivity()).gotoCase(v, caseToBeAdded);
-			}
-		});
 	}
 
 	/**
@@ -248,6 +220,12 @@ public class AddCaseFragment extends Fragment {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+				getActivity().onBackPressed();
+			}
+		});
+		AlertDialog alert11 = builder.create();
+		alert11.show();
+	}
 	private void addCaseToServer(Case newCase) {
 		// Get the adress to the server
 		final GlobalData appData = ((GlobalData) getActivity()
@@ -273,11 +251,5 @@ public class AddCaseFragment extends Fragment {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 		}
-
-				getActivity().onBackPressed();
-			}
-		});
-		AlertDialog alert11 = builder.create();
-		alert11.show();
-	}
+}
 }
