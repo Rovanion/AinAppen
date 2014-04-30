@@ -31,10 +31,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	 */
 	private Dao<Case, String> caseDao = null;
 	private Dao<Contact, Integer> contactDao = null;
-	private Dao<LocalID, Integer> localIdDao = null;
+	private Dao<LocalID, Integer> localCaseIdDao = null;
+	private Dao<MapPoint, String> mapPointDao = null;
+	private Dao<LocalMapPointID,Integer> localMapPointIdDao = null;
 	private RuntimeExceptionDao<Case, String> caseRuntimeDao = null;
 	private RuntimeExceptionDao<Contact, Integer> contactRuntimeDao = null;
-	private RuntimeExceptionDao<LocalID, Integer> localIdRuntimeDao = null;
+	private RuntimeExceptionDao<LocalID, Integer> localCaseIdRuntimeDao = null;
+	private RuntimeExceptionDao<MapPoint, String> mapPointRuntimeDao = null;
+	private RuntimeExceptionDao<LocalMapPointID, Integer> localMapPointIdRuntimeDao = null;
+
 
 	public DatabaseHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -51,6 +56,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 			TableUtils.createTable(connectionSource, Case.class);
 			TableUtils.createTable(connectionSource, Contact.class);
 			TableUtils.createTable(connectionSource, LocalID.class);
+			TableUtils.createTable(connectionSource, MapPoint.class);
+			TableUtils.createTable(connectionSource, LocalMapPointID.class);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,17 +99,40 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	}
 
 	public Dao<LocalID, Integer> getLocalIdDao() throws SQLException{
-		if(localIdDao == null){
-			localIdDao = getDao(LocalID.class);
+		if(localCaseIdDao == null){
+			localCaseIdDao = getDao(LocalID.class);
 		}
-		return localIdDao;
+		return localCaseIdDao;
 	}
 
 	public RuntimeExceptionDao<LocalID, Integer> getLocalIdRuntimeExceptionDao(){
-		if(localIdRuntimeDao == null){
-			localIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
+		if(localCaseIdRuntimeDao == null){
+			localCaseIdRuntimeDao = getRuntimeExceptionDao(LocalID.class);
 		}
-		return localIdRuntimeDao;
+		return localCaseIdRuntimeDao;
 	}
-
+	public Dao<MapPoint, String> getMapPointDao() throws SQLException{
+		if(mapPointDao == null){
+			mapPointDao = getDao(MapPoint.class);
+		}
+		return mapPointDao;
+	}
+	public RuntimeExceptionDao<MapPoint, String> getMapPointRuntimeExceptionDao(){
+		if(mapPointRuntimeDao == null){
+			mapPointRuntimeDao = getRuntimeExceptionDao(MapPoint.class);
+		}
+		return mapPointRuntimeDao;
+	}
+	public Dao<LocalMapPointID, Integer> getLocalMapPointIdDao() throws SQLException{
+		if(localMapPointIdDao == null){
+			localMapPointIdDao = getDao(LocalMapPointID.class);
+		}
+		return localMapPointIdDao;
+	}
+	public RuntimeExceptionDao<LocalMapPointID, Integer> getLocalMapPointIdRuntimeDao(){
+		if(localMapPointIdRuntimeDao == null){
+			localMapPointIdRuntimeDao = getRuntimeExceptionDao(LocalMapPointID.class);
+		}
+		return localMapPointIdRuntimeDao;
+	}
 }

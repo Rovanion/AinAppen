@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.http.HttpResponse;
+import android.app.AlertDialog;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -13,15 +14,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.google.gson.Gson;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -45,7 +47,7 @@ public class AddCaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_add_case, container,
+		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
@@ -63,12 +65,34 @@ public class AddCaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
-			// called when the up affordance/carat in actionbar is pressed
-			getActivity().onBackPressed();
+			showSaveOptionsPopUp();
 
+			return true;
+		case R.id.saveeditcase_item:
+			saveEditedCase();
+			getActivity().onBackPressed();
 			return true;
 		}
 		return false;
+	}
+
+	private void saveEditedCase() {
+		// read from all the textfields in the GUI
+		textFieldSetter();
+		// Create a caseObject from the set fields
+		Case caseToBeAdded = createCaseFromForm();
+		// add the case to database
+		caseToBeAdded = addCaseToDB(caseToBeAdded);
+		// notify the user about successfull commitment
+		makeToast(caseToBeAdded);
+		/*
+		 * Nästa line ser till att vi kommer tillbaka till case-listan (från
+		 * "ärendevyn man per automatik skickas till vid creation) när vi
+		 * trycker bakåt. Detta istället för att komma tillbaka till
+		 * "skapa nytt ärende"-vyn.
+		 */
+		getActivity().getFragmentManager().popBackStack();
+		((MainActivity) getActivity()).gotoCase(rootView, caseToBeAdded);
 	}
 
 	/*
@@ -134,10 +158,9 @@ public class AddCaseFragment extends Fragment {
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
-	 * @param v
 	 * @param caseToBeAdded
 	 */
-	public void makeToast(View v, Case caseToBeAdded) {
+	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
 				+ caseToBeAdded.getCaseID() + " angående "
 				+ caseToBeAdded.getCrimeClassification() + " vid: "
@@ -166,9 +189,9 @@ public class AddCaseFragment extends Fragment {
 	}
 
 	/**
-	 * Helpmethod used by setupButtonListener. Uses the global fields defined in
-	 * the AddCaseFragment to create a case, the created case is returned to the
-	 * calling parent.
+	 * Uses the global fields defined in the AddCaseFragment to create a case,
+	 * the created case is returned to the calling parent.
+	 * 
 	 * 
 	 * @return
 	 */
@@ -182,8 +205,6 @@ public class AddCaseFragment extends Fragment {
 				Integer.parseInt(commanderText.getText().toString()), new Date(
 						dateDate.getDate()), statusText.getSelectedItem()
 						.toString(), descriptionText.getText().toString());
-		permissions = new UserPermissionsOnCase(dId, newCase.getCaseID(),
-				appData.getUserID(), true, true, true, true);
 		/**
 		 * TODO: Send permissions to the external database.
 		 */
@@ -201,6 +222,32 @@ public class AddCaseFragment extends Fragment {
 		return returnCase;
 	}
 
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// adds save button in action bar
+		inflater.inflate(R.menu.actionbar_fragment_save_editcase, menu);
+	}
+
+	/**
+	 * Shows a popup where the user can choose if wanting to save changes or
+	 * not,
+	 */
+	private void showSaveOptionsPopUp() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage("Vill du spara dina ändringar?");
+		builder.setCancelable(true);
+		builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+				saveEditedCase();
+				getActivity().onBackPressed();
+			}
+		});
+		builder.setNegativeButton("Nej", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
 	private void addCaseToServer(Case newCase) {
 		// Get the adress to the server
 		final GlobalData appData = ((GlobalData) getActivity()
@@ -227,5 +274,10 @@ public class AddCaseFragment extends Fragment {
 			// TODO Auto-generated catch block
 		}
 
+				getActivity().onBackPressed();
+			}
+		});
+		AlertDialog alert11 = builder.create();
+		alert11.show();
 	}
 }
