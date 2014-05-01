@@ -1,4 +1,10 @@
-package gov.polisen.ainappen;
+package gov.polisen.ainappen.runThese;
+
+import gov.polisen.ainappen.Case;
+import gov.polisen.ainappen.Contact;
+import gov.polisen.ainappen.LocalID;
+import gov.polisen.ainappen.LocalMapPointID;
+import gov.polisen.ainappen.MapPoint;
 
 import java.io.IOException;
 import java.sql.SQLException;
