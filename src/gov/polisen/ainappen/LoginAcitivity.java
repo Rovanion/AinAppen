@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,12 @@ public class LoginAcitivity extends Activity {
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText		userNameText;
-		EditText		passwordText;
-		private Button	quickLogButton;
-		private Button	databaseLoginButton;
-		View			rootView;
-		LoginDBHandler	ldh;
+		EditText userNameText;
+		EditText passwordText;
+		private Button quickLogButton;
+		private Button databaseLoginButton;
+		View rootView;
+		LoginDBHandler ldh;
 
 		public PlaceholderFragment() {
 
@@ -91,6 +92,7 @@ public class LoginAcitivity extends Activity {
 
 		public void makeGlobal() {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
+			Log.d("TAG", appData.toString());
 			Random rnd = new Random();
 			int dId = rnd.nextInt(1000000);
 			appData.getUser().setUserName((userNameText.getText().toString()));
@@ -118,8 +120,8 @@ public class LoginAcitivity extends Activity {
 
 		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), (CharSequence) toastMessage,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
+					.show();
 		}
 
 		public void textFieldSetter() {
