@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
 		mDrawerToggle.syncState();
 		Timer myTimer = new Timer();
 		DeviceStatusUpdater myTimerTask = new DeviceStatusUpdater(this);
-		myTimer.scheduleAtFixedRate(myTimerTask, 0, 10000); // (timertask,delay,period)
+		myTimer.scheduleAtFixedRate(myTimerTask, 0, 15000); // (timertask,delay,period)
 	}
 
 	@Override

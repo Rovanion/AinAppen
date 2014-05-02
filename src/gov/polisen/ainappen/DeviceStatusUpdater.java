@@ -22,14 +22,18 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-public class DeviceStatusUpdater extends TimerTask implements LocationListener {
+public class DeviceStatusUpdater extends TimerTask {
 
 	BroadcastReceiver mBatInfoReceiver;
 	Intent batteryStatus;
 	Context context;
 	LocationManager locationManager;
-	private String provider;
+	Location lastLocation;
+	String server = "http://89.160.65.182:1337/";
+	Integer deviceID;
+	String action;
 
 	public DeviceStatusUpdater(Context context) {
 		this.context = context;
@@ -37,7 +41,7 @@ public class DeviceStatusUpdater extends TimerTask implements LocationListener {
 		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 		batteryStatus = context.registerReceiver(null, ifilter);
 		// Set up listener to get gps-position
-		setupLocationListener();
+		SetupGps();
 	}
 
 	@Override
@@ -47,75 +51,64 @@ public class DeviceStatusUpdater extends TimerTask implements LocationListener {
 		Log.d("TAG", "Batteri " + level);
 
 		final GlobalData appData = (GlobalData) context.getApplicationContext();
-		// TODO hårdkodad för testning
-		String server = "http://christian.cyd.liu.se:1337/";
+
 		Integer deviceID = appData.getDeviceID();
 		String action;
+
+		// doesnt do anything if location is unknown
+		if (lastLocation == null) {
+			return;
+		}
+
 		if (deviceID == null) {
 			// TODO Skapa nytt device - returnerar ID
 			action = "newDevice/";
-			new SendDeviceInfo().execute(server + action + "/" + level + "/"
-					+ "long" + "/" + "lat");
+			// new SendDeviceInfo().execute(server + action + "/" + level + "/"
+			// + "long" + "/" + "lat");
 		} else {
+			// TODO ta bort
+			deviceID = 2;
 			// PUT
-			Location loc = getLocation();
+			double longitude = lastLocation.getLongitude();
+			double latitude = lastLocation.getLatitude();
 
-			double longitude, latitude;
-			if (loc != null) {
-				Log.d("TAG", "Location: " + loc.getLatitude());
-				longitude = loc.getLongitude();
-				latitude = loc.getLatitude();
-			} else {
-				// TODO
-				longitude = 1;
-				latitude = 1;
-			}
 			action = "updateDevice/";
 			new SendDeviceInfo().execute(server + action + deviceID + "/"
 					+ level + "/" + longitude + "/" + latitude);
-			Log.d("TAG", "Long: " + longitude);
+			Log.d("TAG", "Lat: " + lastLocation.getLatitude());
+			Log.d("TAG", "Long: " + lastLocation.getLongitude());
 		}
 
 	}
 
-	private void setupLocationListener() {
-		// Get the location manager
-		locationManager = (LocationManager) context
+	private void SetupGps() {
+		// Acquire a reference to the system Location Manager
+		LocationManager locationManager = (LocationManager) context
 				.getSystemService(Context.LOCATION_SERVICE);
-		// Define the criteria how to select the location provider -> use
-		// default
-		Criteria criteria = new Criteria();
-		provider = locationManager.getBestProvider(criteria, false);
-	}
 
-	public Location getLocation() {
-		Location location = locationManager.getLastKnownLocation(provider);
-		return location;
+		// Define a listener that responds to location updates
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				// Called when a new location is found by the network location
+				// provider.
+				lastLocation = location;
+			}
 
-	}
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+			}
 
-	@Override
-	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
+			public void onProviderEnabled(String provider) {
+			}
 
-	}
+			public void onProviderDisabled(String provider) {
+			}
+		};
 
-	@Override
-	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
+		// Register the listener with the Location Manager to receive location
+		// updates
+		locationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 	}
 
 	private class SendDeviceInfo extends AsyncTask<String, Void, String> {
@@ -126,11 +119,20 @@ public class DeviceStatusUpdater extends TimerTask implements LocationListener {
 			// StringBuilder builder = new StringBuilder();
 			HttpClient client = new DefaultHttpClient();
 			HttpPut httpPut = new HttpPut(urls[0]);
+			Log.d("TAG", urls[0]);
+			String ret = "TST";
 
 			try {
+				Log.d("TAG", "1");
 				HttpResponse response = client.execute(httpPut);
+				Log.d("TAG", "2");
 				StatusLine statusLine = response.getStatusLine();
+				Log.d("TAG", "3");
 				int statusCode = statusLine.getStatusCode();
+				ret = String.valueOf(statusCode);
+				Log.d("TAG", "Statuscode: " + statusCode);
+				
+				
 				if (statusCode == 200) {
 
 					// HttpEntity entity = response.getEntity();
@@ -148,56 +150,20 @@ public class DeviceStatusUpdater extends TimerTask implements LocationListener {
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
+				Log.d("TAG", "e1");
 			} catch (IOException e) {
 				e.printStackTrace();
+				Log.d("TAG", "e2");
 			}
 
-			return null;
+			return ret;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null) {
-
-				// Converting json to list of case objects
-				// String camelCasedJson = camelCase(result);
-				// List<Case> externalCaseList = new Gson().fromJson(
-				// camelCasedJson, new TypeToken<List<Case>>() {
-				// }.getType());
-				//
-				// // Example case on server doesn't contain every field
-				// externalCaseList = addMissedFields(externalCaseList);
-				//
-				// // Do the actual syncing
-				// List<Case> mergedCaseList =
-				// syncWithLocalDB(externalCaseList);
-				//
-				// // Updates listview
-				// if (caseListView != null) {
-				// updateListView(mergedCaseList);
-				// }
-				//
-				// showToast("Synced with external DB.");
-			}
-		}
-
-		private String camelCase(String casesJson) {
-			String[][] replacements = {
-					{ "modificationtime", "modificationTime" },
-					{ "firstrevisioncaseid", "firstRevisionCaseId" },
-					{ "firstrevisioncaseid", "firstRevisionCaseId" },
-					{ "deviceid", "deviceID" }, { "caseid", "caseID" },
-					{ "firstrevisioncaseid", "firstRevisionCaseID" },
-					{ "deviceid", "firstrevisiondeviceid" },
-					{ "deviceid", "deletiontime" },
-					{ "deviceid", "timeofcrime" }, };
-
-			// loop over the array and replace
-			String strOutput = casesJson;
-			for (String[] replacement : replacements) {
-				strOutput = strOutput.replace(replacement[0], replacement[1]);
-			}
-			return strOutput;
+			
+				Log.d("TAG", "Result: " + result);
+			
 		}
 
 	}
