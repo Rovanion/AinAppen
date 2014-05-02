@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
 		mDrawerLayout
-				.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, mMenuOptions));
@@ -52,11 +52,11 @@ public class MainActivity extends Activity {
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
-		) {
+				mDrawerLayout, /* DrawerLayout object */
+				R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+				R.string.drawer_open, /* "open drawer" description for accessibility */
+				R.string.drawer_close /* "close drawer" description for accessibility */
+				) {
 			@Override
 			public void onDrawerClosed(View view) {
 				invalidateOptionsMenu(); // creates call to
@@ -153,7 +153,7 @@ public class MainActivity extends Activity {
 			break; // Case
 		case 1:
 			if (hasExternalStorage() == true) {
-				Intent a = new Intent(getBaseContext(), MapFragment.class);
+				Intent a = new Intent(getBaseContext(), MapActivity.class);
 				startActivity(a);
 				break; // Map
 			}
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void gotoMap(View view) {
-		Intent intent = new Intent(MainActivity.this, MapFragment.class);
+		Intent intent = new Intent(MainActivity.this, MapActivity.class);
 		startActivity(intent);
 	}
 
@@ -210,7 +210,7 @@ public class MainActivity extends Activity {
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.commit();
+		.commit();
 	}
 
 	public void gotoEditCase(View view) {
@@ -223,7 +223,7 @@ public class MainActivity extends Activity {
 		disableDrawerIndicator();
 		// addToBackStack because addCase is a lower level fragment
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.addToBackStack(null).commit();
+		.addToBackStack(null).commit();
 	}
 
 	@Override
@@ -254,8 +254,9 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.getUserID() != null) {
-			Toast.makeText(this, "Inloggad som användare: " + appData.getUserID(),
+		if (appData.getUser() != null) {
+			Toast.makeText(this, "Inloggad som användare: "
+					+ appData.getUser().getUsername(),
 					Toast.LENGTH_LONG).show();
 		}
 	}

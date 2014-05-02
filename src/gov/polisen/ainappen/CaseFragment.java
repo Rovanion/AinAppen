@@ -24,16 +24,18 @@ public class CaseFragment extends Fragment {
 		// Empty constructor required for fragment subclasses
 	}
 
-	private Case		selectedCase;
 	private TextView	crimeClassification;
-	private TextView	location;
-	private TextView	commander;
 	private TextView	date;
 	private TextView	status;
 	private TextView	description;
-	private View		rootView;
+	private TextView	priority;
+	private TextView	author;
 
+
+	private View		rootView;
+	private Case		selectedCase;
 	String				foldername;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +43,9 @@ public class CaseFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_case, container, false);
 		setUpLowLevelFragment();
 		this.selectedCase = ((MainActivity) getActivity()).getSelectedCase();
-		getActivity().setTitle(selectedCase.getCrimeClassification());
+		getActivity().setTitle(selectedCase.getLocalCaseID());
 		setHasOptionsMenu(true);
-		foldername = selectedCase.getCrimeClassification();
+		foldername = selectedCase.getLocalCaseID();
 
 		setupComponents();
 		fillTextfields();
@@ -71,19 +73,20 @@ public class CaseFragment extends Fragment {
 	private void setupComponents() {
 		crimeClassification = (TextView) rootView
 				.findViewById(R.id.crime_classification);
-		commander = (TextView) rootView.findViewById(R.id.commander);
-		location = (TextView) rootView.findViewById(R.id.location);
-		date = (TextView) rootView.findViewById(R.id.date);
+		author = (TextView) rootView.findViewById(R.id.author);
+		priority = (TextView) rootView.findViewById(R.id.priority);
+		date = (TextView) rootView.findViewById(R.id.crime_date);
 		status = (TextView) rootView.findViewById(R.id.status);
 		description = (TextView) rootView.findViewById(R.id.description);
 	}
 
 	private void fillTextfields() {
-		crimeClassification.setText(selectedCase.getCrimeClassification());
-		commander.setText(Integer.toString(selectedCase.getCommander()));
-		location.setText(selectedCase.getLocation());
-		date.setText(selectedCase.getDate().toString());
-		status.setText(selectedCase.getStatus());
+		crimeClassification.setText(String.valueOf(selectedCase
+				.getClassificationTitle(rootView.getContext())));
+		author.setText(Integer.toString(selectedCase.getAuthor()));
+		priority.setText(Short.toString(selectedCase.getPriority()));
+		date.setText(selectedCase.getTimeOfCrime().toString());
+		status.setText(selectedCase.getStatus().toString());
 		description.setText(selectedCase.getDescription());
 	}
 
@@ -106,7 +109,7 @@ public class CaseFragment extends Fragment {
 			if (hasCamera() && hasExternalStorage()) {
 				intent = new Intent(getActivity(), CameraActivity.class);
 				intent.putExtra("SELECTED_CASE_ID",
-						selectedCase.getCrimeClassification());
+						selectedCase.getLocalCaseID());
 				intent.putExtra("SELECTED_MODE", 1);
 				startActivity(intent);
 			} else
@@ -116,9 +119,8 @@ public class CaseFragment extends Fragment {
 		case R.id.video_camera_actionbar_button:
 			if (hasCamera() && hasExternalStorage()) {
 				intent = new Intent(getActivity(), CameraActivity.class);
-				// TODO: Change crime classification to case id.
 				intent.putExtra("SELECTED_CASE_ID",
-						selectedCase.getCrimeClassification());
+						selectedCase.getLocalCaseID());
 				intent.putExtra("SELECTED_MODE", 2);
 				startActivity(intent);
 			} else
