@@ -14,7 +14,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,17 +21,18 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DeviceStatusUpdater extends TimerTask {
 
 	BroadcastReceiver mBatInfoReceiver;
+	final GlobalData appData;
 	Intent batteryStatus;
 	Context context;
 	LocationManager locationManager;
 	Location lastLocation;
-	String server = "http://89.160.65.182:1337/";
-	Integer deviceID;
+	// Ändra server här för att testa
+	String server = "http://christian.cyd.liu.se:1337/";
+	int deviceID;
 	String action;
 
 	public DeviceStatusUpdater(Context context) {
@@ -40,6 +40,7 @@ public class DeviceStatusUpdater extends TimerTask {
 		// Set up reciever to get battery level
 		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 		batteryStatus = context.registerReceiver(null, ifilter);
+		appData = (GlobalData) context.getApplicationContext();
 		// Set up listener to get gps-position
 		SetupGps();
 	}
@@ -50,34 +51,24 @@ public class DeviceStatusUpdater extends TimerTask {
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 		Log.d("TAG", "Batteri " + level);
 
-		final GlobalData appData = (GlobalData) context.getApplicationContext();
-
-		Integer deviceID = appData.getDeviceID();
-		String action;
+		deviceID = appData.getDeviceID();
+		deviceID = 2; // TODO för att kunna testa med något som finns i
+						// databasen
 
 		// doesnt do anything if location is unknown
 		if (lastLocation == null) {
 			return;
 		}
 
-		if (deviceID == null) {
-			// TODO Skapa nytt device - returnerar ID
-			action = "newDevice/";
-			// new SendDeviceInfo().execute(server + action + "/" + level + "/"
-			// + "long" + "/" + "lat");
-		} else {
-			// TODO ta bort
-			deviceID = 2;
-			// PUT
-			double longitude = lastLocation.getLongitude();
-			double latitude = lastLocation.getLatitude();
+		// PUT
+		double longitude = lastLocation.getLongitude();
+		double latitude = lastLocation.getLatitude();
 
-			action = "updateDevice/";
-			new SendDeviceInfo().execute(server + action + deviceID + "/"
-					+ level + "/" + longitude + "/" + latitude);
-			Log.d("TAG", "Lat: " + lastLocation.getLatitude());
-			Log.d("TAG", "Long: " + lastLocation.getLongitude());
-		}
+		action = "updateDevice/";
+		new SendDeviceInfo().execute(server + action + deviceID + "/" + level
+				+ "/" + longitude + "/" + latitude);
+		Log.d("TAG", "Lat: " + lastLocation.getLatitude());
+		Log.d("TAG", "Long: " + lastLocation.getLongitude());
 
 	}
 
@@ -88,19 +79,23 @@ public class DeviceStatusUpdater extends TimerTask {
 
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
+			@Override
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
 				lastLocation = location;
 			}
 
+			@Override
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
 			}
 
+			@Override
 			public void onProviderEnabled(String provider) {
 			}
 
+			@Override
 			public void onProviderDisabled(String provider) {
 			}
 		};
@@ -120,40 +115,25 @@ public class DeviceStatusUpdater extends TimerTask {
 			HttpClient client = new DefaultHttpClient();
 			HttpPut httpPut = new HttpPut(urls[0]);
 			Log.d("TAG", urls[0]);
-			String ret = "TST";
+
+			String ret = "";
 
 			try {
-				Log.d("TAG", "1");
+
 				HttpResponse response = client.execute(httpPut);
-				Log.d("TAG", "2");
+
 				StatusLine statusLine = response.getStatusLine();
-				Log.d("TAG", "3");
+
 				int statusCode = statusLine.getStatusCode();
 				ret = String.valueOf(statusCode);
-				Log.d("TAG", "Statuscode: " + statusCode);
-				
-				
-				if (statusCode == 200) {
 
-					// HttpEntity entity = response.getEntity();
-					// InputStream content = entity.getContent();
-					// BufferedReader reader = new BufferedReader(
-					// new InputStreamReader(content));
-					// String line;
-					// while ((line = reader.readLine()) != null) {
-					// builder.append(line);
-					// }
-					//
-					// return builder.toString();
-				} else {
-					// Ev error message
-				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				Log.d("TAG", "e1");
 			} catch (IOException e) {
 				e.printStackTrace();
 				Log.d("TAG", "e2");
+
 			}
 
 			return ret;
@@ -161,9 +141,9 @@ public class DeviceStatusUpdater extends TimerTask {
 
 		@Override
 		protected void onPostExecute(String result) {
-			
-				Log.d("TAG", "Result: " + result);
-			
+
+			Log.d("TAG", "Result: " + result);
+
 		}
 
 	}
