@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,7 +82,9 @@ public class AddCaseFragment extends Fragment {
 		// Create a caseObject from the set fields
 		Case caseToBeAdded = createCaseFromForm();
 		// add the case to the server
-		//addCaseToServer(caseToBeAdded);
+		AddCaseToServer add = new AddCaseToServer();
+		add.execute(caseToBeAdded);
+		
 		Gson gson = new Gson();
 		String json = gson.toJson(caseToBeAdded);
 		Log.d("LOOOOOOOOOG", json);
@@ -226,30 +229,54 @@ public class AddCaseFragment extends Fragment {
 		AlertDialog alert11 = builder.create();
 		alert11.show();
 	}
-	private void addCaseToServer(Case newCase) {
-		// Get the adress to the server
+	
+	private class AddCaseToServer extends AsyncTask<Case, Void, String> {
+
+		@Override
+		protected String doInBackground(Case... cases) {
+		Case newCase = cases[0];
+			
+			// Get the adress to the server
 		final GlobalData appData = ((GlobalData) getActivity()
 				.getApplicationContext());
-		String url = appData.getServerAdress();
-		// Create a new HttpClient and Post Header
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(url+"/case");
-
-		try {
-			// convert newCase into JSON object
-			Gson gson = new Gson();
-			String json = gson.toJson(newCase);
+			String url = appData.getServerAdress();
 			
-			// Sets the post request as the resulting string entity
-			httppost.setEntity(new StringEntity(json));
+			// Create a new HttpClient and Post Header
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(url + "/case");
 
-			// Execute HTTP Post Request
-			HttpResponse response = httpclient.execute(httppost);
-			Log.d("HTTPRESPONSE", response.toString());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			try {
+				// convert newCase into JSON object
+				Gson gson = new Gson();
+				String json = gson.toJson(newCase);
+
+				// Sets the post request as the resulting string entity
+				httppost.setEntity(new StringEntity(json));
+
+				// Execute HTTP Post Request
+				HttpResponse response = httpclient.execute(httppost);
+				Log.d("HTTPRESPONSE", response.toString());
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+			
+			return url;
+			
 		}
-}
+
+		@Override
+		protected void onPostExecute(String result) {
+		
+		}
+
+		
+
+
+
+
+	}
+
+
 }
