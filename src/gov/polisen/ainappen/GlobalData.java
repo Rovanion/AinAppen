@@ -5,6 +5,7 @@ import android.app.Application;
 public class GlobalData extends Application {
 	private User	user;
 	private int		deviceID;
+	private String	password;
 
 	@Override
 	public void onCreate() {
@@ -25,6 +26,14 @@ public class GlobalData extends Application {
 
 	public void setDeviceID(int deviceID) {
 		this.deviceID = deviceID;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
