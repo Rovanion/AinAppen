@@ -9,6 +9,15 @@
         <item>Kontakter</item>
         <item>Information</item>
     </string-array>
+    
+    <string-array name="classifications">
+        <item>Okänt</item>
+        <item>Snatteri</item>
+        <item>Våld mot tjänsteman</item>
+        <item>Helikopterrån</item>
+        <item>Mord</item>
+        <item>Tidelag</item>
+    </string-array>
 
     <string name="camera_actionbar_button">Camera</string>
     <string name="edit_case">Redigera ärende</string>
@@ -37,7 +46,7 @@
     <string name="phone_number">Telefonnummer</string>
     <string name="add_contact">Skapa kontakt</string>
     <string name="done">Klar</string>
-    <string name="incorrectLoginToast">Fel anvÃ¤ndarnamn eller lÃ¶senord!</string>
+    <string name="incorrectLoginToast">Fel användarnamn eller lösenord!</string>
 
     <string-array name="case_status">
         <item>Inrapporterad</item>
@@ -58,5 +67,8 @@
     <string name="databaseLoginButton">Login(DATABASECHECK)</string>
     <string name="crimeDate">Datum då brott begicks</string>
     <string name="save_case">Spara ärende</string>
+    <string name="priority">Prioritet</string>
+    <string name="author">Skapare</string>
+    
 
 </resources>

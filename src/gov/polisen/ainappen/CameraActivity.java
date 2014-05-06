@@ -23,7 +23,7 @@ public class CameraActivity extends Activity {
 	private Uri					fileUri;
 	public static final int		MEDIA_TYPE_IMAGE					= 1;
 	public static final int		MEDIA_TYPE_VIDEO					= 2;
-	private String				selectedCaseId;
+	private String				selectedLocalCaseId;
 	private int					selectedMode;
 
 	@Override
@@ -31,7 +31,7 @@ public class CameraActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
 
-		this.selectedCaseId = getSelectedCaseID();
+		this.selectedLocalCaseId = getSelectedLocalCaseID();
 		this.selectedMode = getSelectedMode();
 
 		if (selectedMode == 1)
@@ -46,7 +46,7 @@ public class CameraActivity extends Activity {
 	private void captureImage() {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE, selectedCaseId);
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE, selectedLocalCaseId);
 
 		if (fileUri != null)
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -58,7 +58,7 @@ public class CameraActivity extends Activity {
 	private void recordVideo() {
 		Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
-		fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO, selectedCaseId);
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO, selectedLocalCaseId);
 
 		// set video quality
 		// 1- for high quality video
@@ -73,7 +73,7 @@ public class CameraActivity extends Activity {
 	// Get the selected caseID included when the Camera activity was started.
 	// If no case is specified (a photo just needs to be taken), null is
 	// returned.
-	private String getSelectedCaseID() {
+	private String getSelectedLocalCaseID() {
 		Bundle extras = getIntent().getExtras();
 		String caseId;
 		if (extras == null) {

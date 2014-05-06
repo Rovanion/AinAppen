@@ -25,21 +25,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.CalendarView;
 
 public class AddCaseFragment extends Fragment {
 
-	EditText crime_classText;
-	EditText location_Text;
-	EditText commanderText;
-	CalendarView dateDate;
-	Spinner statusText;
-	EditText descriptionText;
-	View rootView;
-	UserPermissionsOnCase permissions;
+	View			rootView;
+
+	EditText		classificationField;
+	EditText		descriptionField;
+	EditText		priorityField;
+	Spinner			spinnerField;
+	CalendarView	timeOfCrimeField;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -65,6 +64,7 @@ public class AddCaseFragment extends Fragment {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 
+			//called when the up affordance/carat in actionbar is pressed
 			showSaveOptionsPopUp();
 
 			return true;
@@ -138,9 +138,8 @@ public class AddCaseFragment extends Fragment {
 	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
 				+ caseToBeAdded.getCaseID() + " angående "
-				+ caseToBeAdded.getCrimeClassification() + " vid: "
-				+ caseToBeAdded.getLocation() + " har lagts till i databasen.";
-		Toast.makeText(getActivity(), (CharSequence) toastMessage,
+				+ caseToBeAdded.getClassification();
+		Toast.makeText(getActivity(), toastMessage,
 				Toast.LENGTH_LONG).show();
 	}
 
@@ -151,22 +150,20 @@ public class AddCaseFragment extends Fragment {
 		/*
 		 * This part fetches what's input into the GUI
 		 */
-		crime_classText = (EditText) rootView
-				.findViewById(R.id.crime_classification_text_edit);
-		location_Text = (EditText) rootView
-				.findViewById(R.id.location_text_edit);
-		commanderText = (EditText) rootView
-				.findViewById(R.id.commander_text_edit);
-		dateDate = (CalendarView) rootView.findViewById(R.id.calendarView1);
-		statusText = (Spinner) rootView.findViewById(R.id.spinner_status);
-		descriptionText = (EditText) rootView
-				.findViewById(R.id.description_text_edit);
+		classificationField = (EditText) rootView
+				.findViewById(R.id.classification_add_case);
+		timeOfCrimeField = (CalendarView) rootView
+				.findViewById(R.id.crimedate_add_case);
+		spinnerField = (Spinner) rootView.findViewById(R.id.spinner_status);
+		descriptionField = (EditText) rootView
+				.findViewById(R.id.description_add_case);
+		priorityField = (EditText) rootView
+				.findViewById(R.id.priority_add_case);
 	}
 
 	/**
 	 * Uses the global fields defined in the AddCaseFragment to create a case,
 	 * the created case is returned to the calling parent.
-	 * 
 	 * 
 	 * @return
 	 */
@@ -174,15 +171,27 @@ public class AddCaseFragment extends Fragment {
 		final GlobalData appData = ((GlobalData) getActivity()
 				.getApplicationContext());
 		// Unique ID for this device
-		int dId = appData.getDeviceID();
-		Case newCase = new Case(dId, 0, crime_classText.getText().toString(),
-				location_Text.getText().toString(),
-				Integer.parseInt(commanderText.getText().toString()), new Date(
-						dateDate.getDate()), statusText.getSelectedItem()
-						.toString(), descriptionText.getText().toString());
-		/**
-		 * TODO: Send permissions to the external database.
-		 */
+		// Setting all values except caseID and firstRevisionCaseID which is
+		// generated from ORMLite Autoincrement later.
+
+		// Will be set to 0 then the dadtabase will autoincrement this value
+		// which is what we want.
+		int caseID = 0;
+		int firstRevisionCaseID = 0;
+		int deviceID = appData.getDeviceID();
+		int author = appData.getUser().getUserId();
+		Date modificationDate = new Date();
+		int firstRevisionDeviceID = deviceID;
+		Date deletionTime = null;
+		Short classification = Short.valueOf(classificationField.getText().toString());
+		Short status = (short) spinnerField.getSelectedItemPosition();
+		Short priority = Short.valueOf(priorityField.getText().toString());
+		Float longitude = null;
+		Float latitude = null;
+		Date timeOfCrime = new Date(timeOfCrimeField.getDate());
+		String description = descriptionField.getText().toString();
+
+		Case newCase = new Case(deviceID,caseID,author,modificationDate,firstRevisionCaseID,firstRevisionDeviceID,deletionTime, classification, status,priority,longitude,latitude,timeOfCrime,description);
 		return newCase;
 	}
 
@@ -194,12 +203,13 @@ public class AddCaseFragment extends Fragment {
 		Case returnCase;
 		LocalDBHandler lh = new LocalDBHandler(getActivity());
 		returnCase = lh.addNewCaseToDB(newCase);
+		lh.release();
 		return returnCase;
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// adds save button in action bar
+		// adds save button in action barcamelCase
 		inflater.inflate(R.menu.actionbar_fragment_save_editcase, menu);
 	}
 
