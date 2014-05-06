@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
+
 import java.util.List;
 
 import android.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Fragment that appears in the "content_frame", shows a planet
@@ -21,7 +24,7 @@ public class CaseListFragment extends Fragment {
 
 	private ListView	caseListView;
 	private View		rootView;
-	private GlobalData	appData;
+	private EnergySavingPolicy policy;
 
 	public CaseListFragment() {
 		// Empty constructor required for fragment subclasses
@@ -32,14 +35,16 @@ public class CaseListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_case_list, container,
 				false);
+		policy = new EnergySavingPolicy(rootView);
+
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
 		setUpHighLevelFragment();
-		appData = (GlobalData) getActivity().getApplicationContext();
 
 		setupCaseList();
 		addCaseListListener();
-
+		
+		
 		return rootView;
 	}
 
@@ -71,15 +76,29 @@ public class CaseListFragment extends Fragment {
 		// Releases local db helper. Important when finished.
 		ldbh.release();
 
-		int loggedInUserId = appData.getUser().getUserId();
-
-		// Until we get proper user ids.
-		loggedInUserId = 1;
-
 		// 1. Updates local db with external cases
 		// 2. Updats listview
-		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
-		eh.syncDatabases(caseList, loggedInUserId, caseListView);
+		//		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
+		//		eh.syncDatabases(cuploadPositionaseListView);
+
+		// Applying policy
+
+		
+		
+		Case dummyCase = new Case(0, 0, 0, null, 0, 0, null, null, null, null, null, null, null, "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA ");
+
+		policy.getAlgorithm().syncDatabases(caseListView, false);
+		
+		policy.getAlgorithm().uploadNewCase(dummyCase);
+		
+		policy.getAlgorithm().uploadPosition(new Object());
+
+		policy.getAlgorithm().uploadNewCase(dummyCase);
+		
+		policy.getAlgorithm().syncDatabases(caseListView, false);
+		
+		
+		
 	}
 
 	/*
@@ -110,8 +129,15 @@ public class CaseListFragment extends Fragment {
 			View rootView = item.getActionView();
 			((MainActivity) getActivity()).gotoAddCase(rootView);
 			return true;
+		case R.id.update_case_list:
+			policy.getAlgorithm().syncDatabases(caseListView,true);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public void makeTost(String text){
+		Toast.makeText(rootView.getContext(), text, Toast.LENGTH_LONG).show();
 	}
 }

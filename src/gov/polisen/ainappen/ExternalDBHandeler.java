@@ -15,9 +15,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,16 +32,15 @@ public class ExternalDBHandeler {
 	Context		rootview;
 	List<Case>	externalCaseList;
 
-	public ExternalDBHandeler(Activity activity) {
-		this.rootview = activity;
+	public ExternalDBHandeler(View view) {
+		this.rootview = view.getContext();
 	}
 
 	/*
 	 * 1. Synchronizing external and local databases. 2. Updates Case list view
 	 * if caseListView argument is not null.
 	 */
-	public void syncDatabases(List<Case> localCaseList, int userID,
-			ListView caseListView) {
+	public void syncDatabases(ListView caseListView) {
 		if (caseListView != null)
 			this.caseListView = caseListView;
 		new SyncDB().execute(casesForUser);

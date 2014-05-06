@@ -7,5 +7,12 @@
         android:showAsAction="always"
         android:title="@string/add_new_case">
     </item>
+    
+    <item
+        android:id="@+id/update_case_list"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always"
+        android:title="@string/add_new_case">
+    </item>
 
 </menu>
