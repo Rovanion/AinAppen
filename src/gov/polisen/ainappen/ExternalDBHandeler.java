@@ -24,24 +24,26 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class ExternalDBHandeler{
+public class ExternalDBHandeler {
 
-	String	webserver	= "http://christian.cyd.liu.se";
-	String casesForUser = "http://christian.cyd.liu.se:1337/casesForUser/1";
-	ListView caseListView;
-	Context rootview;
-	List<Case> externalCaseList;
+	String		webserver		= "http://christian.cyd.liu.se";
+	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
+	ListView	caseListView;
+	Context		rootview;
+	List<Case>	externalCaseList;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
 	}
 
 	/*
-	 * 1. Synchronizing external and local databases.
-	 * 2. Updates Case list view if caseListView argument is not null.
+	 * 1. Synchronizing external and local databases. 2. Updates Case list view
+	 * if caseListView argument is not null.
 	 */
-	public void syncDatabases(List<Case> localCaseList, int userID, ListView caseListView) {
-		if (caseListView != null) this.caseListView = caseListView;
+	public void syncDatabases(List<Case> localCaseList, int userID,
+			ListView caseListView) {
+		if (caseListView != null)
+			this.caseListView = caseListView;
 		new SyncDB().execute(casesForUser);
 	}
 
@@ -69,7 +71,6 @@ public class ExternalDBHandeler{
 						builder.append(line);
 					}
 
-
 					return builder.toString();
 				} else {
 					// Ev error message
@@ -85,11 +86,13 @@ public class ExternalDBHandeler{
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null){
+			if (result != null) {
 
 				// Converting json to list of case objects
 				String camelCasedJson = camelCase(result);
-				List<Case> externalCaseList = new Gson().fromJson(camelCasedJson, new TypeToken<List<Case>>() {}.getType());
+				List<Case> externalCaseList = new Gson().fromJson(
+						camelCasedJson, new TypeToken<List<Case>>() {
+						}.getType());
 
 				// Example case on server doesn't contain every field
 				externalCaseList = addMissedFields(externalCaseList);
@@ -122,25 +125,28 @@ public class ExternalDBHandeler{
 				for (Case lCase : localCaseList) {
 					// If a case with same id is found in local DB
 					if (eCase.getCaseID() == lCase.getCaseID()
-							&& eCase.getDeviceID() == lCase.getDeviceID()){
+							&& eCase.getDeviceID() == lCase.getDeviceID()) {
 						exists = true;
 
 						// Update case in local db
-						// if new case found in external db is newer version of local case.
-						if (eCase.getModificationTime().after(lCase.getModificationTime())){
+						// if new case found in external db is newer version of
+						// local case.
+						if (eCase.getModificationTime().after(
+								lCase.getModificationTime())) {
 							ldbh.removeCaseFromDB(lCase);
 							ldbh.addExistingCase(eCase);
 						}
 
 						// Update external db if new case found in external db
-						//is older version of local case.
-						else if (eCase.getModificationTime().before(lCase.getModificationTime())){
+						// is older version of local case.
+						else if (eCase.getModificationTime().before(
+								lCase.getModificationTime())) {
 							// TODO: when post case method exist write this.
 						}
 					}
 				}
 				// If the external case doesnt exist in local DB
-				if (!exists){
+				if (!exists) {
 					ldbh.addExistingCase(eCase);
 					mergedCaseList.add(eCase);
 				}
@@ -151,35 +157,29 @@ public class ExternalDBHandeler{
 
 		public List<Case> addMissedFields(List<Case> caseList) {
 			for (Case c : caseList) {
-				// TimeOfCrime is missing in external database why this temporary solution.
-				if (c.getTimeOfCrime() == null) c.setTimeOfCrime(new Date());
-				if (c.getPriority() == null) c.setPriority((short)1);
+				// TimeOfCrime is missing in external database why this
+				// temporary solution.
+				if (c.getTimeOfCrime() == null)
+					c.setTimeOfCrime(new Date());
+				if (c.getPriority() == null)
+					c.setPriority((short) 1);
 			}
 			return caseList;
 		}
 
-
 		private void updateListView(List<Case> mergedCaseList) {
-			CaseListAdapter adapter = new CaseListAdapter(rootview, mergedCaseList);
+			CaseListAdapter adapter = new CaseListAdapter(rootview,
+					mergedCaseList);
 			caseListView.setAdapter(adapter);
 		}
 
 		private String camelCase(String casesJson) {
-			String[][] replacements = {
-					{"modificationtime", "modificationTime"},
-					{"firstrevisioncaseid", "firstRevisionCaseId"},
-					{"firstrevisioncaseid", "firstRevisionCaseId"},
-					{"deviceid", "deviceID"},
-					{"caseid", "caseID"},
-					{"firstrevisioncaseid", "firstRevisionCaseID"},
-					{"deviceid", "firstrevisiondeviceid"},
-					{"deviceid", "deletiontime"},
-					{"deviceid", "timeofcrime"},
-			};
+			String[][] replacements = { { "deviceId", "deviceID" },
+					{ "caseId", "caseID" }, };
 
-			//loop over the array and replace
+			// loop over the array and replace
 			String strOutput = casesJson;
-			for(String[] replacement: replacements) {
+			for (String[] replacement : replacements) {
 				strOutput = strOutput.replace(replacement[0], replacement[1]);
 			}
 			return strOutput;
@@ -187,9 +187,7 @@ public class ExternalDBHandeler{
 
 	}
 
-	public void showToast(String text){
-		Toast.makeText(rootview, text,
-				Toast.LENGTH_SHORT).show();
+	public void showToast(String text) {
+		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 	}
 }
-
