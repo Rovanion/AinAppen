@@ -14,8 +14,8 @@ public class User {
 		// Needed by ORMLite
 	}
 
-	public User(int userID, String username) {
-		this.userId = userID;
+	public User(int userId, String username) {
+		this.userId = userId;
 		this.username = username;
 	}
 

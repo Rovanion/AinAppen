@@ -14,17 +14,17 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Case {
 
 	@DatabaseField
-	private int		deviceID;
+	private int		deviceId;
 	@DatabaseField
-	private int		caseID;
+	private int		caseId;
 	@DatabaseField
 	private int		author;
 	@DatabaseField
 	private Date	modificationTime;
 	@DatabaseField
-	private int		firstRevisionCaseID;
+	private int		firstRevisionCaseId;
 	@DatabaseField
-	private int		firstRevisionDeviceID;
+	private int		firstRevisionDeviceId;
 	@DatabaseField
 	private Date	deletionTime;
 	@DatabaseField
@@ -42,23 +42,23 @@ public class Case {
 	@DatabaseField
 	private String	description;
 	@DatabaseField(useGetSet = true, id = true)
-	private String	localCaseID;
+	private String	localCaseId;
 
 	public Case() {
 		// Empty constructor needed by ORMLite
 	}
 
-	public Case(int deviceID, int caseID, int author, Date modificationTime,
-			int firstRevisionCaseID, int firstRevisionDeviceID,
+	public Case(int deviceId, int caseId, int author, Date modificationTime,
+			int firstRevisionCaseId, int firstRevisionDeviceId,
 			Date deletionTime, Short classification, Short status,
 			Short priority, Float longitude, Float latitude, Date timeOfCrime,
 			String description) {
-		this.setDeviceID(deviceID);
-		this.setCaseID(caseID);
+		this.setDeviceId(deviceId);
+		this.setCaseId(caseId);
 		this.setAuthor(author);
 		this.setModificationTime(modificationTime);
-		this.setFirstRevisionCaseID(firstRevisionCaseID);
-		this.setFirstRevisionDeviceID(firstRevisionDeviceID);
+		this.setFirstRevisionCaseId(firstRevisionCaseId);
+		this.setFirstRevisionDeviceId(firstRevisionDeviceId);
 		this.setDeletionTime(deletionTime);
 		this.setClassification(classification);
 		this.setStatus(status);
@@ -75,12 +75,12 @@ public class Case {
 			Short classification, Short status, Short priority,
 			Float longitude, Float latitude, Date timeofcrime,
 			String description) {
-		this.deviceID = deviceid;
-		this.caseID = caseid;
+		this.deviceId = deviceid;
+		this.caseId = caseid;
 		this.author = author;
 		this.modificationTime = modificationtime;
-		this.firstRevisionCaseID = firstrevisioncaseid;
-		this.firstRevisionDeviceID = firstrevisiondeviceid;
+		this.firstRevisionCaseId = firstrevisioncaseid;
+		this.firstRevisionDeviceId = firstrevisiondeviceid;
 		this.deletionTime = deletiontime;
 		this.classification = classification;
 		this.status = status;
@@ -93,32 +93,32 @@ public class Case {
 
 	/**
 	 * Needs to look this way because ORMLite uses it to create the artificial
-	 * Primary Key (in this 'case', caseID)
+	 * Primary Key (in this 'case', caseId)
 	 * 
 	 * @return
 	 */
-	public String getLocalCaseID() {
-		return (this.deviceID + "-" + this.caseID);
+	public String getLocalCaseId() {
+		return (this.deviceId + "-" + this.caseId);
 	}
 
-	public void setLocalCaseID(String localCaseID) {
-		this.localCaseID = localCaseID;
+	public void setLocalCaseId(String localCaseId) {
+		this.localCaseId = localCaseId;
 	}
 
-	public int getDeviceID() {
-		return deviceID;
+	public int getDeviceId() {
+		return deviceId;
 	}
 
-	public void setDeviceID(int deviceID) {
-		this.deviceID = deviceID;
+	public void setDeviceId(int deviceId) {
+		this.deviceId = deviceId;
 	}
 
-	public int getCaseID() {
-		return caseID;
+	public int getCaseId() {
+		return caseId;
 	}
 
-	public void setCaseID(int caseID) {
-		this.caseID = caseID;
+	public void setCaseId(int caseId) {
+		this.caseId = caseId;
 	}
 
 	public int getAuthor() {
@@ -137,20 +137,20 @@ public class Case {
 		this.modificationTime = modificationTime;
 	}
 
-	public int getFirstRevisionCaseID() {
-		return firstRevisionCaseID;
+	public int getFirstRevisionCaseId() {
+		return firstRevisionCaseId;
 	}
 
-	public void setFirstRevisionCaseID(int firstRevisionCaseID) {
-		this.firstRevisionCaseID = firstRevisionCaseID;
+	public void setFirstRevisionCaseId(int firstRevisionCaseId) {
+		this.firstRevisionCaseId = firstRevisionCaseId;
 	}
 
-	public int getFirstRevisionDeviceID() {
-		return firstRevisionDeviceID;
+	public int getFirstRevisionDeviceId() {
+		return firstRevisionDeviceId;
 	}
 
-	public void setFirstRevisionDeviceID(int firstRevisionDeviceID) {
-		this.firstRevisionDeviceID = firstRevisionDeviceID;
+	public void setFirstRevisionDeviceId(int firstRevisionDeviceId) {
+		this.firstRevisionDeviceId = firstRevisionDeviceId;
 	}
 
 	public Date getDeletionTime() {

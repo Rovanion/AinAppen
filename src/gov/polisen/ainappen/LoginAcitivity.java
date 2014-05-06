@@ -1,4 +1,4 @@
-package gov.polisen.ainappen;
+	package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -83,7 +83,8 @@ public class LoginAcitivity extends Activity {
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.setUser(new User(1337, "FuskLog"));
+			appData.setUser(new User(1, "FuskLog"));
+			appData.setDeviceID(1); // TODO tabort
 			ldh.release();
 			startActivity(intent);
 			finish();

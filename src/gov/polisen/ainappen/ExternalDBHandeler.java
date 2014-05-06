@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 public class ExternalDBHandeler{
 
 	String	webserver	= "http://christian.cyd.liu.se";
-	String casesForUser = "http://christian.cyd.liu.se:1337/casesForUser/1";
+	String casesForUser = "http://christian.cyd.liu.se:1337/casesForUser/2";
 	ListView caseListView;
 	Context rootview;
 	List<Case> externalCaseList;
@@ -121,8 +121,8 @@ public class ExternalDBHandeler{
 
 				for (Case lCase : localCaseList) {
 					// If a case with same id is found in local DB
-					if (eCase.getCaseID() == lCase.getCaseID()
-							&& eCase.getDeviceID() == lCase.getDeviceID()){
+					if (eCase.getCaseId() == lCase.getCaseId()
+							&& eCase.getDeviceId() == lCase.getDeviceId()){
 						exists = true;
 
 						// Update case in local db

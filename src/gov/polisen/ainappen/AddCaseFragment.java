@@ -82,8 +82,6 @@ public class AddCaseFragment extends Fragment {
 		// Create a caseObject from the set fields
 		Case caseToBeAdded = createCaseFromForm();
 		// add the case to the server
-		AddCaseToServer add = new AddCaseToServer();
-		add.execute(caseToBeAdded);
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(caseToBeAdded);
@@ -92,6 +90,11 @@ public class AddCaseFragment extends Fragment {
 		caseToBeAdded = addCaseToDB(caseToBeAdded);
 		// notify the user about successfull commitment
 		makeToast(caseToBeAdded);
+		
+		// Sends case to server async
+		AddCaseToServer add = new AddCaseToServer();
+		add.execute(caseToBeAdded);
+		
 		/*
 		 * Nästa line ser till att vi kommer tillbaka till case-listan (från
 		 * "ärendevyn man per automatik skickas till vid creation) när vi
@@ -137,7 +140,7 @@ public class AddCaseFragment extends Fragment {
 	 */
 	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
-				+ caseToBeAdded.getCaseID() + " angående "
+				+ caseToBeAdded.getCaseId() + " angående "
 				+ caseToBeAdded.getClassification();
 		Toast.makeText(getActivity(), toastMessage,
 				Toast.LENGTH_LONG).show();
