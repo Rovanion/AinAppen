@@ -1,6 +1,5 @@
 package gov.polisen.ainappen;
 
-import java.sql.Date;
 import java.util.List;
 
 import android.app.Fragment;
@@ -22,6 +21,7 @@ public class CaseListFragment extends Fragment {
 
 	private ListView	caseListView;
 	private View		rootView;
+	private GlobalData	appData;
 
 	public CaseListFragment() {
 		// Empty constructor required for fragment subclasses
@@ -35,6 +35,8 @@ public class CaseListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
 		setUpHighLevelFragment();
+		appData = (GlobalData) getActivity().getApplicationContext();
+
 		setupCaseList();
 		addCaseListListener();
 
@@ -57,27 +59,27 @@ public class CaseListFragment extends Fragment {
 
 	private void setupCaseList() {
 		caseListView = (ListView) rootView.findViewById(R.id.case_list);
-		LocalDBHandler lh = new LocalDBHandler(getActivity());
-		List<Case> caseList = lh.getCasesFromDB();
-		caseList.add(new Case(1337, 1454, "Snatteri", "Hemköp Ryd", 80085, Date
-				.valueOf("2007-12-03"), "asdsa",
-				"Odrägliga ynglingar som snattat choklad på Hemköp."));
-		caseList.add(new Case(1337, 1455, "Helikopterrån", "Pengadepå", 80085,
-				Date.valueOf("2013-12-05"), "Snaasdsadtteri",
-				"Mycket pengar men det kan bli svårt att få vittnen. Familjer hotade."));
-		caseList.add(new Case(1337, 1456, "Tvångsgifte", "Kyrka", 80085, Date
-				.valueOf("2014-01-10"), "Snatteraasdi", "Inte okej."));
-		caseList.add(new Case(
-				1337,
-				1457,
-				"Palmemordet",
-				"Stan",
-				800085,
-				Date.valueOf("1983-10-29"),
-				"asdsadsad",
-				"Det är dags att reda upp det här mordet grabbar. Ta er i kragen och fixa bevis. Deadline imorn."));
+		LocalDBHandler ldbh = new LocalDBHandler(getActivity());
+
+		// Fills list with cases from local DB
+		List<Case> caseList = ldbh.getCasesFromDB();
+
+		// Create list with local cases
 		CaseListAdapter adapter = new CaseListAdapter(getActivity(), caseList);
 		caseListView.setAdapter(adapter);
+
+		// Releases local db helper. Important when finished.
+		ldbh.release();
+
+		int loggedInUserId = appData.getUser().getUserId();
+
+		// Until we get proper user ids.
+		loggedInUserId = 1;
+
+		// 1. Updates local db with external cases
+		// 2. Updats listview
+		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
+		eh.syncDatabases(caseList, loggedInUserId, caseListView);
 	}
 
 	/*
