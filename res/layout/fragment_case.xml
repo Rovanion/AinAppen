@@ -15,7 +15,6 @@
         android:paddingTop="@dimen/activity_vertical_margin" >
 
         <TextView
-            android:id="@+id/crime_classification_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/crime_classification" />
@@ -26,51 +25,34 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:textSize="@dimen/case_data_font_size" />
-
-        <TextView
-            android:id="@+id/location_title"
+        
+         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/location" />
+            android:text="@string/author" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:textSize="@dimen/case_data_font_size" />
 
         <TextView
-            android:id="@+id/commander_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/commander" />
+            android:text="@string/crimeDate" />
 
         <TextView
-            android:id="@+id/commander"
+            android:id="@+id/crime_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:textSize="@dimen/case_data_font_size" />
 
         <TextView
-            android:id="@+id/date_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-                android:text="@string/crimeDate" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:textSize="@dimen/case_data_font_size" />
-
-        <TextView
-            android:id="@+id/status_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -81,9 +63,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/case_data_font_size" />
+        
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/priority" />
 
         <TextView
-            android:id="@+id/description_title"
+            android:id="@+id/priority"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/case_data_font_size" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
