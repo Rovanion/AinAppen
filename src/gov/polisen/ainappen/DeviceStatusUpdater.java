@@ -34,6 +34,8 @@ public class DeviceStatusUpdater extends TimerTask {
 	String server = "http://christian.cyd.liu.se:1337/";
 	int deviceID;
 	String action;
+	boolean isNetworkEnabled;
+	boolean isGPSEnabled;
 
 	public DeviceStatusUpdater(Context context) {
 		this.context = context;
@@ -53,17 +55,15 @@ public class DeviceStatusUpdater extends TimerTask {
 
 		deviceID = appData.getDeviceID();
 		deviceID = 2; // TODO för att kunna testa med något som finns i
-						// databasen
+		// databasen
 
 		// doesnt do anything if location is unknown
 		if (lastLocation == null) {
 			return;
 		}
 
-		// PUT
 		double longitude = lastLocation.getLongitude();
 		double latitude = lastLocation.getLatitude();
-
 		action = "updateDevice/";
 		new SendDeviceInfo().execute(server + action + deviceID + "/" + level
 				+ "/" + longitude + "/" + latitude);
@@ -76,6 +76,12 @@ public class DeviceStatusUpdater extends TimerTask {
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) context
 				.getSystemService(Context.LOCATION_SERVICE);
+
+		//Checks if device has atleast one GPS- and Network provider enabled
+		isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		Log.d("jocke","network: "+Boolean.toString(isNetworkEnabled));
+		Log.d("jocke","GPS: "+Boolean.toString(isGPSEnabled));
 
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
@@ -100,10 +106,22 @@ public class DeviceStatusUpdater extends TimerTask {
 			}
 		};
 
-		// Register the listener with the Location Manager to receive location
-		// updates
-		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		/*
+		 *  Register the listener with the Location Manager to receive location updates
+		 *  if statement catches program crash due to no location provider
+		 */
+
+		if(isNetworkEnabled){
+			locationManager.requestLocationUpdates(
+					LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		}
+		else if(isGPSEnabled){
+			locationManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		}
+		else{
+			//Donothing
+		}
 	}
 
 	private class SendDeviceInfo extends AsyncTask<String, Void, String> {
