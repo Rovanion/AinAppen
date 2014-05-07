@@ -27,7 +27,7 @@ public class LoginAcitivity extends Activity {
 		setContentView(R.layout.activity_login_acitivity);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-			.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
