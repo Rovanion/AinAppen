@@ -26,14 +26,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	String		webserver		= "http://christian.cyd.liu.se";
-	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
 	ListView	caseListView;
 	Context		rootview;
+	GlobalData 	settings;
 	List<Case>	externalCaseList;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
+		this.settings = (GlobalData)rootview.getApplicationContext();
 	}
 
 	/*
@@ -44,7 +44,8 @@ public class ExternalDBHandeler {
 			ListView caseListView) {
 		if (caseListView != null)
 			this.caseListView = caseListView;
-		new SyncDB().execute(casesForUser);
+
+		new SyncDB().execute(settings.webUrl + "/casesForUser/" + 2);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {

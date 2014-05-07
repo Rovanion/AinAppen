@@ -20,12 +20,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout					mDrawerLayout;
-	private ListView							mDrawerList;
+	private DrawerLayout			mDrawerLayout;
+	private ListView				mDrawerList;
 	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case									selectedCase;
-
-	private String[]							mMenuOptions;
+	private Case					selectedCase;
+	private String[]				mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -254,10 +253,9 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.getUser() != null) {
+		if (appData.user != null) {
 			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.getUser().getUsername(),
-					Toast.LENGTH_LONG).show();
+					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
 		}
 	}
 

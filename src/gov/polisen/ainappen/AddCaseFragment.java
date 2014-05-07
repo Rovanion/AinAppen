@@ -161,8 +161,8 @@ public class AddCaseFragment extends Fragment {
 		// which is what we want.
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
-		int deviceID = appData.getDeviceID();
-		int author = appData.getUser().getUserId();
+		int deviceID = appData.deviceID;
+		int author = appData.user.getUserId();
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;

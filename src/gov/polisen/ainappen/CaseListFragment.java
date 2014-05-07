@@ -71,7 +71,7 @@ public class CaseListFragment extends Fragment {
 		// Releases local db helper. Important when finished.
 		ldbh.release();
 
-		int loggedInUserId = appData.getUser().getUserId();
+		int loggedInUserId = appData.user.getUserId();
 
 		// Until we get proper user ids.
 		loggedInUserId = 1;

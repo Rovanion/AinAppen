@@ -81,7 +81,7 @@ public class LoginAcitivity extends Activity {
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.setUser(new User(1337, "FuskLog"));
+			appData.user = new User(1337, "FuskLog");
 			ldh.release();
 			startActivity(intent);
 			finish();
@@ -91,7 +91,7 @@ public class LoginAcitivity extends Activity {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			Random rnd = new Random();
 			int dId = rnd.nextInt(1000000);
-			appData.setUser(new User(dId, userNameText.getText().toString()));
+			appData.user = new User(dId, userNameText.getText().toString());
 			//appData.getUser().setUserName((userNameText.getText().toString()));
 			//appData.setDeviceID(dId);
 		}
