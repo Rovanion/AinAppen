@@ -68,6 +68,7 @@
     <string name="crimeDate">Datum då brott begicks</string>
     <string name="save_case">Spara ärende</string>
     <string name="priority">Prioritet</string>
+    <string name="call_string">Ringer</string>
     <string name="author">Skapare</string>
     
 

@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,14 +38,24 @@ public class ExternalDBHandeler {
 	}
 
 	/*
-	 * 1. Synchronizing external and local databases. 2. Updates Case list view
-	 * if caseListView argument is not null.
+	 * 1. Synchronizing external and local databases.
+	 * 2. Updates Case list view if caseListView argument is not null.
 	 */
 	public void syncDatabases(List<Case> localCaseList, int userID,
 			ListView caseListView) {
 		if (caseListView != null)
 			this.caseListView = caseListView;
-		new SyncDB().execute(casesForUser);
+		final SyncDB syncer = new SyncDB();
+		Handler handler = new Handler();
+		syncer.execute(casesForUser);
+		handler.postDelayed(new Runnable(){
+			@Override
+			public void run(){
+				if(syncer.getStatus() == AsyncTask.Status.RUNNING){
+					syncer.cancel(true);
+				}
+			}
+		}, 10000);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -71,6 +82,7 @@ public class ExternalDBHandeler {
 						builder.append(line);
 					}
 
+
 					return builder.toString();
 				} else {
 					// Ev error message
@@ -86,7 +98,7 @@ public class ExternalDBHandeler {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null) {
+			if (result != null){
 
 				// Converting json to list of case objects
 				List<Case> externalCaseList = new Gson().fromJson(
@@ -105,7 +117,15 @@ public class ExternalDBHandeler {
 				}
 
 				showToast("Synced with external DB.");
+			}	
+			else{
+				showToast("Could not sync database, no internet connection!");
 			}
+		}
+
+		@Override
+		protected void onCancelled(){
+			showToast("För dålig connection för att synka!");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {
@@ -166,6 +186,7 @@ public class ExternalDBHandeler {
 			return caseList;
 		}
 
+
 		private void updateListView(List<Case> mergedCaseList) {
 			CaseListAdapter adapter = new CaseListAdapter(rootview,
 					mergedCaseList);
@@ -179,3 +200,4 @@ public class ExternalDBHandeler {
 		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 	}
 }
+

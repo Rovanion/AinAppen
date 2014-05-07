@@ -5,6 +5,7 @@ import android.app.Application;
 public class GlobalData extends Application {
 	private User	user;
 	private int		deviceID;
+	private String	password;
 	// Adress to the server, when testing on you own computer it should be
 	// "http://your_computer_ip-adress". If running on our server it should
 	// be "http://christian.cyd.liu.se".
@@ -33,6 +34,13 @@ public class GlobalData extends Application {
 
 	public String getServerAdress() {
 		return serverAdress;
+	}
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
