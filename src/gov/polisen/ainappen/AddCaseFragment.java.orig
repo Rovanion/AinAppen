@@ -32,6 +32,16 @@ import android.widget.Toast;
 
 public class AddCaseFragment extends Fragment {
 
+<<<<<<< HEAD
+	EditText crime_classText;
+	EditText location_Text;
+	EditText commanderText;
+	CalendarView dateDate;
+	Spinner statusText;
+	EditText descriptionText;
+	View rootView;
+	UserPermissionsOnCase permissions;
+=======
 	View			rootView;
 
 	EditText		classificationField;
@@ -39,6 +49,7 @@ public class AddCaseFragment extends Fragment {
 	EditText		priorityField;
 	Spinner			spinnerField;
 	CalendarView	timeOfCrimeField;
+>>>>>>> 4c2dc958124f00bd718acfe2b7ff3db67dccc83d
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -47,7 +58,7 @@ public class AddCaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
+		rootView = inflater.inflate(R.layout.fragment_add_case, container,
 				false);
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
@@ -82,20 +93,16 @@ public class AddCaseFragment extends Fragment {
 		// Create a caseObject from the set fields
 		Case caseToBeAdded = createCaseFromForm();
 		// add the case to the server
-
+		AddCaseToServer add = new AddCaseToServer();
+		add.execute(caseToBeAdded);
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(caseToBeAdded);
 		Log.d("LOOOOOOOOOG", json);
-		// add the case to database and returns a case with a correct caseId
+		// add the case to database
 		caseToBeAdded = addCaseToDB(caseToBeAdded);
 		// notify the user about successfull commitment
 		makeToast(caseToBeAdded);
-		
-		// Sends case to server async
-		AddCaseToServer add = new AddCaseToServer();
-		add.execute(caseToBeAdded);
-		
 		/*
 		 * Nästa line ser till att vi kommer tillbaka till case-listan (från
 		 * "ärendevyn man per automatik skickas till vid creation) när vi
@@ -134,6 +141,7 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);
 	}
 
+
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
@@ -141,7 +149,7 @@ public class AddCaseFragment extends Fragment {
 	 */
 	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
-				+ caseToBeAdded.getCaseId() + " angående "
+				+ caseToBeAdded.getCaseID() + " angående "
 				+ caseToBeAdded.getClassification();
 		Toast.makeText(getActivity(), toastMessage,
 				Toast.LENGTH_LONG).show();
@@ -169,12 +177,24 @@ public class AddCaseFragment extends Fragment {
 	 * Uses the global fields defined in the AddCaseFragment to create a case,
 	 * the created case is returned to the calling parent.
 	 * 
+	 * 
 	 * @return
 	 */
 	private Case createCaseFromForm() {
 		final GlobalData appData = ((GlobalData) getActivity()
 				.getApplicationContext());
 		// Unique ID for this device
+<<<<<<< HEAD
+		int dId = appData.getDeviceID();
+		Case newCase = new Case(dId, 0, crime_classText.getText().toString(),
+				location_Text.getText().toString(),
+				Integer.parseInt(commanderText.getText().toString()), new Date(
+						dateDate.getDate()), statusText.getSelectedItem()
+						.toString(), descriptionText.getText().toString());
+		/**
+		 * TODO: Send permissions to the external database.
+		 */
+=======
 		// Setting all values except caseID and firstRevisionCaseID which is
 		// generated from ORMLite Autoincrement later.
 
@@ -196,6 +216,7 @@ public class AddCaseFragment extends Fragment {
 		String description = descriptionField.getText().toString();
 
 		Case newCase = new Case(deviceID,caseID,author,modificationDate,firstRevisionCaseID,firstRevisionDeviceID,deletionTime, classification, status,priority,longitude,latitude,timeOfCrime,description);
+>>>>>>> 4c2dc958124f00bd718acfe2b7ff3db67dccc83d
 		return newCase;
 	}
 
@@ -272,11 +293,8 @@ public class AddCaseFragment extends Fragment {
 				Log.d("HTTPRESPONSE", response.toString());
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
-				Log.d("TAG", "Client");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				Log.d("TAG","IO");
-				// httppost.abort();
 			}
 			
 			return url;

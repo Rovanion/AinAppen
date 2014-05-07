@@ -1,4 +1,4 @@
-	package gov.polisen.ainappen;
+package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -37,12 +37,12 @@ public class LoginAcitivity extends Activity {
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText		userNameText;
-		EditText		passwordText;
-		private Button	quickLogButton;
-		private Button	databaseLoginButton;
-		View			rootView;
-		LoginDBHandler	ldh;
+		EditText userNameText;
+		EditText passwordText;
+		private Button quickLogButton;
+		private Button databaseLoginButton;
+		View rootView;
+		LoginDBHandler ldh;
 
 		public PlaceholderFragment() {
 
@@ -83,10 +83,7 @@ public class LoginAcitivity extends Activity {
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			// user Id måste finnas i databasen för att addCase ska fungera
-			appData.setUser(new User(3, "FuskLog"));
-			// TODO tabort - sätter device till 1 för att devicet måste finnas i databasen
-			appData.setDeviceID(1); 
+			appData.setUser(new User(1337, "FuskLog"));
 			ldh.release();
 			startActivity(intent);
 			finish();
@@ -122,8 +119,13 @@ public class LoginAcitivity extends Activity {
 
 		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
+<<<<<<< HEAD
+			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
+					.show();
+=======
 			Toast.makeText(getActivity(), toastMessage,
 					Toast.LENGTH_LONG).show();
+>>>>>>> 4c2dc958124f00bd718acfe2b7ff3db67dccc83d
 		}
 
 		public void textFieldSetter() {
