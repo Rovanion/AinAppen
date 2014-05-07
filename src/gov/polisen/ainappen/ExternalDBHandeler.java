@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,7 +45,17 @@ public class ExternalDBHandeler {
 			ListView caseListView) {
 		if (caseListView != null)
 			this.caseListView = caseListView;
-		new SyncDB().execute(casesForUser);
+		final SyncDB syncer = new SyncDB();
+		Handler handler = new Handler();
+		syncer.execute(casesForUser);
+		handler.postDelayed(new Runnable(){
+			@Override
+			public void run(){
+				if(syncer.getStatus() == AsyncTask.Status.RUNNING){
+					syncer.cancel(true);
+				}
+			}
+		}, 10000);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -104,9 +115,16 @@ public class ExternalDBHandeler {
 				if (caseListView != null) {
 					updateListView(mergedCaseList);
 				}
-
 				showToast("Synced with external DB.");
+			}	
+			else{
+				showToast("Could not sync database, no internet connection!");
 			}
+		}
+
+		@Override
+		protected void onCancelled(){
+			showToast("För dålig connection för att synka!");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {
@@ -184,7 +202,6 @@ public class ExternalDBHandeler {
 			}
 			return strOutput;
 		}
-
 	}
 
 	public void showToast(String text) {
