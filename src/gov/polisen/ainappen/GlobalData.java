@@ -9,7 +9,7 @@ public class GlobalData extends Application {
 	// Adress to the server, when testing on you own computer it should be
 	// "http://your_computer_ip-adress". If running on our server it should
 	// be "http://christian.cyd.liu.se".
-	private String serverAdress = "http://130.236.225.39:1337";
+	private String serverAdress = "http://christian.cyd.liu.se:1337";
 
 	@Override
 	public void onCreate() {
