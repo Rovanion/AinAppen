@@ -27,19 +27,19 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	String		webserver		= "http://christian.cyd.liu.se";
-	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
-	ListView	caseListView;
-	Context		rootview;
-	List<Case>	externalCaseList;
+	String webserver = "http://christian.cyd.liu.se";
+	String casesForUser = "http://christian.cyd.liu.se:1337/casesForUser/2";
+	ListView caseListView;
+	Context rootview;
+	List<Case> externalCaseList;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
 	}
 
 	/*
-	 * 1. Synchronizing external and local databases. 2. Updates Case list view
-	 * if caseListView argument is not null.
+	 * 1. Synchronizing external and local databases.
+	 * 2. Updates Case list view if caseListView argument is not null.
 	 */
 	public void syncDatabases(List<Case> localCaseList, int userID,
 			ListView caseListView) {
@@ -82,6 +82,7 @@ public class ExternalDBHandeler {
 						builder.append(line);
 					}
 
+
 					return builder.toString();
 				} else {
 					// Ev error message
@@ -97,12 +98,11 @@ public class ExternalDBHandeler {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null) {
+			if (result != null){
 
 				// Converting json to list of case objects
-				String camelCasedJson = camelCase(result);
 				List<Case> externalCaseList = new Gson().fromJson(
-						camelCasedJson, new TypeToken<List<Case>>() {
+						result, new TypeToken<List<Case>>() {
 						}.getType());
 
 				// Example case on server doesn't contain every field
@@ -115,6 +115,7 @@ public class ExternalDBHandeler {
 				if (caseListView != null) {
 					updateListView(mergedCaseList);
 				}
+
 				showToast("Synced with external DB.");
 			}	
 			else{
@@ -142,8 +143,8 @@ public class ExternalDBHandeler {
 
 				for (Case lCase : localCaseList) {
 					// If a case with same id is found in local DB
-					if (eCase.getCaseID() == lCase.getCaseID()
-							&& eCase.getDeviceID() == lCase.getDeviceID()) {
+					if (eCase.getCaseId() == lCase.getCaseId()
+							&& eCase.getDeviceId() == lCase.getDeviceId()) {
 						exists = true;
 
 						// Update case in local db
@@ -185,26 +186,18 @@ public class ExternalDBHandeler {
 			return caseList;
 		}
 
+
 		private void updateListView(List<Case> mergedCaseList) {
 			CaseListAdapter adapter = new CaseListAdapter(rootview,
 					mergedCaseList);
 			caseListView.setAdapter(adapter);
 		}
 
-		private String camelCase(String casesJson) {
-			String[][] replacements = { { "deviceId", "deviceID" },
-					{ "caseId", "caseID" }, };
 
-			// loop over the array and replace
-			String strOutput = casesJson;
-			for (String[] replacement : replacements) {
-				strOutput = strOutput.replace(replacement[0], replacement[1]);
-			}
-			return strOutput;
-		}
 	}
 
 	public void showToast(String text) {
 		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 	}
 }
+

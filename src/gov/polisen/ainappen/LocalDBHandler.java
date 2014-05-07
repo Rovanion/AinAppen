@@ -81,11 +81,11 @@ public class LocalDBHandler {
 		 * NU FÅTT SAMMA VÄRDE SOM DET 'autoincrement'-värde DATABASEN GAV DEN.
 		 */
 		int lid = newId.getLocalCaseID();
-		newCase.setCaseID(lid);
-		newCase.setFirstRevisionCaseID(lid);
+		newCase.setCaseId(lid);
+		newCase.setFirstRevisionCaseId(lid);
 		// Put the data into database
 		caseDao.create(newCase);
-		String lastEntryID = newCase.getLocalCaseID();
+		String lastEntryID = newCase.getLocalCaseId();
 		newCase = caseDao.queryForId(lastEntryID);
 		// Runtime exception Daos are important to set to null.
 		localIdDao = null;
@@ -105,7 +105,7 @@ public class LocalDBHandler {
 
 		// Put the data into database
 		caseDao.create(existingCase);
-		String lastEntryID = existingCase.getLocalCaseID();
+		String lastEntryID = existingCase.getLocalCaseId();
 		existingCase = caseDao.queryForId(lastEntryID);
 		// Runtime exception Daos are important to set to null.
 		caseDao = null;
@@ -125,7 +125,7 @@ public class LocalDBHandler {
 		Log.d("in edit case", "in edit case");
 		try {
 			updateBuilder.where()
-			.eq("localCaseID", editedCase.getLocalCaseID());
+			.eq("localCaseID", editedCase.getLocalCaseId());
 			updateBuilder.updateColumnValue("priority",
 					editedCase.getPriority());
 			updateBuilder.updateColumnValue("classification",
