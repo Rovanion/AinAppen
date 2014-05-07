@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class ExternalDBHandeler {
 	ListView	caseListView;
 	Context		rootview;
 	List<Case>	externalCaseList;
+	int			responseCode;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
@@ -55,7 +57,7 @@ public class ExternalDBHandeler {
 					syncer.cancel(true);
 				}
 			}
-		}, 10000);
+		}, 20000);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -70,9 +72,8 @@ public class ExternalDBHandeler {
 			try {
 				HttpResponse response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if (statusCode == 200) {
-
+				responseCode = statusLine.getStatusCode();
+				if (responseCode == 200) {
 					HttpEntity entity = response.getEntity();
 					InputStream content = entity.getContent();
 					BufferedReader reader = new BufferedReader(
@@ -81,17 +82,15 @@ public class ExternalDBHandeler {
 					while ((line = reader.readLine()) != null) {
 						builder.append(line);
 					}
-
 					return builder.toString();
-				} else {
-					// Ev error message
+				} else{
+					//error
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			return null;
 		}
 
@@ -118,13 +117,21 @@ public class ExternalDBHandeler {
 				showToast("Synced with external DB.");
 			}	
 			else{
-				showToast("Could not sync database, no internet connection!");
+				if(responseCode == 500){
+					showToast("Data not synchronised, database unreachable.");
+				}
+				else if(responseCode == 0){
+					showToast("Data not syncrhonised, no internet or damaged transceivers.");
+				}
+				else{
+					showToast("Data not synchronised, unknown server problem.");
+				}
 			}
 		}
 
 		@Override
 		protected void onCancelled(){
-			showToast("För dålig connection för att synka!");
+			showToast("Data not syncrhonised, network reachable but too slow.");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {
