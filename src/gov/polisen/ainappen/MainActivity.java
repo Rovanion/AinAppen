@@ -1,6 +1,7 @@
 package gov.polisen.ainappen;
 
 import java.util.Timer;
+import gov.polisen.ainappen.ipTelephony.Call;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -26,6 +27,22 @@ public class MainActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private Case selectedCase;
+	private Call					sipCall;
+
+	public Call getSipCall() {
+		return sipCall;
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		final GlobalData globalData = ((GlobalData) getApplicationContext());
+		if (!globalData.getUser().getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.getUser().getUsername(),
+					globalData.getPassword());
+
+	}
 
 	private String[] mMenuOptions;
 
@@ -40,8 +57,8 @@ public class MainActivity extends Activity {
 
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
+		mDrawerLayout
+		.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, mMenuOptions));
@@ -78,6 +95,12 @@ public class MainActivity extends Activity {
 		}
 
 		showLoggedInUser();
+
+		sipCall = new Call(this);
+		final GlobalData globalData = ((GlobalData) getApplicationContext());
+		if (!globalData.getUser().getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.getUser().getUsername(),
+					globalData.getPassword());
 	}
 
 	@Override
@@ -113,7 +136,7 @@ public class MainActivity extends Activity {
 
 	/* The click listner for ListView in the navigation drawer */
 	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -213,10 +236,14 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new CaseFragment());
 	}
 
+	public void gotoCall() {
+		gotoLowLevelFragment(new CallFragment());
+	}
+
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
+		.commit();
 	}
 
 	public void gotoEditCase(View view) {
@@ -262,12 +289,17 @@ public class MainActivity extends Activity {
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
 		if (appData.getUser() != null) {
-			Toast.makeText(
-					this,
-					"Inloggad som användare: "
-							+ appData.getUser().getUsername(),
+			Toast.makeText(this, "Inloggad som användare: "
+					+ appData.getUser().getUsername(),
 					Toast.LENGTH_LONG).show();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		sipCall.closeLocalProfile();
 	}
 
 	public Case getSelectedCase() {
