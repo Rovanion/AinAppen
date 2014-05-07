@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
