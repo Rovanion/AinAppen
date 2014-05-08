@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,7 +49,8 @@ public class ExternalDBHandeler {
 			this.caseListView = caseListView;
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();
-		syncer.execute(settings.webUrl + "/casesForUser/" + 2);
+		syncer.execute(settings.webUrl + "casesForUser/" + 2);
+		Log.d("Request" ,settings.webUrl + "casesForUser/" + 2);
 		handler.postDelayed(new Runnable(){
 			@Override
 			public void run(){
@@ -121,6 +123,9 @@ public class ExternalDBHandeler {
 				}
 				else if(responseCode == 0){
 					showToast("Data not syncrhonised, no internet or damaged transceivers.");
+				}
+				else if(responseCode == 404){
+					showToast("The app requested data which doesn't exist.");
 				}
 				else{
 					showToast("Data not synchronised, unknown server problem.");
