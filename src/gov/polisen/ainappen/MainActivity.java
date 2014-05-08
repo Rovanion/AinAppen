@@ -1,5 +1,6 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.ipTelephony.Call;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -20,11 +21,27 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout			mDrawerLayout;
-	private ListView				mDrawerList;
+	private DrawerLayout		mDrawerLayout;
+	private ListView		mDrawerList;
 	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case					selectedCase;
-	private String[]				mMenuOptions;
+	private Case		selectedCase;
+	private Call		sipCall;
+	private String[]	mMenuOptions;
+
+	public Call getSipCall() {
+		return sipCall;
+	}
+
+	@Overriden
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		final GlobalData globalData = ((GlobalData) getApplicationContext());
+		if (!globalData.getUser().getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.getUser().getUsername(),
+					globalData.getPassword());
+
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +92,12 @@ public class MainActivity extends Activity {
 		}
 
 		showLoggedInUser();
+
+		sipCall = new Call(this);
+		final GlobalData globalData = ((GlobalData) getApplicationContext());
+		if (!globalData.getUser().getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.getUser().getUsername(),
+					globalData.getPassword());
 	}
 
 	@Override
@@ -206,6 +229,10 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(new CaseFragment());
 	}
 
+	public void gotoCall() {
+		gotoLowLevelFragment(new CallFragment());
+	}
+
 	public void gotoFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
@@ -257,6 +284,13 @@ public class MainActivity extends Activity {
 			Toast.makeText(this, "Inloggad som användare: "
 					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		sipCall.closeLocalProfile();
 	}
 
 	public Case getSelectedCase() {
