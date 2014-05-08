@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 public class AddCaseFragment extends Fragment {
 
-	View			rootView;
-
-	EditText		classificationField;
-	EditText		descriptionField;
-	EditText		priorityField;
-	Spinner			spinnerField;
-	CalendarView	timeOfCrimeField;
+	private View         rootView;
+	private EditText     classificationField;
+	private EditText     descriptionField;
+	private EditText     priorityField;
+	private Spinner      spinnerField;
+	private CalendarView timeOfCrimeField;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -161,8 +160,8 @@ public class AddCaseFragment extends Fragment {
 		// which is what we want.
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
-		int deviceID = appData.getDeviceID();
-		int author = appData.getUser().getUserId();
+		int deviceID = appData.deviceID;
+		int author = appData.user.getUserId();
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;

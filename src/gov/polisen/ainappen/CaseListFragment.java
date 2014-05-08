@@ -19,9 +19,9 @@ import android.widget.ListView;
  */
 public class CaseListFragment extends Fragment {
 
-	private ListView	caseListView;
-	private View		rootView;
-	private GlobalData	appData;
+	private ListView   caseListView;
+	private View       rootView;
+	private GlobalData appData;
 
 	public CaseListFragment() {
 		// Empty constructor required for fragment subclasses
@@ -71,7 +71,7 @@ public class CaseListFragment extends Fragment {
 		// Releases local db helper. Important when finished.
 		ldbh.release();
 
-		int loggedInUserId = appData.getUser().getUserId();
+		int loggedInUserId = appData.user.getUserId();
 
 		// Until we get proper user ids.
 		loggedInUserId = 1;

@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,15 +28,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	String		webserver		= "http://christian.cyd.liu.se";
-	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
-	ListView	caseListView;
-	Context		rootview;
-	List<Case>	externalCaseList;
-	int			responseCode;
+	private ListView         caseListView;
+	private final Context    rootview;
+	private final GlobalData settings;
+	private int              responseCode;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
+		this.settings = (GlobalData)rootview.getApplicationContext();
 	}
 
 	/*
@@ -48,7 +48,8 @@ public class ExternalDBHandeler {
 			this.caseListView = caseListView;
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();
-		syncer.execute(casesForUser);
+		syncer.execute(settings.webUrl + "casesForUser/" + 2);
+		Log.d("Request" ,settings.webUrl + "casesForUser/" + 2);
 		handler.postDelayed(new Runnable(){
 			@Override
 			public void run(){
@@ -82,8 +83,8 @@ public class ExternalDBHandeler {
 						builder.append(line);
 					}
 					return builder.toString();
-				} else{
-					//error
+				} else {
+					// TODO: Add error handling
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -121,6 +122,9 @@ public class ExternalDBHandeler {
 				}
 				else if(responseCode == 0){
 					showToast("Data not syncrhonised, no internet or damaged transceivers.");
+				}
+				else if(responseCode == 404){
+					showToast("The app requested data which doesn't exist.");
 				}
 				else{
 					showToast("Data not synchronised, unknown server problem.");

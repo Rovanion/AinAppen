@@ -5,10 +5,11 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "userdata")
 public class User {
+
 	@DatabaseField(id = true)
-	private int		userId;
+	private int    userId;
 	@DatabaseField
-	private String	username;
+	private String userName;
 
 	public User() {
 		// Needed by ORMLite
@@ -16,15 +17,15 @@ public class User {
 
 	public User(int userID, String username) {
 		this.userId = userID;
-		this.username = username;
+		this.userName = username;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public String getUserName() {
+		return this.userName;
 	}
 
-	public void setUserName(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public int getUserId() {

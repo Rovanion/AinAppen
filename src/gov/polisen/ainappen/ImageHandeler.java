@@ -27,15 +27,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
 public class ImageHandeler extends AsyncTask<String, Void, Object> {
-
-	int						imageHeight;
-	int						imageWidth;
-	int						reqWidth;
-	int						reqHeight;
-	String					imageType;
-	BitmapFactory.Options	options;
-	View					rootView;
-	protected String		videoPath;
+	private int                   reqWidth;
+	private int                   reqHeight;
+	private BitmapFactory.Options options;
+	private final View            rootView;
+	protected String              videoPath;
 
 	public ImageHandeler(View rootView) {
 		this.rootView = rootView;
@@ -84,9 +80,6 @@ public class ImageHandeler extends AsyncTask<String, Void, Object> {
 	public void readBitmapDimensionsAndType(String path) {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(path, options);
-		imageHeight = options.outHeight;
-		imageWidth = options.outWidth;
-		imageType = options.outMimeType;
 	}
 
 	public void createImageView(Bitmap bitmap, boolean isVideo) {
