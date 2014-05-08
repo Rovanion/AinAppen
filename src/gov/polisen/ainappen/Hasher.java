@@ -18,8 +18,7 @@ public class Hasher {
 	 * @throws NoSuchAlgorithmException 
 	 */
 	public String getSHA256Hash(String input) throws NoSuchAlgorithmException {
-		MessageDigest md;
-		md = MessageDigest.getInstance("SHA-256");
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
 
 		md.update(input.getBytes(Charset.forName("ISO-8859-1")));
 		StringBuffer hexString = new StringBuffer();

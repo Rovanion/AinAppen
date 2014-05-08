@@ -28,11 +28,10 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	ListView	caseListView;
-	Context		rootview;
-	GlobalData 	settings;
-	List<Case>	externalCaseList;
-	int		responseCode;
+	private ListView					caseListView;
+	private final Context			rootview;
+	private final GlobalData	settings;
+	private int								responseCode;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;

@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 public class AddCaseFragment extends Fragment {
 
-	View			rootView;
-
-	EditText		classificationField;
-	EditText		descriptionField;
-	EditText		priorityField;
-	Spinner			spinnerField;
-	CalendarView	timeOfCrimeField;
+	private View					rootView;
+	private EditText			classificationField;
+	private EditText			descriptionField;
+	private EditText			priorityField;
+	private Spinner				spinnerField;
+	private CalendarView	timeOfCrimeField;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses

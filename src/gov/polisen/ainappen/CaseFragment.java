@@ -31,11 +31,9 @@ public class CaseFragment extends Fragment {
 	private TextView	priority;
 	private TextView	author;
 
-
-	private View		rootView;
-	private Case		selectedCase;
-	String				foldername;
-
+	private View			rootView;
+	private Case			selectedCase;
+	private String		foldername;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

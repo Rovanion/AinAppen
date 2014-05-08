@@ -19,8 +19,8 @@ import android.widget.ListView;
  */
 public class CaseListFragment extends Fragment {
 
-	private ListView	caseListView;
-	private View		rootView;
+	private ListView		caseListView;
+	private View				rootView;
 	private GlobalData	appData;
 
 	public CaseListFragment() {

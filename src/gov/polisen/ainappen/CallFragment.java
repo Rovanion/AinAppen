@@ -16,7 +16,6 @@ import android.widget.TextView;
 public class CallFragment extends Fragment {
 
 	private Call	sipCall;
-
 	private View	rootView;
 
 	public CallFragment() {

@@ -35,12 +35,12 @@ public class LoginAcitivity extends Activity {
 	 */
 	public class PlaceholderFragment extends Fragment {
 
-		EditText		userNameText;
-		EditText		passwordText;
-		private Button	quickLogButton;
-		private Button	databaseLoginButton;
-		View			rootView;
-		LoginDBHandler	ldh;
+		private EditText				userNameText;
+		private EditText				passwordText;
+		private Button					quickLogButton;
+		private Button					databaseLoginButton;
+		private View						rootView;
+		private LoginDBHandler	ldh;
 
 
 		@Override

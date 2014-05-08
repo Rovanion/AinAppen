@@ -5,44 +5,44 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "contacts")
 public class Contact {
+
 	@DatabaseField
 	String firstName;
 	@DatabaseField
 	String lastName;
-
 	@DatabaseField(id = true)
-	int userID;
-
+	int userId;
 	@DatabaseField
 	String title;
 	@DatabaseField
 	String phone;
 
 	public Contact(String firstName, String lastName, String title,
-			String phone, int userID) {
+			String phone, int userId) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.title = title;
 		this.phone = phone;
-		this.userID = userID;
+		this.userId = userId;
 	}
 
 	public Contact() {
 		// Needed by ORMLite
 	}
 
+	@Override
 	public String toString() {
-		return "Contact [UserID=" + this.userID + ", firstName="
+		return "Contact [UserID=" + this.userId + ", firstName="
 				+ this.firstName + ", lastName=" + this.lastName + ", Title="
 				+ this.title + ", Phone=" + this.phone + "]";
 	}
 
-	public int getUserID() {
-		return this.userID;
+	public int getUserId() {
+		return this.userId;
 	}
 
-	public void setUserID(int cid) {
-		this.userID = cid;
+	public void setUserId(int cid) {
+		this.userId = cid;
 	}
 
 	public String getFirstName() {

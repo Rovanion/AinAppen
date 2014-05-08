@@ -16,7 +16,7 @@ import android.widget.ListView;
 public class ContactListFragment extends Fragment {
 
 	private ListView	testList;
-	private View		rootView;
+	private View			rootView;
 
 	public ContactListFragment() {
 		// Empty constructor required for fragment subclasses
