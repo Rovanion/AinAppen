@@ -3,6 +3,7 @@ package gov.polisen.ainappen;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -33,6 +34,7 @@ public class LoginAcitivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
+	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
 		private EditText       userNameText;
