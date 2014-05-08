@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 public class GetNewDevice {
@@ -76,6 +77,7 @@ public class GetNewDevice {
 			GlobalData appdata = ((GlobalData) rootView.getContext()
 					.getApplicationContext());
 			appdata.setDeviceID(result);
+			Log.d("global", Integer.toString(result));
 
 		}
 
