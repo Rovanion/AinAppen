@@ -27,7 +27,7 @@ public class LoginAcitivity extends Activity {
 		setContentView(R.layout.activity_login_acitivity);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+			.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -76,6 +76,7 @@ public class LoginAcitivity extends Activity {
 			makeGlobal();
 			ldh.release();
 			startActivity(intent);
+			finish();
 		}
 
 		public void cheatLogin() {
@@ -155,7 +156,7 @@ public class LoginAcitivity extends Activity {
 				tempHashedPw2 = hs.getSHA256Hash(tempSalt2 + tempPassword2);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
-						.show();
+				.show();
 			}
 			tempLogin1.setHashedPassword(tempHashedPw1);
 			tempLogin2.setHashedPassword(tempHashedPw2);
