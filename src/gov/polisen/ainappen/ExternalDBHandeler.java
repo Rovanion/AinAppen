@@ -56,7 +56,7 @@ public class ExternalDBHandeler {
 					syncer.cancel(true);
 				}
 			}
-		}, 20000);
+		}, 10000);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -71,8 +71,9 @@ public class ExternalDBHandeler {
 			try {
 				HttpResponse response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();
-				responseCode = statusLine.getStatusCode();
-				if (responseCode == 200) {
+				int statusCode = statusLine.getStatusCode();
+				if (statusCode == 200) {
+
 					HttpEntity entity = response.getEntity();
 					InputStream content = entity.getContent();
 					BufferedReader reader = new BufferedReader(
@@ -81,15 +82,17 @@ public class ExternalDBHandeler {
 					while ((line = reader.readLine()) != null) {
 						builder.append(line);
 					}
+
 					return builder.toString();
-				} else{
-					//error
+				} else {
+					// Ev error message
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			return null;
 		}
 
@@ -98,9 +101,8 @@ public class ExternalDBHandeler {
 			if (result != null) {
 
 				// Converting json to list of case objects
-				String camelCasedJson = camelCase(result);
 				List<Case> externalCaseList = new Gson().fromJson(
-						camelCasedJson, new TypeToken<List<Case>>() {
+						result, new TypeToken<List<Case>>() {
 						}.getType());
 
 				// Example case on server doesn't contain every field
@@ -116,21 +118,13 @@ public class ExternalDBHandeler {
 				showToast("Synced with external DB.");
 			}	
 			else{
-				if(responseCode == 500){
-					showToast("Data not synchronised, database unreachable.");
-				}
-				else if(responseCode == 0){
-					showToast("Data not syncrhonised, no internet or damaged transceivers.");
-				}
-				else{
-					showToast("Data not synchronised, unknown server problem.");
-				}
+				showToast("Could not sync database, no internet connection!");
 			}
 		}
 
 		@Override
 		protected void onCancelled(){
-			showToast("Data not syncrhonised, network reachable but too slow.");
+			showToast("För dålig connection för att synka!");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {
@@ -148,8 +142,8 @@ public class ExternalDBHandeler {
 
 				for (Case lCase : localCaseList) {
 					// If a case with same id is found in local DB
-					if (eCase.getCaseID() == lCase.getCaseID()
-							&& eCase.getDeviceID() == lCase.getDeviceID()) {
+					if (eCase.getCaseId() == lCase.getCaseId()
+							&& eCase.getDeviceId() == lCase.getDeviceId()) {
 						exists = true;
 
 						// Update case in local db
@@ -197,17 +191,6 @@ public class ExternalDBHandeler {
 			caseListView.setAdapter(adapter);
 		}
 
-		private String camelCase(String casesJson) {
-			String[][] replacements = { { "deviceId", "deviceID" },
-					{ "caseId", "caseID" }, };
-
-			// loop over the array and replace
-			String strOutput = casesJson;
-			for (String[] replacement : replacements) {
-				strOutput = strOutput.replace(replacement[0], replacement[1]);
-			}
-			return strOutput;
-		}
 	}
 
 	public void showToast(String text) {

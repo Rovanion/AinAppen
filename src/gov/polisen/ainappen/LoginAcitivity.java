@@ -1,4 +1,4 @@
-package gov.polisen.ainappen;
+	package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -88,7 +88,10 @@ public class LoginAcitivity extends Activity {
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.setUser(new User(1337, "FuskLog"));
+			// user Id måste finnas i databasen för att addCase ska fungera
+			appData.setUser(new User(3, "FuskLog"));
+			// TODO tabort - sätter device till 1 för att devicet måste finnas i databasen
+			appData.setDeviceID(1); 
 			ldh.release();
 			startActivity(intent);
 			finish();
