@@ -6,6 +6,7 @@ public class GlobalData extends Application {
 	public User	user;
         public String   password;
 	public int	deviceID;
-	public final String webUrl = "christian.cyd.liu.se";
+	// This URL must start with http:// , otherwise the app will crash.
+	public final String webUrl = "http://christian.cyd.liu.se";
 	public final String SipUrl = "itkand-1.ida.liu.se";
 }
