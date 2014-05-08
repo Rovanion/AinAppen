@@ -89,7 +89,6 @@ public class LoginAcitivity extends Activity {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			// user Id måste finnas i databasen för att addCase ska fungera
 			appData.setUser(new User(3, "FuskLog"));
-			// TODO tabort - sätter device till 1 för att devicet måste finnas i databasen
 			if (appData.getDeviceID() == 0) {
 				new GetNewDevice(rootView);
 			}
