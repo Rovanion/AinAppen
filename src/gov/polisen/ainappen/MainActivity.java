@@ -32,14 +32,13 @@ public class MainActivity extends Activity {
 		return sipCall;
 	}
 
-	@Overriden
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.getUser().getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.getUser().getUsername(),
-					globalData.getPassword());
+		if (!globalData.user.getUserName().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUserName(),
+					globalData.password);
 
 	}
 
@@ -95,9 +94,9 @@ public class MainActivity extends Activity {
 
 		sipCall = new Call(this);
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.getUser().getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.getUser().getUsername(),
-					globalData.getPassword());
+		if (!globalData.user.getUserName().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUserName(),
+					globalData.password);
 	}
 
 	@Override
@@ -282,7 +281,7 @@ public class MainActivity extends Activity {
 		final GlobalData appData = (GlobalData) getApplicationContext();
 		if (appData.user != null) {
 			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
+					+ appData.user.getUserName(), Toast.LENGTH_LONG).show();
 		}
 	}
 

@@ -42,9 +42,6 @@ public class LoginAcitivity extends Activity {
 		View			rootView;
 		LoginDBHandler	ldh;
 
-		public PlaceholderFragment() {
-
-		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +89,7 @@ public class LoginAcitivity extends Activity {
 			appData.user = new User(dId, userNameText.getText().toString());
 			//appData.getUser().setUserName((userNameText.getText().toString()));
 			//appData.setDeviceID(dId);
-			appData.setPassword(passwordText.getText().toString());
+			appData.password = passwordText.getText().toString();
 		}
 
 		public void setupLoginToDatabaseButtonListener() {
