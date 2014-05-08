@@ -1,7 +1,6 @@
 	package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -91,7 +90,9 @@ public class LoginAcitivity extends Activity {
 			// user Id måste finnas i databasen för att addCase ska fungera
 			appData.setUser(new User(3, "FuskLog"));
 			// TODO tabort - sätter device till 1 för att devicet måste finnas i databasen
-			appData.setDeviceID(1); 
+			if (appData.getDeviceID() == 0) {
+				new GetNewDevice(rootView);
+			}
 			ldh.release();
 			startActivity(intent);
 			finish();
