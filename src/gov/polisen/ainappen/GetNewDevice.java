@@ -22,7 +22,7 @@ public class GetNewDevice {
 	private View rootView;
 	String newDevice = "/newDevice/1/1/1";
 
-	public GetNewDevice(View rootView){
+	public GetNewDevice(View rootView) {
 		this.rootView=rootView;
 		
 		newDevice = "http://christian.cyd.liu.se:1337"+newDevice;
@@ -68,7 +68,7 @@ public class GetNewDevice {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return null;
+			return 0;
 		}
 
 		@Override

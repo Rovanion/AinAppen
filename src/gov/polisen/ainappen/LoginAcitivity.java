@@ -74,9 +74,15 @@ public class LoginAcitivity extends Activity {
 
 		public void checkLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
-			makeGlobal();
-			ldh.release();
-			startActivity(intent);
+			if (makeGlobal()) {
+				ldh.release();
+				startActivity(intent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), "Enhet ej registrerad",
+						Toast.LENGTH_SHORT).show();
+			}
+
 		}
 
 		public void cheatLogin() {
@@ -88,17 +94,19 @@ public class LoginAcitivity extends Activity {
 			finish();
 		}
 
-		public void makeGlobal() {
+		public boolean makeGlobal() {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			Random rnd = new Random();
 			int dId = rnd.nextInt(1000000);
 			appData.setUser(new User(dId, userNameText.getText().toString()));
 			Log.d("HELLO", " " + appData.getDeviceID());
-			if (appData.getDeviceID() == 0)
+			if (appData.getDeviceID() == 0) {
 				new GetNewDevice(rootView);
+			}
 			// appData.getUser().setUserName((userNameText.getText().toString()));
 			// appData.setDeviceID(dId);
 			appData.setPassword(passwordText.getText().toString());
+			return true;
 		}
 
 		public void setupLoginToDatabaseButtonListener() {
