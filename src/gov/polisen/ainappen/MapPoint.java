@@ -9,22 +9,23 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable (tableName = "mappoints")
 public class MapPoint {
+
 	@DatabaseField
-	int			localMapPointID;
+	int     localMapPointID;
 	@DatabaseField
-	int			deviceID;
+	int     deviceID;
 	@DatabaseField(useGetSet = true, id = true)
-	String	mapPointID;
+	String  mapPointID;
 	@DatabaseField
-	String	mapPointTitle;
+	String  mapPointTitle;
 	@DatabaseField
-	String	mapPointSnippet;
+	String  mapPointSnippet;
 	@DatabaseField
-	double	latitude;
+	double  latitude;
 	@DatabaseField
-	double	longitude;
+	double  longitude;
 	@DatabaseField
-	boolean	isObstacle;
+	boolean isObstacle;
 
 	public MapPoint(){
 		//Empty constructor needed by ORMLite

@@ -11,7 +11,7 @@ public class Contact {
 	@DatabaseField
 	String lastName;
 	@DatabaseField(id = true)
-	int userId;
+	int    userId;
 	@DatabaseField
 	String title;
 	@DatabaseField

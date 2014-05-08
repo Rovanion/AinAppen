@@ -19,9 +19,9 @@ import android.widget.ListView;
  */
 public class CaseListFragment extends Fragment {
 
-	private ListView		caseListView;
-	private View				rootView;
-	private GlobalData	appData;
+	private ListView   caseListView;
+	private View       rootView;
+	private GlobalData appData;
 
 	public CaseListFragment() {
 		// Empty constructor required for fragment subclasses

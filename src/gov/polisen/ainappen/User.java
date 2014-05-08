@@ -7,9 +7,9 @@ import com.j256.ormlite.table.DatabaseTable;
 public class User {
 
 	@DatabaseField(id = true)
-	private int		userId;
+	private int    userId;
 	@DatabaseField
-	private String	userName;
+	private String userName;
 
 	public User() {
 		// Needed by ORMLite

@@ -19,8 +19,8 @@ import com.j256.ormlite.table.TableUtils;
  * @author Henning
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String	DATABASE_NAME			= "ainappensdatabas.db";
-	private static final int		DATABASE_VERSION	= 1;
+	private static final String DATABASE_NAME    = "ainappensdatabas.db";
+	private static final int    DATABASE_VERSION = 1;
 
 	/*
 	 * Create a "Dao"-object for each type of object you are about to store in
@@ -30,19 +30,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 * is the "type" of the Primary Key used in the table for said Object-type.
 	 * Getters for these also need implementation.
 	 */
-	private Dao<Case, String>															caseDao										= null;
-	private Dao<Contact, Integer>													contactDao								= null;
-	private Dao<MapPoint, String>													mapPointDao								= null;
-	private Dao<User, Integer>														userDao										= null;
-	private Dao<LocalMapPointID, Integer>									localMapPointIdDao				= null;
-	private Dao<LocalID, Integer>													localIdDao								= null;
+	private Dao<Case, String>                             caseDao                   = null;
+	private Dao<Contact, Integer>                         contactDao                = null;
+	private Dao<MapPoint, String>                         mapPointDao               = null;
+	private Dao<User, Integer>                            userDao                   = null;
+	private Dao<LocalMapPointID, Integer>                 localMapPointIdDao        = null;
+	private Dao<LocalID, Integer>                         localIdDao                = null;
 
-	private RuntimeExceptionDao<Case, String>							caseExceptions						= null;
-	private RuntimeExceptionDao<Contact, Integer>					contactExceptions					= null;
-	private RuntimeExceptionDao<MapPoint, String>					mapPointExceptions				= null;
-	private RuntimeExceptionDao<User, Integer>						userExceptions						= null;
-	private RuntimeExceptionDao<LocalMapPointID, Integer>	localMapPointIdExceptions	= null;
-	private RuntimeExceptionDao<LocalID, Integer>					localIdExceptions					= null;
+	private RuntimeExceptionDao<Case, String>             caseExceptions            = null;
+	private RuntimeExceptionDao<Contact, Integer>         contactExceptions         = null;
+	private RuntimeExceptionDao<MapPoint, String>         mapPointExceptions        = null;
+	private RuntimeExceptionDao<User, Integer>            userExceptions            = null;
+	private RuntimeExceptionDao<LocalMapPointID, Integer> localMapPointIdExceptions = null;
+	private RuntimeExceptionDao<LocalID, Integer>         localIdExceptions         = null;
 
 
 	public DatabaseHelper(Context context) {

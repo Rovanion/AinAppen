@@ -18,13 +18,13 @@ import android.widget.Toast;
 
 public class CameraActivity extends Activity {
 
-	private static final int	CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE	= 100;
-	private static final int	CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE	= 200;
-	private Uri								fileUri;
-	public static final int		MEDIA_TYPE_IMAGE										= 1;
-	public static final int		MEDIA_TYPE_VIDEO										= 2;
-	private String						selectedLocalCaseId;
-	private int								selectedMode;
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+	private Uri              fileUri;
+	public static final int  MEDIA_TYPE_IMAGE                    = 1;
+	public static final int  MEDIA_TYPE_VIDEO                    = 2;
+	private String           selectedLocalCaseId;
+	private int              selectedMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

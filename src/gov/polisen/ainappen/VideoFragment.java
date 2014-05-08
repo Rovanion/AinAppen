@@ -14,7 +14,7 @@ import android.widget.VideoView;
 
 public class VideoFragment extends Fragment {
 
-	private View			rootView;
+	private View rootView;
 
 	public VideoFragment() {
 		// Empty constructor required for fragment subclasses

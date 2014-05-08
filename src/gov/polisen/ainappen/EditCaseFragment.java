@@ -19,15 +19,15 @@ import android.widget.Spinner;
 
 public class EditCaseFragment extends Fragment {
 
-	private Case					selectedCase;
-	private View					rootView;
+	private Case         selectedCase;
+	private View         rootView;
 
-	private EditText			classification;
-	private EditText			priority;
-	private Spinner				status;
+	private EditText     classification;
+	private EditText     priority;
+	private Spinner      status;
 
-	private EditText			description;
-	private CalendarView	calendar;
+	private EditText     description;
+	private CalendarView calendar;
 
 	public EditCaseFragment() {
 		// Empty constructor required for fragment subclasses

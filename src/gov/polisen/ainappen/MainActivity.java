@@ -21,12 +21,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout					mDrawerLayout;
-	private ListView							mDrawerList;
-	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case									selectedCase;
-	private Call									sipCall;
-	private String[]							mMenuOptions;
+	private DrawerLayout          mDrawerLayout;
+	private ListView              mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private Case                  selectedCase;
+	private Call                  sipCall;
+	private String[]              mMenuOptions;
 
 	public Call getSipCall() {
 		return sipCall;

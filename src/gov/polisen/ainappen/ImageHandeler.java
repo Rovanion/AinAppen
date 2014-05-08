@@ -27,11 +27,11 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 
 public class ImageHandeler extends AsyncTask<String, Void, Object> {
-	private int										reqWidth;
-	private int										reqHeight;
-	private BitmapFactory.Options	options;
-	private final View						rootView;
-	protected String							videoPath;
+	private int                   reqWidth;
+	private int                   reqHeight;
+	private BitmapFactory.Options options;
+	private final View            rootView;
+	protected String              videoPath;
 
 	public ImageHandeler(View rootView) {
 		this.rootView = rootView;

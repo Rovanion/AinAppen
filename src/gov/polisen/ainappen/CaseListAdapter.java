@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 public class CaseListAdapter extends BaseAdapter {
 
-	private final Context			context;
-	private final List<Case>	caseList;
+	private final Context    context;
+	private final List<Case> caseList;
 
 	public CaseListAdapter(Context context, List<Case> caseList) {
 		this.context = context;
