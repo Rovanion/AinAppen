@@ -39,6 +39,7 @@ public class AddCaseFragment extends Fragment {
 	EditText		priorityField;
 	Spinner			spinnerField;
 	CalendarView	timeOfCrimeField;
+	GlobalData 		appData;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -49,6 +50,7 @@ public class AddCaseFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
 				false);
+		appData = ((GlobalData) getActivity().getApplicationContext());
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
 
@@ -172,8 +174,6 @@ public class AddCaseFragment extends Fragment {
 	 * @return
 	 */
 	private Case createCaseFromForm() {
-		final GlobalData appData = ((GlobalData) getActivity()
-				.getApplicationContext());
 		// Unique ID for this device
 		// Setting all values except caseID and firstRevisionCaseID which is
 		// generated from ORMLite Autoincrement later.
@@ -251,8 +251,7 @@ public class AddCaseFragment extends Fragment {
 		Case newCase = cases[0];
 			
 			// Get the adress to the server
-		final GlobalData appData = ((GlobalData) getActivity()
-				.getApplicationContext());
+		
 			String url = appData.getServerAdress();
 			
 			// Create a new HttpClient and Post Header

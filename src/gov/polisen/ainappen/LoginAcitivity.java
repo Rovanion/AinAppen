@@ -99,9 +99,9 @@ public class LoginAcitivity extends Activity {
 
 		public boolean makeGlobal() {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			Random rnd = new Random();
-			int dId = rnd.nextInt(1000000);
-			appData.setUser(new User(dId, userNameText.getText().toString()));
+			//Random rnd = new Random();
+			//int dId = rnd.nextInt(1000000);
+			appData.setUser(new User(1, userNameText.getText().toString()));
 			Log.d("HELLO", " " + appData.getDeviceID());
 			if (appData.getDeviceID() == 0) {
 				new GetNewDevice(rootView);
