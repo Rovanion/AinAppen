@@ -27,14 +27,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	String		webserver		= "http://christian.cyd.liu.se";
-	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
 	ListView	caseListView;
 	Context		rootview;
+	GlobalData 	settings;
 	List<Case>	externalCaseList;
 
 	public ExternalDBHandeler(Activity activity) {
 		this.rootview = activity;
+		this.settings = (GlobalData)rootview.getApplicationContext();
 	}
 
 	/*
@@ -47,7 +47,7 @@ public class ExternalDBHandeler {
 			this.caseListView = caseListView;
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();
-		syncer.execute(casesForUser);
+		syncer.execute(settings.webUrl + "/casesForUser/" + 2);
 		handler.postDelayed(new Runnable(){
 			@Override
 			public void run(){
@@ -124,7 +124,7 @@ public class ExternalDBHandeler {
 
 		@Override
 		protected void onCancelled(){
-			showToast("För dålig connection för att synka!");
+			showToast("För dålig internetanslutning för att synka!");
 		}
 
 		private List<Case> syncWithLocalDB(List<Case> externalCaseList) {

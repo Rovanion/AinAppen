@@ -3,7 +3,6 @@ package gov.polisen.ainappen;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -34,7 +33,6 @@ public class LoginAcitivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
-	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
 		EditText		userNameText;
@@ -81,7 +79,7 @@ public class LoginAcitivity extends Activity {
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.setUser(new User(1337, "FuskLog"));
+			appData.user = new User(1337, "FuskLog");
 			ldh.release();
 			startActivity(intent);
 			finish();
@@ -91,7 +89,7 @@ public class LoginAcitivity extends Activity {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			Random rnd = new Random();
 			int dId = rnd.nextInt(1000000);
-			appData.setUser(new User(dId, userNameText.getText().toString()));
+			appData.user = new User(dId, userNameText.getText().toString());
 			//appData.getUser().setUserName((userNameText.getText().toString()));
 			//appData.setDeviceID(dId);
 			appData.setPassword(passwordText.getText().toString());

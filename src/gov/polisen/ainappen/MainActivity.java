@@ -21,17 +21,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout			mDrawerLayout;
-	private ListView				mDrawerList;
+	private DrawerLayout		mDrawerLayout;
+	private ListView		mDrawerList;
 	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case					selectedCase;
-	private Call					sipCall;
+	private Case		selectedCase;
+	private Call		sipCall;
+	private String[]	mMenuOptions;
 
 	public Call getSipCall() {
 		return sipCall;
 	}
 
-	@Override
+	@Overriden
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
@@ -41,8 +42,6 @@ public class MainActivity extends Activity {
 					globalData.getPassword());
 
 	}
-
-	private String[]	mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,8 +132,7 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-	ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -282,10 +280,9 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.getUser() != null) {
+		if (appData.user != null) {
 			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.getUser().getUsername(),
-					Toast.LENGTH_LONG).show();
+					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
 		}
 	}
 
