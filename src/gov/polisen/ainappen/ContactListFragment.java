@@ -57,8 +57,13 @@ public class ContactListFragment extends Fragment {
 	private void setupContactList() {
 		testList = (ListView) rootView.findViewById(R.id.listPhone);
 		List<Contact> contactList = new ArrayList<Contact>();
-		contactList.add(new Contact("Henning", "7001", "polis", "112", '1'));
-		contactList.add(new Contact("Björn", "7002", "befäl", "112", '2'));
+		contactList.add(new Contact("Henning", "Hall", "Polis", "1", 1));
+		contactList.add(new Contact("Christian", "Luckey", "Befäl", "2", 2));
+		contactList.add(new Contact("Samuel", "Nilsson", "Alfahanne", "3", 3));
+		contactList.add(new Contact("Joakim", "Eriksson", "Fel", "4", 4));
+		contactList.add(new Contact("Elias", "Kärnsund", "Polis", "5", 5));
+		contactList.add(new Contact("William", "Danielsson", "Polis", "6", 6));
+		contactList.add(new Contact("Jakob", "Bergvall", "Polis", "7", 7));
 		ContactListAdapter adapter = new ContactListAdapter(getActivity(),
 				contactList);
 		testList.setAdapter(adapter);

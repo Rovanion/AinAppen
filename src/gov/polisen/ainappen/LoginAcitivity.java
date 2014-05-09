@@ -1,13 +1,13 @@
 package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,28 +70,43 @@ public class LoginAcitivity extends Activity {
 
 		public void checkLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
-			makeGlobal();
-			ldh.release();
-			startActivity(intent);
+			if (makeGlobal()) {
+				ldh.release();
+				startActivity(intent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), "Enhet ej registrerad",
+						Toast.LENGTH_SHORT).show();
+			}
+
 		}
 
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.user = new User(1337, "FuskLog");
+			// user Id måste finnas i databasen för att addCase ska fungera
+			appData.user = new User(3, "FuskLog");
+			if (appData.deviceID == 0) {
+				new GetNewDevice(rootView);
+			}
 			ldh.release();
 			startActivity(intent);
 			finish();
 		}
 
-		public void makeGlobal() {
+		public boolean makeGlobal() {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			Random rnd = new Random();
-			int dId = rnd.nextInt(1000000);
-			appData.user = new User(dId, userNameText.getText().toString());
-			//appData.getUser().setUserName((userNameText.getText().toString()));
-			//appData.setDeviceID(dId);
+			//Random rnd = new Random();
+			//int dId = rnd.nextInt(1000000);
+			appData.user = new User(1, userNameText.getText().toString());
+			Log.d("HELLO", " " + appData.deviceID);
+			if (appData.deviceID == 0) {
+				new GetNewDevice(rootView);
+			}
+			// appData.getUser().setUserName((userNameText.getText().toString()));
+			// appData.setDeviceID(dId);
 			appData.password = passwordText.getText().toString();
+			return true;
 		}
 
 		public void setupLoginToDatabaseButtonListener() {
@@ -136,26 +151,46 @@ public class LoginAcitivity extends Activity {
 			 */
 			LoginData tempLogin1 = new LoginData("1");
 			LoginData tempLogin2 = new LoginData("2");
-			tempLogin1.setSalt("henning");
-			tempLogin2.setSalt("henning2");
-			String tempPassword1 = "l";
-			String tempPassword2 = "l";
-
+			LoginData tempLogin3 = new LoginData("3");
+			LoginData tempLogin4 = new LoginData("4");
+			LoginData tempLogin5 = new LoginData("5");
+			tempLogin1.setSalt("Henning1");
+			tempLogin2.setSalt("Henning2");
+			tempLogin3.setSalt("Henning3");
+			tempLogin4.setSalt("Henning4");
+			tempLogin5.setSalt("Henning5");
+			String tempPassword1 = "1";
+			String tempPassword2 = "2";
+			String tempPassword3 = "3";
+			String tempPassword4 = "4";
+			String tempPassword5 = "5";
 			// Generate and set hashed password from salt+password
 			String tempHashedPw1 = null;
 			String tempHashedPw2 = null;
+			String tempHashedPw3 = null;
+			String tempHashedPw4 = null;
+			String tempHashedPw5 = null;
 			String noAlgorithmTxt = "Can't login due to no algorithm";
 			try {
 				tempHashedPw1 = hs.getSHA256Hash(tempLogin1.getSalt() + tempPassword1);
 				tempHashedPw2 = hs.getSHA256Hash(tempLogin2.getSalt() + tempPassword2);
+				tempHashedPw3 = hs.getSHA256Hash(tempLogin3.getSalt() + tempPassword3);
+				tempHashedPw4 = hs.getSHA256Hash(tempLogin4.getSalt() + tempPassword4);
+				tempHashedPw5 = hs.getSHA256Hash(tempLogin5.getSalt() + tempPassword5);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
 						.show();
 			}
 			tempLogin1.setHashedPassword(tempHashedPw1);
 			tempLogin2.setHashedPassword(tempHashedPw2);
+			tempLogin3.setHashedPassword(tempHashedPw3);
+			tempLogin4.setHashedPassword(tempHashedPw4);
+			tempLogin5.setHashedPassword(tempHashedPw5);
 			ldh.makeTempLogin(tempLogin1);
 			ldh.makeTempLogin(tempLogin2);
+			ldh.makeTempLogin(tempLogin3);
+			ldh.makeTempLogin(tempLogin4);
+			ldh.makeTempLogin(tempLogin5);
 
 			/*
 			 * Check if the username and password are correct! First a LoginData
