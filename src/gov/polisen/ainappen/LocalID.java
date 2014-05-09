@@ -25,7 +25,8 @@ public class LocalID {
 	public int getLocalCaseID(){
 		return this.localCaseId;
 	}
-	public void setLocalCaseID(int localId){
+
+	public void setLocalCaseID(int localId) {
 		this.localCaseId = localId;
 	}
 }

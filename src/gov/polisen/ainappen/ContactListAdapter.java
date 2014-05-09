@@ -72,7 +72,7 @@ public class ContactListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				sipCall.initiateCall(contactList.get(pos).getLastName());
+				sipCall.initiateCall(contactList.get(pos).phone);
 				((MainActivity) context).gotoCall();
 			}
 		});

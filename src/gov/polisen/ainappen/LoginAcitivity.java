@@ -152,30 +152,48 @@ public class LoginAcitivity extends Activity {
 			 * saved user in the login database. If such a user already exists,
 			 * nothing is changed in the database.
 			 */
-			LoginData tempLogin1 = new LoginData("7001");
-			LoginData tempLogin2 = new LoginData("7002");
-			String tempSalt1 = "henning";
-			String tempSalt2 = "henning2";
-			tempLogin1.setSalt(tempSalt1);
-			tempLogin2.setSalt(tempSalt2);
-			String tempPassword1 = "polisen1";
-			String tempPassword2 = "polisen2";
-
+			LoginData tempLogin1 = new LoginData("1");
+			LoginData tempLogin2 = new LoginData("2");
+			LoginData tempLogin3 = new LoginData("3");
+			LoginData tempLogin4 = new LoginData("4");
+			LoginData tempLogin5 = new LoginData("5");
+			tempLogin1.setSalt("Henning1");
+			tempLogin2.setSalt("Henning2");
+			tempLogin3.setSalt("Henning3");
+			tempLogin4.setSalt("Henning4");
+			tempLogin5.setSalt("Henning5");
+			String tempPassword1 = "1";
+			String tempPassword2 = "2";
+			String tempPassword3 = "3";
+			String tempPassword4 = "4";
+			String tempPassword5 = "5";
 			// Generate and set hashed password from salt+password
 			String tempHashedPw1 = null;
 			String tempHashedPw2 = null;
+			String tempHashedPw3 = null;
+			String tempHashedPw4 = null;
+			String tempHashedPw5 = null;
 			String noAlgorithmTxt = "Can't login due to no algorithm";
 			try {
-				tempHashedPw1 = hs.getSHA256Hash(tempSalt1 + tempPassword1);
-				tempHashedPw2 = hs.getSHA256Hash(tempSalt2 + tempPassword2);
+				tempHashedPw1 = hs.getSHA256Hash(tempLogin1.getSalt() + tempPassword1);
+				tempHashedPw2 = hs.getSHA256Hash(tempLogin2.getSalt() + tempPassword2);
+				tempHashedPw3 = hs.getSHA256Hash(tempLogin3.getSalt() + tempPassword3);
+				tempHashedPw4 = hs.getSHA256Hash(tempLogin4.getSalt() + tempPassword4);
+				tempHashedPw5 = hs.getSHA256Hash(tempLogin5.getSalt() + tempPassword5);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
 						.show();
 			}
 			tempLogin1.setHashedPassword(tempHashedPw1);
 			tempLogin2.setHashedPassword(tempHashedPw2);
+			tempLogin3.setHashedPassword(tempHashedPw3);
+			tempLogin4.setHashedPassword(tempHashedPw4);
+			tempLogin5.setHashedPassword(tempHashedPw5);
 			ldh.makeTempLogin(tempLogin1);
 			ldh.makeTempLogin(tempLogin2);
+			ldh.makeTempLogin(tempLogin3);
+			ldh.makeTempLogin(tempLogin4);
+			ldh.makeTempLogin(tempLogin5);
 
 			/*
 			 * Check if the username and password are correct! First a LoginData
