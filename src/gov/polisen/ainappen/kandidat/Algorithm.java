@@ -15,10 +15,12 @@ public abstract class Algorithm {
 
 	protected View root;
 	protected Queue<Pair<Integer, Object>> queue;
+	private ExternalDBHandeler eh;
 
 	public Algorithm(View root){
 		this.root = root;
 		queue = new LinkedList<Pair<Integer, Object>>();
+		eh = new ExternalDBHandeler(root);
 	}
 	
 	/*
@@ -47,7 +49,6 @@ public abstract class Algorithm {
 
 	protected void runSyncDatabases(ListView listView){
 		Log.d("henning", "Run sync database");
-		ExternalDBHandeler eh = new ExternalDBHandeler(root);
 		eh.syncDatabases(listView);
 	}
 
@@ -56,7 +57,8 @@ public abstract class Algorithm {
 	}
 
 	protected void runUploadNewCase(Case aCase) {
-		new SendFakeCase(root.getContext()).execute(aCase);
+		//new SendFakeCase(root.getContext()).execute(aCase);
+		eh.uploadCase(aCase);
 	}
 	
 	public abstract void syncDatabases(ListView listView, boolean userInitiated);

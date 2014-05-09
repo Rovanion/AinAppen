@@ -13,6 +13,8 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
@@ -60,6 +62,13 @@ public class ExternalDBHandeler {
 				}
 			}
 		}, 20000);
+	}
+	
+
+	// Sends case to server async
+	public void uploadCase(Case aCase){
+		AddCaseToServer add = new AddCaseToServer();
+		add.execute(aCase);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -205,5 +214,51 @@ public class ExternalDBHandeler {
 		public void showToast(String text) {
 			Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 		}
+	}
+	
+	private class AddCaseToServer extends AsyncTask<Case, Void, String> {
+
+		@Override
+		protected String doInBackground(Case... cases) {
+		Case newCase = cases[0];
+			
+			// Get the adress to the server
+		
+			String url = settings.webUrl;
+			
+			// Create a new HttpClient and Post Header
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(url + "case");
+
+			try {
+				// convert newCase into JSON object
+				Gson gson = new Gson();
+				String json = gson.toJson(newCase);
+
+				// Sets the post request as the resulting string entity
+				httppost.setEntity(new StringEntity(json));
+
+				// Execute HTTP Post Request
+				HttpResponse response = httpclient.execute(httppost);
+				Log.d("HTTPRESPONSE", response.toString());
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				Log.d("TAG", "Client");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.d("TAG","IO");
+				// httppost.abort();
+			}
+			
+			return url;
+			
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+		
+		}
+
+
 	}
 }
