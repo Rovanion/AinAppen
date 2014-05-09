@@ -134,22 +134,20 @@ public class LoginAcitivity extends Activity {
 			 * saved user in the login database. If such a user already exists,
 			 * nothing is changed in the database.
 			 */
-			LoginData tempLogin1 = new LoginData("7001");
-			LoginData tempLogin2 = new LoginData("7002");
-			String tempSalt1 = "henning";
-			String tempSalt2 = "henning2";
-			tempLogin1.setSalt(tempSalt1);
-			tempLogin2.setSalt(tempSalt2);
-			String tempPassword1 = "polisen1";
-			String tempPassword2 = "polisen2";
+			LoginData tempLogin1 = new LoginData("1");
+			LoginData tempLogin2 = new LoginData("2");
+			tempLogin1.setSalt("henning");
+			tempLogin2.setSalt("henning2");
+			String tempPassword1 = "l";
+			String tempPassword2 = "l";
 
 			// Generate and set hashed password from salt+password
 			String tempHashedPw1 = null;
 			String tempHashedPw2 = null;
 			String noAlgorithmTxt = "Can't login due to no algorithm";
 			try {
-				tempHashedPw1 = hs.getSHA256Hash(tempSalt1 + tempPassword1);
-				tempHashedPw2 = hs.getSHA256Hash(tempSalt2 + tempPassword2);
+				tempHashedPw1 = hs.getSHA256Hash(tempLogin1.getSalt() + tempPassword1);
+				tempHashedPw2 = hs.getSHA256Hash(tempLogin2.getSalt() + tempPassword2);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
 						.show();
