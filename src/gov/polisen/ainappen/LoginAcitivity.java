@@ -1,13 +1,13 @@
-	package gov.polisen.ainappen;
+package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +27,7 @@ public class LoginAcitivity extends Activity {
 		setContentView(R.layout.activity_login_acitivity);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+			.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -37,12 +37,12 @@ public class LoginAcitivity extends Activity {
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText userNameText;
-		EditText passwordText;
-		private Button quickLogButton;
-		private Button databaseLoginButton;
-		View rootView;
-		LoginDBHandler ldh;
+		EditText		userNameText;
+		EditText		passwordText;
+		private Button	quickLogButton;
+		private Button	databaseLoginButton;
+		View			rootView;
+		LoginDBHandler	ldh;
 
 		public PlaceholderFragment() {
 
@@ -133,8 +133,8 @@ public class LoginAcitivity extends Activity {
 
 		public void makeFailedToast() {
 			String toastMessage = "Fel användarnamn eller lösenord!";
-			Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getActivity(), toastMessage,
+					Toast.LENGTH_LONG).show();
 		}
 
 		public void textFieldSetter() {

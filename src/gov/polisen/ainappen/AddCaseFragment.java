@@ -1,18 +1,8 @@
 package gov.polisen.ainappen;
 
-import java.io.IOException;
 import java.util.Date;
 
-import org.apache.http.HttpResponse;
 import android.app.AlertDialog;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.google.gson.Gson;
-
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -32,14 +22,13 @@ import android.widget.Toast;
 
 public class AddCaseFragment extends Fragment {
 
-	View			rootView;
-
-	EditText		classificationField;
-	EditText		descriptionField;
-	EditText		priorityField;
-	Spinner			spinnerField;
-	CalendarView	timeOfCrimeField;
-	GlobalData 		appData;
+	private View         rootView;
+	private EditText     classificationField;
+	private EditText     descriptionField;
+	private EditText     priorityField;
+	private Spinner      spinnerField;
+	private CalendarView timeOfCrimeField;
+	private GlobalData	 appData;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -48,7 +37,7 @@ public class AddCaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_edit_case, container,
+		rootView = inflater.inflate(R.layout.fragment_add_case, container,
 				false);
 		appData = ((GlobalData) getActivity().getApplicationContext());
 		getActivity().setTitle("Skapa nytt ärende");
@@ -136,6 +125,7 @@ public class AddCaseFragment extends Fragment {
 		spinner.setAdapter(adapter);
 	}
 
+
 	/**
 	 * Extracts useful information from a case, and prints them to the user.
 	 * 
@@ -171,9 +161,12 @@ public class AddCaseFragment extends Fragment {
 	 * Uses the global fields defined in the AddCaseFragment to create a case,
 	 * the created case is returned to the calling parent.
 	 * 
+	 * 
 	 * @return
 	 */
 	private Case createCaseFromForm() {
+		final GlobalData appData = ((GlobalData) getActivity()
+				.getApplicationContext());
 		// Unique ID for this device
 		// Setting all values except caseID and firstRevisionCaseID which is
 		// generated from ORMLite Autoincrement later.

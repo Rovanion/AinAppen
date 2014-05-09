@@ -21,11 +21,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private DrawerLayout			mDrawerLayout;
-	private ListView				mDrawerList;
-	private ActionBarDrawerToggle	mDrawerToggle;
-	private Case					selectedCase;
-	private Call					sipCall;
+	private DrawerLayout          mDrawerLayout;
+	private ListView              mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private Case                  selectedCase;
+	private Call                  sipCall;
+	private String[]              mMenuOptions;
 
 	public Call getSipCall() {
 		return sipCall;
@@ -36,13 +37,11 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.getUser().getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.getUser().getUsername(),
-					globalData.getPassword());
+		if (!globalData.user.getUserName().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUserName(),
+					globalData.password);
 
 	}
-
-	private String[]	mMenuOptions;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +95,9 @@ public class MainActivity extends Activity {
 
 		sipCall = new Call(this);
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.getUser().getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.getUser().getUsername(),
-					globalData.getPassword());
+		if (!globalData.user.getUserName().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUserName(),
+					globalData.password);
 	}
 
 	@Override
@@ -133,8 +132,7 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-	ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -282,10 +280,9 @@ public class MainActivity extends Activity {
 	 */
 	public void showLoggedInUser() {
 		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.getUser() != null) {
+		if (appData.user != null) {
 			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.getUser().getUsername(),
-					Toast.LENGTH_LONG).show();
+					+ appData.user.getUserName(), Toast.LENGTH_LONG).show();
 		}
 	}
 

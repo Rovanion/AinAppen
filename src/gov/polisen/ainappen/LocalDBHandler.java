@@ -22,7 +22,7 @@ import com.j256.ormlite.stmt.Where;
  */
 public class LocalDBHandler {
 
-	DatabaseHelper	dbHelper;
+	private DatabaseHelper	dbHelper;
 
 	public LocalDBHandler(Context context) {
 		/*

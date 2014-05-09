@@ -5,12 +5,10 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class LoginDBHandler {
 
-	LoginDatabaseHelper ldbh;
-	Context cont;
+	private LoginDatabaseHelper ldbh;
 
 	public LoginDBHandler(Context context){
 		ldbh = LoginDatabaseHelper.getHelper(context);
-		cont = context;
 	}
 
 	public void release(){

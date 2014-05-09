@@ -13,9 +13,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ContactListAdapter extends BaseAdapter {
-	private Context			context;
-	private List<Contact>	contactList;
-	private Call			sipCall;
+
+	private final Context       context;
+	private final List<Contact> contactList;
+	private Call                sipCall;
 
 	public ContactListAdapter(Context context, List<Contact> contactList) {
 		this.context = context;

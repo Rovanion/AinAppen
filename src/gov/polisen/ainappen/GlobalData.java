@@ -3,13 +3,13 @@ package gov.polisen.ainappen;
 import android.app.Application;
 
 public class GlobalData extends Application {
-	private User	user;
-	private int		deviceID;
-	private String	password;
-	// Adress to the server, when testing on you own computer it should be
-	// "http://your_computer_ip-adress". If running on our server it should
-	// be "http://christian.cyd.liu.se".
-	private String serverAdress = "http://christian.cyd.liu.se:1337";
+	public User         user;
+	public String       password;
+	public int          deviceID;
+	// webUrl must start with http:// , otherwise the app will crash.
+	public final String webUrl = "http://christian.cyd.liu.se:1337/";
+	public final String SipUrl = "itkand-1.ida.liu.se";
+}
 
 	@Override
 	public void onCreate() {
