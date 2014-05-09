@@ -20,15 +20,14 @@ import com.j256.ormlite.table.TableUtils;
  * 
  */
 public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String											DATABASE_NAME									= "ainappenslogindb.db";
-	private static final int												DATABASE_VERSION							= 1;
+	private static final String                    DATABASE_NAME    = "ainappenslogindb.db";
+	private static final int                       DATABASE_VERSION = 1;
 
-	private Dao<LoginData, String>									loginDataDao									= null;
-	private RuntimeExceptionDao<LoginData, String>	runtimeExceptionLoginDataDao	= null;
+	private Dao<LoginData, String>                 loginDataDao     = null;
+	private RuntimeExceptionDao<LoginData, String> loginExceptions  = null;
 
-	private static final AtomicInteger							usageCounter									= new AtomicInteger(
-																																										0);
-	private static LoginDatabaseHelper							loginHelper										= null;
+	private static final AtomicInteger             usageCounter     = new AtomicInteger(0);
+	private static LoginDatabaseHelper             loginHelper      = null;
 
 	public LoginDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION,
@@ -67,7 +66,7 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 		if (usageCounter.decrementAndGet() == 0) {
 			super.close();
 			loginDataDao = null;
-			runtimeExceptionLoginDataDao = null;
+			loginExceptions = null;
 		}
 	}
 
@@ -79,9 +78,9 @@ public class LoginDatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 
 	public RuntimeExceptionDao<LoginData, String> getLoginDataRuntimeExceptionDao() {
-		if (runtimeExceptionLoginDataDao == null) {
-			runtimeExceptionLoginDataDao = getRuntimeExceptionDao(LoginData.class);
+		if (loginExceptions == null) {
+			loginExceptions = getRuntimeExceptionDao(LoginData.class);
 		}
-		return runtimeExceptionLoginDataDao;
+		return loginExceptions;
 	}
 }

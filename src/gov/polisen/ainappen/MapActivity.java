@@ -20,17 +20,14 @@ import android.view.MenuItem;
 
 public class MapActivity extends Activity implements LocationListener {
 
-	String									PROVIDER						= LocationManager.GPS_PROVIDER;
-
-	MapView									mapView;
-	MapController						mapController;
-	LocationManager					locationManager;
-	ArrayList<OverlayItem>	overlayItemArray;
-	double									myLatitude, myLongitude;
-	MenuItem								addObstacleMenuItem;
-	static Boolean					addObstacleEnabled	= false;
-
-	MyLocationNewOverlay		myLocationOverlay		= null;
+	private final String           PROVIDER           = LocationManager.GPS_PROVIDER;
+	private MapView                mapView;
+	private MapController          mapController;
+	private LocationManager        locationManager;
+	private ArrayList<OverlayItem> overlayItemArray;
+	private MenuItem               addObstacleMenuItem;
+	private Boolean                addObstacleEnabled = false;
+	private MyLocationNewOverlay   myLocationOverlay  = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

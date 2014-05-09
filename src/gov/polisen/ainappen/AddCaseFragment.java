@@ -1,11 +1,21 @@
 package gov.polisen.ainappen;
 
+import java.io.IOException;
 import java.util.Date;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,15 +28,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 public class AddCaseFragment extends Fragment {
 
-	View			rootView;
-
-	EditText		classificationField;
-	EditText		descriptionField;
-	EditText		priorityField;
-	Spinner			spinnerField;
-	CalendarView	timeOfCrimeField;
+	private View         rootView;
+	private EditText     classificationField;
+	private EditText     descriptionField;
+	private EditText     priorityField;
+	private Spinner      spinnerField;
+	private CalendarView timeOfCrimeField;
+	private GlobalData	 appData;
 
 	public AddCaseFragment() {
 		// Empty constructor required for fragment subclasses
@@ -37,6 +49,7 @@ public class AddCaseFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_add_case, container,
 				false);
+		appData = ((GlobalData) getActivity().getApplicationContext());
 		getActivity().setTitle("Skapa nytt ärende");
 		setUpLowLevelFragment();
 
@@ -69,10 +82,21 @@ public class AddCaseFragment extends Fragment {
 		textFieldSetter();
 		// Create a caseObject from the set fields
 		Case caseToBeAdded = createCaseFromForm();
-		// add the case to database
+		// add the case to the server
+
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(caseToBeAdded);
+		Log.d("LOOOOOOOOOG", json);
+		// add the case to database and returns a case with a correct caseId
 		caseToBeAdded = addCaseToDB(caseToBeAdded);
 		// notify the user about successfull commitment
 		makeToast(caseToBeAdded);
+		
+		// Sends case to server async
+		AddCaseToServer add = new AddCaseToServer();
+		add.execute(caseToBeAdded);
+		
 		/*
 		 * Nästa line ser till att vi kommer tillbaka till case-listan (från
 		 * "ärendevyn man per automatik skickas till vid creation) när vi
@@ -119,7 +143,7 @@ public class AddCaseFragment extends Fragment {
 	 */
 	public void makeToast(Case caseToBeAdded) {
 		String toastMessage = "Nytt ärende med ID: "
-				+ caseToBeAdded.getCaseID() + " angående "
+				+ caseToBeAdded.getCaseId() + " angående "
 				+ caseToBeAdded.getClassification();
 		Toast.makeText(getActivity(), toastMessage,
 				Toast.LENGTH_LONG).show();
@@ -161,8 +185,8 @@ public class AddCaseFragment extends Fragment {
 		// which is what we want.
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
-		int deviceID = appData.getDeviceID();
-		int author = appData.getUser().getUserId();
+		int deviceID = appData.deviceID;
+		int author = appData.user.getUserId();
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;
@@ -222,4 +246,52 @@ public class AddCaseFragment extends Fragment {
 		AlertDialog alert11 = builder.create();
 		alert11.show();
 	}
+	
+	private class AddCaseToServer extends AsyncTask<Case, Void, String> {
+
+		@Override
+		protected String doInBackground(Case... cases) {
+		Case newCase = cases[0];
+			
+			// Get the adress to the server
+		
+			String url = appData.webUrl;
+			
+			// Create a new HttpClient and Post Header
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost(url + "case");
+
+			try {
+				// convert newCase into JSON object
+				Gson gson = new Gson();
+				String json = gson.toJson(newCase);
+
+				// Sets the post request as the resulting string entity
+				httppost.setEntity(new StringEntity(json));
+
+				// Execute HTTP Post Request
+				HttpResponse response = httpclient.execute(httppost);
+				Log.d("HTTPRESPONSE", response.toString());
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				Log.d("TAG", "Client");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Log.d("TAG","IO");
+				// httppost.abort();
+			}
+			
+			return url;
+			
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+		
+		}
+
+
+	}
+
+
 }

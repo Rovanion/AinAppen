@@ -24,6 +24,7 @@ public class CaseListFragment extends Fragment {
 
 	private ListView	caseListView;
 	private View		rootView;
+	private GlobalData	appData;
 	private EnergySavingPolicy policy;
 
 	public CaseListFragment() {
@@ -40,11 +41,11 @@ public class CaseListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
 		setUpHighLevelFragment();
+		appData = (GlobalData) getActivity().getApplicationContext();
 
 		setupCaseList();
 		addCaseListListener();
-		
-		
+
 		return rootView;
 	}
 
@@ -129,15 +130,8 @@ public class CaseListFragment extends Fragment {
 			View rootView = item.getActionView();
 			((MainActivity) getActivity()).gotoAddCase(rootView);
 			return true;
-		case R.id.update_case_list:
-			policy.getAlgorithm().syncDatabases(caseListView,true);
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	public void makeTost(String text){
-		Toast.makeText(rootView.getContext(), text, Toast.LENGTH_LONG).show();
 	}
 }

@@ -10,8 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class CaseListAdapter extends BaseAdapter {
-	private Context		context;
-	private List<Case>	caseList;
+
+	private final Context    context;
+	private final List<Case> caseList;
 
 	public CaseListAdapter(Context context, List<Case> caseList) {
 		this.context = context;
@@ -55,7 +56,7 @@ public class CaseListAdapter extends BaseAdapter {
 
 		// set case id
 		TextView caseId = (TextView) convertView.findViewById(R.id.case_id);
-		caseId.setText(entry.getLocalCaseID().toString());
+		caseId.setText(entry.getLocalCaseId().toString());
 
 		// set crime date
 		TextView crimeDate = (TextView) convertView
