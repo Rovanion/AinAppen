@@ -41,9 +41,9 @@ public class CaseFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_case, container, false);
 		setUpLowLevelFragment();
 		this.selectedCase = ((MainActivity) getActivity()).getSelectedCase();
-		getActivity().setTitle(selectedCase.getLocalCaseID());
+		getActivity().setTitle(selectedCase.getLocalCaseId());
 		setHasOptionsMenu(true);
-		foldername = selectedCase.getLocalCaseID();
+		foldername = selectedCase.getLocalCaseId();
 
 		setupComponents();
 		fillTextfields();
@@ -107,7 +107,7 @@ public class CaseFragment extends Fragment {
 			if (hasCamera() && hasExternalStorage()) {
 				intent = new Intent(getActivity(), CameraActivity.class);
 				intent.putExtra("SELECTED_CASE_ID",
-						selectedCase.getLocalCaseID());
+						selectedCase.getLocalCaseId());
 				intent.putExtra("SELECTED_MODE", 1);
 				startActivity(intent);
 			} else
@@ -118,7 +118,7 @@ public class CaseFragment extends Fragment {
 			if (hasCamera() && hasExternalStorage()) {
 				intent = new Intent(getActivity(), CameraActivity.class);
 				intent.putExtra("SELECTED_CASE_ID",
-						selectedCase.getLocalCaseID());
+						selectedCase.getLocalCaseId());
 				intent.putExtra("SELECTED_MODE", 2);
 				startActivity(intent);
 			} else

@@ -56,7 +56,7 @@ public class CaseListAdapter extends BaseAdapter {
 
 		// set case id
 		TextView caseId = (TextView) convertView.findViewById(R.id.case_id);
-		caseId.setText(entry.getLocalCaseID().toString());
+		caseId.setText(entry.getLocalCaseId().toString());
 
 		// set crime date
 		TextView crimeDate = (TextView) convertView
