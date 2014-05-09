@@ -1,6 +1,14 @@
 package gov.polisen.ainappen;
 
+import java.io.IOException;
 import java.util.Date;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -19,6 +27,8 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class AddCaseFragment extends Fragment {
 
@@ -175,8 +185,8 @@ public class AddCaseFragment extends Fragment {
 		// which is what we want.
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
-		int deviceID = appData.getDeviceID();
-		int author = appData.getUser().getUserId();
+		int deviceID = appData.deviceID;
+		int author = appData.user.getUserId();
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;
@@ -245,11 +255,11 @@ public class AddCaseFragment extends Fragment {
 			
 			// Get the adress to the server
 		
-			String url = appData.getServerAdress();
+			String url = appData.webUrl;
 			
 			// Create a new HttpClient and Post Header
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(url + "/case");
+			HttpPost httppost = new HttpPost(url + "case");
 
 			try {
 				// convert newCase into JSON object
@@ -279,10 +289,6 @@ public class AddCaseFragment extends Fragment {
 		protected void onPostExecute(String result) {
 		
 		}
-
-		
-
-
 
 
 	}

@@ -1,13 +1,13 @@
 package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +88,8 @@ public class LoginAcitivity extends Activity {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			// user Id måste finnas i databasen för att addCase ska fungera
-			appData.setUser(new User(3, "FuskLog"));
-			if (appData.getDeviceID() == 0) {
+			appData.user = new User(3, "FuskLog");
+			if (appData.deviceID == 0) {
 				new GetNewDevice(rootView);
 			}
 			ldh.release();
@@ -101,14 +101,14 @@ public class LoginAcitivity extends Activity {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
 			//Random rnd = new Random();
 			//int dId = rnd.nextInt(1000000);
-			appData.setUser(new User(1, userNameText.getText().toString()));
-			Log.d("HELLO", " " + appData.getDeviceID());
-			if (appData.getDeviceID() == 0) {
+			appData.user = new User(1, userNameText.getText().toString());
+			Log.d("HELLO", " " + appData.deviceID);
+			if (appData.deviceID == 0) {
 				new GetNewDevice(rootView);
 			}
 			// appData.getUser().setUserName((userNameText.getText().toString()));
 			// appData.setDeviceID(dId);
-			appData.setPassword(passwordText.getText().toString());
+			appData.password = passwordText.getText().toString();
 			return true;
 		}
 

@@ -76,7 +76,7 @@ public class GetNewDevice {
 		protected void onPostExecute(Integer result) {
 			GlobalData appdata = ((GlobalData) rootView.getContext()
 					.getApplicationContext());
-			appdata.setDeviceID(result);
+			appdata.deviceID = result;
 			Log.d("global", Integer.toString(result));
 
 		}

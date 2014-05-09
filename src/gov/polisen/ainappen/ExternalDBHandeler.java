@@ -200,7 +200,8 @@ public class ExternalDBHandeler {
 			caseListView.setAdapter(adapter);
 		}
 
-	public void showToast(String text) {
-		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
+		public void showToast(String text) {
+			Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
+		}
 	}
 }
