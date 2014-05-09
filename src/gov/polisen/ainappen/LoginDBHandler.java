@@ -1,6 +1,7 @@
 package gov.polisen.ainappen;
 
 import android.content.Context;
+
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class LoginDBHandler {

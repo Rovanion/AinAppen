@@ -15,9 +15,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,14 +28,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class ExternalDBHandeler {
 
-	String		webserver		= "http://christian.cyd.liu.se";
-	String		casesForUser	= "http://christian.cyd.liu.se:1337/casesForUser/2";
-	ListView	caseListView;
-	Context		rootview;
-	List<Case>	externalCaseList;
+	private ListView         caseListView;
+	private final Context    rootview;
+	private final GlobalData settings;
+	private int              responseCode;
 
-	public ExternalDBHandeler(View view) {
-		this.rootview = view.getContext();
+	public ExternalDBHandeler(View root) {
+		this.rootview = root.getContext();
+		this.settings = (GlobalData)rootview.getApplicationContext();
 	}
 
 	/*
@@ -45,11 +46,12 @@ public class ExternalDBHandeler {
 		if (caseListView != null)
 			this.caseListView = caseListView;
 		
-		// Abort syncing if cases doesnt download in 20 seconds = we have bad connection
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();
 		syncer.execute(settings.webUrl + "casesForUser/" + 2);
 		Log.d("Request" ,settings.webUrl + "casesForUser/" + 2);
+		
+		// If request takes longer than 20 seconds it is aborted = too bad connection
 		handler.postDelayed(new Runnable(){
 			@Override
 			public void run(){
@@ -72,9 +74,8 @@ public class ExternalDBHandeler {
 			try {
 				HttpResponse response = client.execute(httpGet);
 				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if (statusCode == 200) {
-
+				responseCode = statusLine.getStatusCode();
+				if (responseCode == 200) {
 					HttpEntity entity = response.getEntity();
 					InputStream content = entity.getContent();
 					BufferedReader reader = new BufferedReader(
@@ -83,7 +84,6 @@ public class ExternalDBHandeler {
 					while ((line = reader.readLine()) != null) {
 						builder.append(line);
 					}
-
 					return builder.toString();
 				} else {
 					// TODO: Add error handling
@@ -93,7 +93,6 @@ public class ExternalDBHandeler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			return null;
 		}
 
@@ -102,7 +101,6 @@ public class ExternalDBHandeler {
 			if (result != null) {
 
 				// Converting json to list of case objects
-
 				List<Case> externalCaseList = new Gson().fromJson(
 						result, new TypeToken<List<Case>>() {
 						}.getType());
@@ -117,7 +115,6 @@ public class ExternalDBHandeler {
 				if (caseListView != null) {
 					updateListView(mergedCaseList);
 				}
-
 				showToast("Synced with external DB.");
 			}	
 			else{

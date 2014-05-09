@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * Fragment that appears in the "content_frame", shows a planet
@@ -24,7 +23,6 @@ public class CaseListFragment extends Fragment {
 
 	private ListView	caseListView;
 	private View		rootView;
-	private GlobalData	appData;
 	private EnergySavingPolicy policy;
 
 	public CaseListFragment() {
@@ -41,7 +39,6 @@ public class CaseListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
 		setUpHighLevelFragment();
-		appData = (GlobalData) getActivity().getApplicationContext();
 
 		setupCaseList();
 		addCaseListListener();
@@ -129,6 +126,9 @@ public class CaseListFragment extends Fragment {
 		case R.id.addcase_item:
 			View rootView = item.getActionView();
 			((MainActivity) getActivity()).gotoAddCase(rootView);
+			return true;
+		case R.id.update_case_list:
+			policy.getAlgorithm().syncDatabases(caseListView,true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
