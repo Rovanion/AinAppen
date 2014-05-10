@@ -16,28 +16,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 public class GetNewDevice {
+	private final GlobalData settings;
 
-	private View rootView;
-	String newDevice = "/newDevice/1/1/1";
-
-	public GetNewDevice(View rootView) {
-		this.rootView=rootView;
-		
-		newDevice = "http://christian.cyd.liu.se:1337"+newDevice;
-		
-//		GlobalData appdata = ((GlobalData) rootView.getContext().getApplicationContext());
-//		appdata.getServer()
-		
+	public GetNewDevice(GlobalData settings) {
+		this.settings = settings;
+		String deviceUrl = settings.webUrl + "/newDevice/1/1/1";
 		final SyncDB syncer = new SyncDB();
-		syncer.execute(newDevice);
-		
+		syncer.execute(deviceUrl);
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, Integer> {
-
 		private int responseCode;
 
 		@Override
@@ -74,13 +64,8 @@ public class GetNewDevice {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			GlobalData appdata = ((GlobalData) rootView.getContext()
-					.getApplicationContext());
-			appdata.deviceID = result;
+			settings.deviceID = result;
 			Log.d("global", Integer.toString(result));
-
 		}
-
 	}
-
 }

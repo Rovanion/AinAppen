@@ -54,8 +54,7 @@ public class CaseListFragment extends Fragment {
 				Case selectedFromList = (Case) (caseListView
 						.getItemAtPosition(myItemInt));
 
-				((MainActivity) getActivity()).gotoCase(rootView,
-						selectedFromList);
+				((MainActivity) getActivity()).gotoCase(selectedFromList);
 			}
 		});
 	}

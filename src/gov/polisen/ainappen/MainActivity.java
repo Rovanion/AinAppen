@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
 	private Case                  selectedCase;
 	private Call                  sipCall;
 	private String[]              mMenuOptions;
+	public static MainActivity    main;
 
 	public Call getSipCall() {
 		return sipCall;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		main = this;
 		setContentView(R.layout.activity_main);
 
 		mMenuOptions = getResources().getStringArray(R.array.top_level_options);
@@ -93,8 +95,17 @@ public class MainActivity extends Activity {
 
 		showLoggedInUser();
 
-		sipCall = new Call(this);
+		// !! TODO: REMOVE THIS CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
+		globalData.user = new User(9, "Henning Kall");
+		if (globalData.deviceID == 0) {
+			new GetNewDevice(globalData);
+		}
+		globalData.password = "9";
+		// !! TODO: REMOVE THE ABOVE CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
+
+		sipCall = new Call(this);
+
 		if (!globalData.user.getUsername().equals("fuskLog"))
 			sipCall.initializeManager(globalData.user.getUsername(),
 					globalData.password);
@@ -167,7 +178,7 @@ public class MainActivity extends Activity {
 	}
 
 	// Decides what happens when drawer button is pressed.
-	private void selectItem(int position) {
+	public void selectItem(int position) {
 
 		switch (position) {
 		case 0:
@@ -179,7 +190,6 @@ public class MainActivity extends Activity {
 				startActivity(a);
 				break; // Map
 			}
-
 		case 2:
 			gotoFragment(new ContactListFragment());
 			break; // Contacts
@@ -215,16 +225,16 @@ public class MainActivity extends Activity {
 		gotoLowLevelFragment(fragment);
 	}
 
-	public void gotoAddContact(View view) {
+	public void gotoAddContact() {
 		gotoLowLevelFragment(new AddContactFragment());
 	}
 
-	public void gotoMap(View view) {
+	public void gotoMap() {
 		Intent intent = new Intent(MainActivity.this, MapActivity.class);
 		startActivity(intent);
 	}
 
-	public void gotoCase(View view, Case selectedCase) {
+	public void gotoCase(Case selectedCase) {
 		this.selectedCase = selectedCase;
 		gotoLowLevelFragment(new CaseFragment());
 	}

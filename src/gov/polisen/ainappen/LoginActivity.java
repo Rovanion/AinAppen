@@ -15,15 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginAcitivity extends Activity {
+public class LoginActivity extends Activity {
+	static public LoginActivity login;
 
-	public LoginAcitivity() {
-
+	public LoginActivity() {
+		
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		login = this;
 		setContentView(R.layout.activity_login_acitivity);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
@@ -37,12 +39,12 @@ public class LoginAcitivity extends Activity {
 	@SuppressLint("ValidFragment")
 	public class PlaceholderFragment extends Fragment {
 
-		EditText		userNameText;
-		EditText		passwordText;
-		private Button	quickLogButton;
-		private Button	databaseLoginButton;
-		View			rootView;
-		LoginDBHandler	ldh;
+		EditText       userNameText;
+		EditText       passwordText;
+		private Button quickLogButton;
+		private Button databaseLoginButton;
+		View           rootView;
+		LoginDBHandler ldh;
 
 		public PlaceholderFragment() {
 
@@ -90,7 +92,7 @@ public class LoginAcitivity extends Activity {
 			// user Id måste finnas i databasen för att addCase ska fungera
 			appData.user = new User(3, "FuskLog");
 			if (appData.deviceID == 0) {
-				new GetNewDevice(rootView);
+				new GetNewDevice(appData);
 			}
 			ldh.release();
 			startActivity(intent);
@@ -104,7 +106,7 @@ public class LoginAcitivity extends Activity {
 			appData.user = new User(1, userNameText.getText().toString());
 			Log.d("HELLO", " " + appData.deviceID);
 			if (appData.deviceID == 0) {
-				new GetNewDevice(rootView);
+				new GetNewDevice(appData);
 			}
 			// appData.getUser().setUserName((userNameText.getText().toString()));
 			// appData.setDeviceID(dId);

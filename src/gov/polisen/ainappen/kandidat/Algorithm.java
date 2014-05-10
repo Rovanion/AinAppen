@@ -15,7 +15,7 @@ public abstract class Algorithm {
 
 	protected View root;
 	protected Queue<Pair<Integer, Object>> queue;
-	private ExternalDBHandeler eh;
+	private final ExternalDBHandeler eh;
 
 	public Algorithm(View root){
 		this.root = root;
@@ -23,14 +23,13 @@ public abstract class Algorithm {
 		eh = new ExternalDBHandeler(root);
 	}
 	
-	/*
-	 *  1 = Sync between external and local database.
-	 *  2 = Upload of client location.
-	 *  3 = Upload of new case to database.
+	/**
+	 * 1 = Sync between external and local database. 2 = Upload of client
+	 * location. 3 = Upload of new case to database.
 	 * 
-	 *  Object for 1 = ListView since it should be updated while sync is done.
-	 *  Object for 2 = PositionObject (not sure yet because function doesn't exist)
-	 *  Object for 3 = the new Case object that is supposed to be uploaded.
+	 * Object for 1 = ListView since it should be updated while sync is done.
+	 * Object for 2 = PositionObject (not sure yet because function doesn't exist)
+	 * Object for 3 = the new Case object that is supposed to be uploaded.
 	 * 
 	 */
 	protected void putOnQueue(int i, Object o) {
