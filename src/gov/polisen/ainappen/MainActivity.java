@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.user.getUserName().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUserName(),
+		if (!globalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUsername(),
 					globalData.password);
 	}
 
@@ -98,8 +98,8 @@ public class MainActivity extends Activity {
 
 		sipCall = new Call(this);
 		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.user.getUserName().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUserName(),
+		if (!globalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(globalData.user.getUsername(),
 					globalData.password);
 	}
 
@@ -289,7 +289,7 @@ public class MainActivity extends Activity {
 		final GlobalData appData = (GlobalData) getApplicationContext();
 		if (appData.user != null) {
 			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.user.getUserName(), Toast.LENGTH_LONG).show();
+					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
 		}
 	}
 

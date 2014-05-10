@@ -16,7 +16,7 @@ import com.j256.ormlite.table.TableUtils;
  * of them is the creation of the database and creation of the tables.
  * 
  * @author Joakim
- * @author Henning
+ * 
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME    = "ainappensdatabas.db";
@@ -25,10 +25,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	/*
 	 * Create a "Dao"-object for each type of object you are about to store in
 	 * your database. Also, create a RuntimeExceptionDao for each type of object
-	 * you want to store in the database. The first argument for the Dao-object is
-	 * the object Type (here, Case/Contact/etc). The second argument for the Dao
-	 * is the "type" of the Primary Key used in the table for said Object-type.
-	 * Getters for these also need implementation.
+	 * you want to store in the database. The first argument for the Dao-object
+	 * is the object Type (here, Case/Contact/etc). The second argument for the
+	 * Dao is the "type" of the Primary Key used in the table for said
+	 * Object-type. Getters for these also need implementation.
 	 */
 	private Dao<Case, String>                             caseDao                   = null;
 	private Dao<Contact, Integer>                         contactDao                = null;

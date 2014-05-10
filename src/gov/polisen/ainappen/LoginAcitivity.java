@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,9 @@ public class LoginAcitivity extends Activity {
 		private View           rootView;
 		private LoginDBHandler ldh;
 
+		public PlaceholderFragment() {
+
+		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,29 +74,43 @@ public class LoginAcitivity extends Activity {
 
 		public void checkLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
-			makeGlobal();
-			ldh.release();
-			startActivity(intent);
-			finish();
+			if (makeGlobal()) {
+				ldh.release();
+				startActivity(intent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), "Enhet ej registrerad",
+						Toast.LENGTH_SHORT).show();
+			}
+
 		}
 
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			appData.user = new User(1337, "FuskLog");
+			// user Id måste finnas i databasen för att addCase ska fungera
+			appData.user = new User(3, "FuskLog");
+			if (appData.deviceID == 0) {
+				new GetNewDevice(rootView);
+			}
 			ldh.release();
 			startActivity(intent);
 			finish();
 		}
 
-		public void makeGlobal() {
+		public boolean makeGlobal() {
 			final GlobalData appData = ((GlobalData) getApplicationContext());
-			Random rnd = new Random();
-			int dId = rnd.nextInt(1000000);
-			appData.user = new User(dId, userNameText.getText().toString());
-			//appData.getUser().setUserName((userNameText.getText().toString()));
-			//appData.setDeviceID(dId);
+			//Random rnd = new Random();
+			//int dId = rnd.nextInt(1000000);
+			appData.user = new User(1, userNameText.getText().toString());
+			Log.d("HELLO", " " + appData.deviceID);
+			if (appData.deviceID == 0) {
+				new GetNewDevice(rootView);
+			}
+			// appData.getUser().setUserName((userNameText.getText().toString()));
+			// appData.setDeviceID(dId);
 			appData.password = passwordText.getText().toString();
+			return true;
 		}
 
 		public void setupLoginToDatabaseButtonListener() {
@@ -153,7 +171,7 @@ public class LoginAcitivity extends Activity {
 				tempHashedPw2 = hs.getSHA256Hash(tempSalt2 + tempPassword2);
 			} catch (NoSuchAlgorithmException e1) {
 				Toast.makeText(getActivity(), noAlgorithmTxt, Toast.LENGTH_LONG)
-				.show();
+						.show();
 			}
 			tempLogin1.setHashedPassword(tempHashedPw1);
 			tempLogin2.setHashedPassword(tempHashedPw2);

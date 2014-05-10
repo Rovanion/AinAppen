@@ -99,9 +99,8 @@ public class ExternalDBHandeler {
 			if (result != null) {
 
 				// Converting json to list of case objects
-				String camelCasedJson = camelCase(result);
 				List<Case> externalCaseList = new Gson().fromJson(
-						camelCasedJson, new TypeToken<List<Case>>() {
+						result, new TypeToken<List<Case>>() {
 						}.getType());
 
 				// Example case on server doesn't contain every field
@@ -152,8 +151,8 @@ public class ExternalDBHandeler {
 
 				for (Case lCase : localCaseList) {
 					// If a case with same id is found in local DB
-					if (eCase.getCaseID() == lCase.getCaseID()
-							&& eCase.getDeviceID() == lCase.getDeviceID()) {
+					if (eCase.getCaseId() == lCase.getCaseId()
+							&& eCase.getDeviceId() == lCase.getDeviceId()) {
 						exists = true;
 
 						// Update case in local db
@@ -201,20 +200,8 @@ public class ExternalDBHandeler {
 			caseListView.setAdapter(adapter);
 		}
 
-		private String camelCase(String casesJson) {
-			String[][] replacements = { { "deviceId", "deviceID" },
-					{ "caseId", "caseID" }, };
-
-			// loop over the array and replace
-			String strOutput = casesJson;
-			for (String[] replacement : replacements) {
-				strOutput = strOutput.replace(replacement[0], replacement[1]);
-			}
-			return strOutput;
+		public void showToast(String text) {
+			Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	public void showToast(String text) {
-		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 	}
 }
