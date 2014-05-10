@@ -141,7 +141,7 @@ public class ExternalDBHandeler {
 				}
 			}
 		}
-
+		
 		@Override
 		protected void onCancelled(){
 			showToast("Data not syncrhonised, network reachable but too slow.");

@@ -1,6 +1,9 @@
 package gov.polisen.ainappen;
 
 import gov.polisen.ainappen.ipTelephony.Call;
+
+import java.util.Timer;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -40,8 +43,8 @@ public class MainActivity extends Activity {
 		if (!globalData.user.getUsername().equals("fuskLog"))
 			sipCall.initializeManager(globalData.user.getUsername(),
 					globalData.password);
-
 	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +135,8 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+	ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -150,6 +154,9 @@ public class MainActivity extends Activity {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
+		Timer myTimer = new Timer();
+		DeviceStatusUpdater myTimerTask = new DeviceStatusUpdater(this);
+		myTimer.scheduleAtFixedRate(myTimerTask, 0, 15000); // (timertask,delay,period)
 	}
 
 	@Override
