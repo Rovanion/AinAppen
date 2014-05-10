@@ -2,6 +2,7 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import gov.polisen.ainappen.ExternalDBHandeler;
+import gov.polisen.ainappen.LocalDBHandler;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -22,14 +23,15 @@ public abstract class Algorithm {
 		queue = new LinkedList<Pair<Integer, Object>>();
 		eh = new ExternalDBHandeler(root);
 	}
-	
-	/**
-	 * 1 = Sync between external and local database. 2 = Upload of client
-	 * location. 3 = Upload of new case to database.
+
+	/*
+	 *  1 = Sync between external and local database.
+	 *  2 = Upload of client location.
+	 *  3 = Upload of new case to database.
 	 * 
-	 * Object for 1 = ListView since it should be updated while sync is done.
-	 * Object for 2 = PositionObject (not sure yet because function doesn't exist)
-	 * Object for 3 = the new Case object that is supposed to be uploaded.
+	 *  Object for 1 = ListView since it should be updated while sync is done.
+	 *  Object for 2 = PositionObject (not sure yet because function doesn't exist)
+	 *  Object for 3 = the new Case object that is supposed to be uploaded.
 	 * 
 	 */
 	protected void putOnQueue(int i, Object o) {
@@ -56,8 +58,12 @@ public abstract class Algorithm {
 	}
 
 	protected void runUploadNewCase(Case aCase) {
-		//new SendFakeCase(root.getContext()).execute(aCase);
-		eh.uploadCase(aCase);
+		Log.d("kand", "RUN Upload Case");
+		LocalDBHandler lh = new LocalDBHandler(root.getContext());
+		Case returnCase = lh.addNewCaseToDB(aCase);
+		returnCase.setFirstRevisionCaseId(returnCase.getCaseId());
+		lh.release();
+		eh.uploadCase(returnCase);
 	}
 	
 	public abstract void syncDatabases(ListView listView, boolean userInitiated);

@@ -74,27 +74,9 @@ public class CaseListFragment extends Fragment {
 		ldbh.release();
 
 		// 1. Updates local db with external cases
-		// 2. Updats listview
-		//		ExternalDBHandeler eh = new ExternalDBHandeler(getActivity());
-		//		eh.syncDatabases(cuploadPositionaseListView);
-
-		// Applying policy
-
-		
-		
-		Case dummyCase = new Case(0, 0, 0, null, 0, 0, null, null, null, null, null, null, null, "HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA ");
-
-		policy.getAlgorithm().syncDatabases(caseListView, false);
-		
-		policy.getAlgorithm().uploadNewCase(dummyCase);
-		
-		policy.getAlgorithm().uploadPosition(new Object());
-
-		policy.getAlgorithm().uploadNewCase(dummyCase);
-		
-		policy.getAlgorithm().syncDatabases(caseListView, false);
-		
-		
+		// 2. Updats listview		
+				
+		policy.getAlgorithm().syncDatabases(caseListView, false);		
 		
 	}
 
