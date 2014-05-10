@@ -88,11 +88,11 @@ public class LoginActivity extends Activity {
 
 		public void cheatLogin() {
 			Intent intent = new Intent(getActivity(), MainActivity.class);
-			final GlobalData appData = ((GlobalData) getApplicationContext());
+
 			// user Id måste finnas i databasen för att addCase ska fungera
-			appData.user = new User(3, "FuskLog");
-			if (appData.deviceID == 0) {
-				new GetNewDevice(appData);
+			GlobalData.user = new User(3, "FuskLog");
+			if (GlobalData.deviceID == 0) {
+				new GetNewDevice();
 			}
 			ldh.release();
 			startActivity(intent);
@@ -100,17 +100,13 @@ public class LoginActivity extends Activity {
 		}
 
 		public boolean makeGlobal() {
-			final GlobalData appData = ((GlobalData) getApplicationContext());
-			//Random rnd = new Random();
-			//int dId = rnd.nextInt(1000000);
-			appData.user = new User(1, userNameText.getText().toString());
-			Log.d("HELLO", " " + appData.deviceID);
-			if (appData.deviceID == 0) {
-				new GetNewDevice(appData);
+			GlobalData.user = new User(1, userNameText.getText().toString());
+			Log.d("HELLO", " " + GlobalData.deviceID);
+			if (GlobalData.deviceID == 0) {
+				new GetNewDevice();
 			}
-			// appData.getUser().setUserName((userNameText.getText().toString()));
-			// appData.setDeviceID(dId);
-			appData.password = passwordText.getText().toString();
+
+			GlobalData.password = passwordText.getText().toString();
 			return true;
 		}
 

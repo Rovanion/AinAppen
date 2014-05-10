@@ -46,8 +46,7 @@ public class ContactListFragment extends Fragment {
 		// addContact
 		// function in MainActivity
 		case R.id.addcontact_item:
-			View rootView = item.getActionView();
-			((MainActivity) getActivity()).gotoAddContact(rootView);
+			((MainActivity) getActivity()).gotoAddContact();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

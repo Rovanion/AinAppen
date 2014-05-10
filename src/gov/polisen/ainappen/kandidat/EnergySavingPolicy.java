@@ -5,21 +5,21 @@ import gov.polisen.ainappen.GlobalData;
 
 import java.util.Date;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
 
 public class EnergySavingPolicy{
 
-	private View root;
-	protected Double batteryLevel;
-	SiminAlgorithm simin;
-	NewAlgorithm newAlg;
-	Algorithm currentAlgorithm;
+	private final View root;
+	protected Double   batteryLevel;
+	SiminAlgorithm     simin;
+	NewAlgorithm       newAlg;
+	Algorithm          currentAlgorithm;
+	static EnergySavingPolicy singleton = null;
 
 
-	public EnergySavingPolicy (View root){
+	private EnergySavingPolicy(View root) {
 		this.root = root;
 		batteryLevel = getBatteryLevel();
 		simin = new SiminAlgorithm(root);
@@ -29,6 +29,15 @@ public class EnergySavingPolicy{
 		choseAlgorithm();
 	}
 
+	public static EnergySavingPolicy getPolicy(View root) {
+		if (singleton == null)
+			singleton = new EnergySavingPolicy(root);
+		return singleton;
+	}
+
+	public static EnergySavingPolicy getPolicy() {
+		return singleton;
+	}
 
 	private void choseAlgorithm() {
 		batteryLevel = getBatteryLevel();
@@ -52,8 +61,6 @@ public class EnergySavingPolicy{
 
 
 	public Algorithm getAlgorithm() {
-
-		
 		//Remove when all algorithms works
 		if (!simin.isRunning()){
 			simin.startRepeatingTask();
@@ -81,13 +88,9 @@ public class EnergySavingPolicy{
 		return level;
 	}
 	
-	public Case getDummyCase(Activity activity){
-		final GlobalData appData = ((GlobalData) activity
-				.getApplicationContext());
-		int deviceId = appData.deviceID;
+	public Case getDummyCase() {
+		int deviceId = GlobalData.deviceID;
 		Case dummyCase = new Case(deviceId, 0, 1, new Date(), 0, deviceId, new Date(), Short.valueOf((short)1), Short.valueOf((short)1), Short.valueOf((short)1), null, null, new Date(), "Hehe");
 		return dummyCase;
 	}
-
-
 }

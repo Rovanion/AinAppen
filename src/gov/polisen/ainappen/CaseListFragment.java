@@ -34,7 +34,7 @@ public class CaseListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_case_list, container,
 				false);
-		policy = new EnergySavingPolicy(rootView);
+		policy = EnergySavingPolicy.getPolicy(rootView);
 
 		setHasOptionsMenu(true);
 		getActivity().setTitle("Ärenden");
@@ -105,8 +105,7 @@ public class CaseListFragment extends Fragment {
 		// If we press the addCasebutton in the actionbar, call the addCase
 		// function in MainActivity
 		case R.id.addcase_item:
-			View rootView = item.getActionView();
-			((MainActivity) getActivity()).gotoAddCase(rootView);
+			((MainActivity) getActivity()).gotoAddCase();
 			return true;
 		case R.id.update_case_list:
 			policy.getAlgorithm().syncDatabases(caseListView,true);

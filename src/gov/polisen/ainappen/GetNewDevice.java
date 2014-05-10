@@ -18,11 +18,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class GetNewDevice {
-	private final GlobalData settings;
-
-	public GetNewDevice(GlobalData settings) {
-		this.settings = settings;
-		String deviceUrl = settings.webUrl + "/newDevice/1/1/1";
+	public GetNewDevice() {
+		String deviceUrl = GlobalData.webUrl + "/newDevice/1/1/1";
 		final SyncDB syncer = new SyncDB();
 		syncer.execute(deviceUrl);
 	}
@@ -64,7 +61,7 @@ public class GetNewDevice {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			settings.deviceID = result;
+			GlobalData.deviceID = result;
 			Log.d("global", Integer.toString(result));
 		}
 	}

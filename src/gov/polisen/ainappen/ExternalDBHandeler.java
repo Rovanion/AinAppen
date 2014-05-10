@@ -32,12 +32,10 @@ public class ExternalDBHandeler {
 
 	private ListView         caseListView;
 	private final Context    rootview;
-	private final GlobalData settings;
 	private int              responseCode;
 
 	public ExternalDBHandeler(View root) {
 		this.rootview = root.getContext();
-		this.settings = (GlobalData)rootview.getApplicationContext();
 	}
 
 	/*
@@ -50,8 +48,8 @@ public class ExternalDBHandeler {
 		
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();
-		syncer.execute(settings.webUrl + "casesForUser/" + 2);
-		Log.d("Request" ,settings.webUrl + "casesForUser/" + 2);
+		syncer.execute(GlobalData.webUrl + "casesForUser/" + 2);
+		Log.d("Request", GlobalData.webUrl + "casesForUser/" + 2);
 		
 		// If request takes longer than 20 seconds it is aborted = too bad connection
 		handler.postDelayed(new Runnable(){
@@ -224,7 +222,7 @@ public class ExternalDBHandeler {
 			
 			// Get the adress to the server
 		
-			String url = settings.webUrl;
+			String url = GlobalData.webUrl;
 			
 			// Create a new HttpClient and Post Header
 			HttpClient httpclient = new DefaultHttpClient();

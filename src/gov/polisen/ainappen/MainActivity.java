@@ -35,12 +35,10 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
-		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.user.getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUsername(),
-					globalData.password);
+		if (!GlobalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(GlobalData.user.getUsername(),
+			    GlobalData.password);
 
 	}
 
@@ -96,19 +94,19 @@ public class MainActivity extends Activity {
 		showLoggedInUser();
 
 		// !! TODO: REMOVE THIS CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
-		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		globalData.user = new User(9, "Henning Kall");
-		if (globalData.deviceID == 0) {
-			new GetNewDevice(globalData);
+
+		GlobalData.user = new User(9, "Henning Kall");
+		if (GlobalData.deviceID == 0) {
+			new GetNewDevice();
 		}
-		globalData.password = "9";
+		GlobalData.password = "9";
 		// !! TODO: REMOVE THE ABOVE CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
 
 		sipCall = new Call(this);
 
-		if (!globalData.user.getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUsername(),
-					globalData.password);
+		if (!GlobalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(GlobalData.user.getUsername(),
+			    GlobalData.password);
 	}
 
 	@Override
@@ -204,7 +202,7 @@ public class MainActivity extends Activity {
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
-	public void gotoAddCase(View view) {
+	public void gotoAddCase() {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
@@ -289,16 +287,16 @@ public class MainActivity extends Activity {
 	 * Shows logged in user.
 	 */
 	public void showLoggedInUser() {
-		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.user != null) {
-			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
+
+		if (GlobalData.user != null) {
+			Toast.makeText(this,
+			    "Inloggad som användare: " + GlobalData.user.getUsername(),
+			    Toast.LENGTH_LONG).show();
 		}
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		sipCall.closeLocalProfile();
 	}
