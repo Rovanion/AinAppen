@@ -237,6 +237,8 @@ public class ExternalDBHandeler {
 
 				// Sets the post request as the resulting string entity
 				httppost.setEntity(new StringEntity(json));
+				
+				Log.d("henning", "post request sent");
 
 				// Execute HTTP Post Request
 				HttpResponse response = httpclient.execute(httppost);

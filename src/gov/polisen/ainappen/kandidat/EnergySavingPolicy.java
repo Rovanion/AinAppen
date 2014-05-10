@@ -1,5 +1,11 @@
 package gov.polisen.ainappen.kandidat;
 
+import gov.polisen.ainappen.Case;
+import gov.polisen.ainappen.GlobalData;
+
+import java.util.Date;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
@@ -41,9 +47,7 @@ public class EnergySavingPolicy{
 		// Below battery level 0.5
 		else {
 			// Standard algorithm = no algorithm.
-
 		}
-
 	}
 
 
@@ -75,6 +79,14 @@ public class EnergySavingPolicy{
 			level = rawlevel / scale;
 		}
 		return level;
+	}
+	
+	public Case getDummyCase(Activity activity){
+		final GlobalData appData = ((GlobalData) activity
+				.getApplicationContext());
+		int deviceId = appData.deviceID;
+		Case dummyCase = new Case(deviceId, 0, 1, new Date(), 0, deviceId, new Date(), Short.valueOf((short)1), Short.valueOf((short)1), Short.valueOf((short)1), null, null, new Date(), "Hehe");
+		return dummyCase;
 	}
 
 
