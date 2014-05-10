@@ -1,7 +1,6 @@
 package gov.polisen.ainappen;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
