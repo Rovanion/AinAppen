@@ -11,36 +11,37 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "cases")
 public class Case {
+
 	@DatabaseField
-	private int		deviceID;
+	private int    deviceID;
 	@DatabaseField
-	private int		caseID;
+	private int    caseID;
 	@DatabaseField
-	private int		author;
+	private int    author;
 	@DatabaseField
-	private Date	modificationTime;
+	private Date   modificationTime;
 	@DatabaseField
-	private int		firstRevisionCaseID;
+	private int    firstRevisionCaseID;
 	@DatabaseField
-	private int		firstRevisionDeviceID;
+	private int    firstRevisionDeviceID;
 	@DatabaseField
-	private Date	deletionTime;
+	private Date   deletionTime;
 	@DatabaseField
-	private Short	classification;
+	private Short  classification;
 	@DatabaseField
-	private Short	status;
+	private Short  status;
 	@DatabaseField
-	private Short	priority;
+	private Short  priority;
 	@DatabaseField
-	private Float	longitude;
+	private Float  longitude;
 	@DatabaseField
-	private Float	latitude;
+	private Float  latitude;
 	@DatabaseField
-	private Date	timeOfCrime;
+	private Date   timeOfCrime;
 	@DatabaseField
-	private String	description;
+	private String description;
 	@DatabaseField(useGetSet = true, id = true)
-	private String	localCaseID;
+	private String localCaseID;
 
 	public Case() {
 		// Empty constructor needed by ORMLite

@@ -53,7 +53,6 @@ public class DeviceStatusUpdater extends TimerTask {
 		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
 		Log.d("TAG", "Batteri " + level);
 
-		deviceID = appData.getDeviceID();
 		deviceID = 2; // TODO för att kunna testa med något som finns i
 		// databasen
 

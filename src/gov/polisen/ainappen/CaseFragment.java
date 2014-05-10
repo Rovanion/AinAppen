@@ -24,18 +24,16 @@ public class CaseFragment extends Fragment {
 		// Empty constructor required for fragment subclasses
 	}
 
-	private TextView	crimeClassification;
-	private TextView	date;
-	private TextView	status;
-	private TextView	description;
-	private TextView	priority;
-	private TextView	author;
+	private TextView crimeClassification;
+	private TextView date;
+	private TextView status;
+	private TextView description;
+	private TextView priority;
+	private TextView author;
 
-
-	private View		rootView;
-	private Case		selectedCase;
-	String				foldername;
-
+	private View     rootView;
+	private Case     selectedCase;
+	private String   foldername;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
