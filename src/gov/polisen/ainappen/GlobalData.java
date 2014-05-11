@@ -18,14 +18,15 @@ public class GlobalData extends Application {
 	public static final Timer  puppeteerTimer = new Timer();
 
 	public GlobalData() {
-		TimerTask puppeteer = new PuppetMaster();
+		TimerTask puppeteer = new PuppetMaster(0, 0);
 
-		puppeteerTimer.scheduleAtFixedRate(puppeteer, 10000, 10000);
+		puppeteerTimer.schedule(puppeteer, 1000);
 		
 		if (GlobalData.deviceID == 0) {
 			new GetNewDevice();
-		}
-	}
+		}	
+
+}
 
 	@Override
 	public void onCreate() {

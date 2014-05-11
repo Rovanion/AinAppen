@@ -2,6 +2,7 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,18 +22,22 @@ public class SiminAlgorithm extends Algorithm{
 		isRunning = false;
 		firstRound = true;
 		mHandler = new Handler();
+		Log.d("henning", "start simin");
 	}
 
 	Runnable mStatusChecker = new Runnable() {
 		@Override
 		public void run() {
+			Log.d("henning", "in run");
 
 			mHandler.postDelayed(mStatusChecker, mInterval);
 			if (!firstRound){
 				runQueue();
 				stopRepeatingTask();
+				Log.d("henning","second round");
 			}
 			else{
+				Log.d("henning","first round");
 				firstRound = false;
 			}
 		}
