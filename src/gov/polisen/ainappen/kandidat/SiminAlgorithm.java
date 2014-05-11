@@ -12,8 +12,8 @@ import android.widget.ListView;
  */
 public class SiminAlgorithm extends Algorithm{
 
-	private int mInterval = 10000; // 10 seconds
-	private Handler mHandler;
+	private final int mInterval = 10000; // 10 seconds
+	private final Handler mHandler;
 	private boolean isRunning;
 	private boolean firstRound;
 
@@ -51,6 +51,7 @@ public class SiminAlgorithm extends Algorithm{
 	public void stopRepeatingTask() {
 		mHandler.removeCallbacks(mStatusChecker);
 		isRunning = false;
+		firstRound = true;
 	}
 
 	public boolean isRunning(){
