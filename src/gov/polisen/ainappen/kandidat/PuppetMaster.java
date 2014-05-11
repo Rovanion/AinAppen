@@ -18,7 +18,7 @@ public class PuppetMaster extends TimerTask{
     			MainActivity.main.selectItem(2);
 					lastFragment = 2;
 
-					GlobalData.puppeteerTimer.schedule(new CaseUpdater(), 1000);
+					GlobalData.puppeteerTimer.schedule(new CaseUpdater(), 5000);
 
 				} else if (lastFragment == 2) {
 					MainActivity.main.selectItem(3);

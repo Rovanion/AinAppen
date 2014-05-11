@@ -20,7 +20,7 @@ public class GlobalData extends Application {
 	public GlobalData() {
 		TimerTask puppeteer = new PuppetMaster();
 
-		puppeteerTimer.scheduleAtFixedRate(puppeteer, 6000, 6000);
+		puppeteerTimer.scheduleAtFixedRate(puppeteer, 10000, 10000);
 	}
 
 	@Override
