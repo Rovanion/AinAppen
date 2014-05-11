@@ -8,19 +8,19 @@ import java.util.TimerTask;
 import android.app.Application;
 
 public class GlobalData extends Application {
-	public User         user;
-	public String       password;
-	public int          deviceID;
+	public static User         user;
+	public static String       password;
+	public static int          deviceID;
 	// webUrl must start with http:// , otherwise the app will crash.
-	public final String webUrl = "http://christian.cyd.liu.se:1337/";
-	public final String SipUrl = "christian.cyd.liu.se";
+	public static final String webUrl         = "http://christian.cyd.liu.se:1337/";
+	public static final String SipUrl         = "christian.cyd.liu.se";
 
-	public final Timer  caseUpdateTimer = new Timer();
+	public static final Timer  puppeteerTimer = new Timer();
 
 	public GlobalData() {
-		TimerTask caseUpdate = new PuppetMaster(this);
+		TimerTask puppeteer = new PuppetMaster();
 
-		caseUpdateTimer.scheduleAtFixedRate(caseUpdate, 6000, 6000);
+		puppeteerTimer.scheduleAtFixedRate(puppeteer, 6000, 6000);
 	}
 
 	@Override

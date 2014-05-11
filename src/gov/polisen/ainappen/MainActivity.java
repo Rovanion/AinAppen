@@ -1,9 +1,6 @@
 package gov.polisen.ainappen;
 
 import gov.polisen.ainappen.ipTelephony.Call;
-
-import java.util.Timer;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -40,12 +37,11 @@ public class MainActivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		if (!globalData.user.getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUsername(),
-					globalData.password);
-	}
+		if (!GlobalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(GlobalData.user.getUsername(),
+			    GlobalData.password);
 
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,19 +95,19 @@ public class MainActivity extends Activity {
 		showLoggedInUser();
 
 		// !! TODO: REMOVE THIS CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
-		final GlobalData globalData = ((GlobalData) getApplicationContext());
-		globalData.user = new User(9, "Henning Kall");
-		if (globalData.deviceID == 0) {
-			new GetNewDevice(globalData);
+
+		GlobalData.user = new User(9, "Henning Kall");
+		if (GlobalData.deviceID == 0) {
+			new GetNewDevice();
 		}
-		globalData.password = "9";
+		GlobalData.password = "9";
 		// !! TODO: REMOVE THE ABOVE CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //
 
 		sipCall = new Call(this);
 
-		if (!globalData.user.getUsername().equals("fuskLog"))
-			sipCall.initializeManager(globalData.user.getUsername(),
-					globalData.password);
+		if (!GlobalData.user.getUsername().equals("fuskLog"))
+			sipCall.initializeManager(GlobalData.user.getUsername(),
+			    GlobalData.password);
 	}
 
 	@Override
@@ -146,8 +142,7 @@ public class MainActivity extends Activity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-	ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -165,9 +160,6 @@ public class MainActivity extends Activity {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
-		Timer myTimer = new Timer();
-		DeviceStatusUpdater myTimerTask = new DeviceStatusUpdater(this);
-		myTimer.scheduleAtFixedRate(myTimerTask, 0, 15000); // (timertask,delay,period)
 	}
 
 	@Override
@@ -296,16 +288,16 @@ public class MainActivity extends Activity {
 	 * Shows logged in user.
 	 */
 	public void showLoggedInUser() {
-		final GlobalData appData = (GlobalData) getApplicationContext();
-		if (appData.user != null) {
-			Toast.makeText(this, "Inloggad som användare: "
-					+ appData.user.getUsername(), Toast.LENGTH_LONG).show();
+
+		if (GlobalData.user != null) {
+			Toast.makeText(this,
+			    "Inloggad som användare: " + GlobalData.user.getUsername(),
+			    Toast.LENGTH_LONG).show();
 		}
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		sipCall.closeLocalProfile();
 	}

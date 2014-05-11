@@ -164,8 +164,6 @@ public class AddCaseFragment extends Fragment {
 	 * @return
 	 */
 	private Case createCaseFromForm() {
-		final GlobalData appData = ((GlobalData) getActivity()
-				.getApplicationContext());
 		// Unique ID for this device
 		// Setting all values except caseID and firstRevisionCaseID which is
 		// generated from ORMLite Autoincrement later.
@@ -174,8 +172,8 @@ public class AddCaseFragment extends Fragment {
 		// which is what we want.
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
-		int deviceID = appData.deviceID;
-		int author = appData.user.getUserId();
+		int deviceID = GlobalData.deviceID;
+		int author = GlobalData.user.getUserId();
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;
