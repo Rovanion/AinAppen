@@ -17,8 +17,8 @@ public class NewAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public void uploadPosition(Object position) {
-		putOnQueue(2, position);
+	public void uploadPosition(String positionInfo) {
+		putOnQueue(2, positionInfo);
 	}
 
 	@Override
