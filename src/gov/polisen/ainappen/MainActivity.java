@@ -203,7 +203,7 @@ public class MainActivity extends Activity {
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
-	public void gotoAddCase(View view) {
+	public void gotoAddCase() {
 		gotoLowLevelFragment(new AddCaseFragment());
 	}
 
