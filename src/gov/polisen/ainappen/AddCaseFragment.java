@@ -93,7 +93,7 @@ public class AddCaseFragment extends Fragment {
 		 * "skapa nytt ärende"-vyn.
 		 */
 		getActivity().getFragmentManager().popBackStack();
-		((MainActivity) getActivity()).gotoCase(rootView, caseToBeAdded);
+		((MainActivity) getActivity()).gotoCase(caseToBeAdded);
 	}
 
 	/*
