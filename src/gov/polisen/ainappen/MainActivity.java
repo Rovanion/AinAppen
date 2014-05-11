@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		main = this;
 		setContentView(R.layout.activity_main);
-
+		
 		mMenuOptions = getResources().getStringArray(R.array.top_level_options);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
 		GlobalData.user = new User(9, "Henning Kall");
 		if (GlobalData.deviceID == 0) {
 			new GetNewDevice();
+			Log.d("kandidat", "GETNEWDEVICE");
 		}
 		GlobalData.password = "9";
 		// !! TODO: REMOVE THE ABOVE CODE IF YOU ARE NOT SKIPPING THE LOGIN !! //

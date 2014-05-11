@@ -67,6 +67,7 @@ public class ExternalDBHandeler {
 	public void uploadCase(Case aCase){
 		AddCaseToServer add = new AddCaseToServer();
 		add.execute(aCase);
+		
 	}
 
 	private class SyncDB extends AsyncTask<String, Void, String> {
@@ -209,9 +210,7 @@ public class ExternalDBHandeler {
 			caseListView.setAdapter(adapter);
 		}
 
-		public void showToast(String text) {
-			Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
-		}
+		
 	}
 	
 	private class AddCaseToServer extends AsyncTask<Case, Void, String> {
@@ -256,9 +255,11 @@ public class ExternalDBHandeler {
 
 		@Override
 		protected void onPostExecute(String result) {
-		
+			showToast("Uploaded case.");
 		}
 
-
+	}
+	public void showToast(String text) {
+		Toast.makeText(rootview, text, Toast.LENGTH_SHORT).show();
 	}
 }

@@ -78,6 +78,9 @@ public class CaseListFragment extends Fragment {
 				
 		policy.getAlgorithm().syncDatabases(caseListView, false);		
 		
+		
+
+		
 	}
 
 	/*

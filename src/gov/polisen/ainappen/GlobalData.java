@@ -21,6 +21,10 @@ public class GlobalData extends Application {
 		TimerTask puppeteer = new PuppetMaster();
 
 		puppeteerTimer.scheduleAtFixedRate(puppeteer, 10000, 10000);
+		
+		if (GlobalData.deviceID == 0) {
+			new GetNewDevice();
+		}
 	}
 
 	@Override

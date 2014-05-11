@@ -2,7 +2,6 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -32,8 +31,6 @@ public class SiminAlgorithm extends Algorithm{
 			if (!firstRound){
 				runQueue();
 				stopRepeatingTask();
-				Log.d("kandidat", "Queue is run");
-
 			}
 			else{
 				firstRound = false;
@@ -69,7 +66,6 @@ public class SiminAlgorithm extends Algorithm{
 
 	@Override
 	public void uploadPosition(String positionInfo) {
-		Log.d("kandidat", "Upload position put on queue");
 		putOnQueue(2, positionInfo);	
 	}
 
