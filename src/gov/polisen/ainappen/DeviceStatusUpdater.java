@@ -1,6 +1,9 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
+
 import java.io.IOException;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
@@ -21,6 +24,7 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DeviceStatusUpdater extends TimerTask {
 
@@ -41,10 +45,13 @@ public class DeviceStatusUpdater extends TimerTask {
 		this.context = context;
 		// Set up reciever to get battery level
 		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-		batteryStatus = context.registerReceiver(null, ifilter);
+		batteryStatus = context.registerReceiver(null, ifilter);		
 		appData = (GlobalData) context.getApplicationContext();
 		// Set up listener to get gps-position
 		SetupGps();
+
+		Timer myTimer = new Timer();
+		myTimer.scheduleAtFixedRate(this, 0, 15000); // (timertask,delay,period)
 	}
 
 	@Override
@@ -64,11 +71,18 @@ public class DeviceStatusUpdater extends TimerTask {
 		double longitude = lastLocation.getLongitude();
 		double latitude = lastLocation.getLatitude();
 		action = "updateDevice/";
-		new SendDeviceInfo().execute(server + action + deviceID + "/" + level
-				+ "/" + longitude + "/" + latitude);
+
+		String positionInfo = server + action + deviceID + "/" + level
+				+ "/" + longitude + "/" + latitude;
+			
 		Log.d("TAG", "Lat: " + lastLocation.getLatitude());
 		Log.d("TAG", "Long: " + lastLocation.getLongitude());
+		
+		EnergySavingPolicy.getPolicy().getAlgorithm().uploadPosition(positionInfo);
+	}
 
+	public void uploadPosition(String positionInfo){
+		new SendDeviceInfo().execute(positionInfo);
 	}
 
 	private void SetupGps() {
@@ -158,11 +172,13 @@ public class DeviceStatusUpdater extends TimerTask {
 
 		@Override
 		protected void onPostExecute(String result) {
-
+			showToast("Uploaded position.");
 			Log.d("TAG", "Result: " + result);
-
 		}
 
+	}
+	public void showToast(String text){
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 	}
 
 }

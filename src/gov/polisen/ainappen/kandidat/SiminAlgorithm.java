@@ -12,7 +12,7 @@ import android.widget.ListView;
  */
 public class SiminAlgorithm extends Algorithm{
 
-	private int mInterval = 10000; // 10 seconds
+	private int mInterval = 10000; // milliseconds
 	private Handler mHandler;
 	private boolean isRunning;
 	private boolean firstRound;
@@ -22,22 +22,20 @@ public class SiminAlgorithm extends Algorithm{
 		isRunning = false;
 		firstRound = true;
 		mHandler = new Handler();
-		Log.d("henning", "start simin");
 	}
 
 	Runnable mStatusChecker = new Runnable() {
 		@Override
 		public void run() {
-			Log.d("henning", "in run");
 
 			mHandler.postDelayed(mStatusChecker, mInterval);
 			if (!firstRound){
 				runQueue();
 				stopRepeatingTask();
-				Log.d("henning","second round");
+				Log.d("kandidat", "Queue is run");
+
 			}
 			else{
-				Log.d("henning","first round");
 				firstRound = false;
 			}
 		}
@@ -51,6 +49,7 @@ public class SiminAlgorithm extends Algorithm{
 	public void stopRepeatingTask() {
 		mHandler.removeCallbacks(mStatusChecker);
 		isRunning = false;
+		firstRound = true;
 	}
 
 	public boolean isRunning(){
@@ -69,8 +68,9 @@ public class SiminAlgorithm extends Algorithm{
 	}
 
 	@Override
-	public void uploadPosition(Object position) {
-		putOnQueue(2, position);	
+	public void uploadPosition(String positionInfo) {
+		Log.d("kandidat", "Upload position put on queue");
+		putOnQueue(2, positionInfo);	
 	}
 
 	@Override

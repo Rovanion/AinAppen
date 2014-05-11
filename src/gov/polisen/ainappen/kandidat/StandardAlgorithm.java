@@ -24,7 +24,7 @@ public class StandardAlgorithm extends Algorithm{
 	}
 
 	@Override
-	public void uploadPosition(Object position) {
+	public void uploadPosition(String position) {
 		runUploadPosition(position);
 	}
 

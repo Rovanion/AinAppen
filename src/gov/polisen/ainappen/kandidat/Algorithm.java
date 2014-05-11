@@ -1,6 +1,7 @@
 package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
+import gov.polisen.ainappen.DeviceStatusUpdater;
 import gov.polisen.ainappen.ExternalDBHandeler;
 import gov.polisen.ainappen.LocalDBHandler;
 
@@ -17,11 +18,14 @@ public abstract class Algorithm {
 	protected View root;
 	protected Queue<Pair<Integer, Object>> queue;
 	private final ExternalDBHandeler eh;
+	DeviceStatusUpdater dsu;
+
 
 	public Algorithm(View root){
 		this.root = root;
 		queue = new LinkedList<Pair<Integer, Object>>();
 		eh = new ExternalDBHandeler(root);
+		dsu = new DeviceStatusUpdater(root.getContext());
 	}
 
 	/*
@@ -43,18 +47,19 @@ public abstract class Algorithm {
 		while (!queue.isEmpty()){
 			Pair<Integer, Object> p = queue.poll();
 			if (p.first == 1) runSyncDatabases((ListView) p.second);
-			else if (p.first == 2) runUploadPosition(p.second);
+			else if (p.first == 2) runUploadPosition((String) p.second);
 			else if (p.first == 3) runUploadNewCase((Case) p.second);
 		}
 	}
 
 	protected void runSyncDatabases(ListView listView){
-		Log.d("henning", "Run sync database");
+		Log.d("kandidat", "Run sync database");
 		eh.syncDatabases(listView);
 	}
 
-	protected void runUploadPosition(Object position) {
-		// TODO:	 Funktionen inte skriven än.
+	protected void runUploadPosition(String positionInfo) {
+		Log.d("kandidat", "Run upload position");
+		dsu.uploadPosition(positionInfo);
 	}
 
 	protected void runUploadNewCase(Case aCase) {
@@ -68,7 +73,7 @@ public abstract class Algorithm {
 	
 	public abstract void syncDatabases(ListView listView, boolean userInitiated);
 
-	public abstract void uploadPosition(Object position);
+	public abstract void uploadPosition(String positionInfo);
 	
 	public abstract void uploadNewCase(Case aCase);
 
