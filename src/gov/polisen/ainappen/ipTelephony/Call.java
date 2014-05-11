@@ -1,5 +1,7 @@
 package gov.polisen.ainappen.ipTelephony;
 
+import gov.polisen.ainappen.GlobalData;
+
 import java.text.ParseException;
 
 import android.app.PendingIntent;
@@ -21,13 +23,11 @@ import android.util.Log;
  */
 public class Call {
 
-	private SipManager				manager;
-	private SipProfile				myUser;
-	private SipAudioCall			call	= null;
-	private IncomingCallReceiver	callReceiver;
-	private Context					context;
-
-	private static final String		DOMAIN	= "itkand-1.ida.liu.se";
+	private SipManager                 manager;
+	private SipProfile                 myUser;
+	private SipAudioCall               call = null;
+	private final IncomingCallReceiver callReceiver;
+	private final GlobalData           settings;
 
 	/**
 	 * Instantiates a Call object that handles SIP registration and SIP calls.
@@ -37,9 +37,8 @@ public class Call {
 	public Call(Context context) {
 		IntentFilter filter = createIntentFilter();
 		callReceiver = new IncomingCallReceiver(this);
-		this.context = context;
 		context.registerReceiver(callReceiver, filter);
-
+		this.settings = (GlobalData) context.getApplicationContext();
 	}
 
 	/**
@@ -60,7 +59,7 @@ public class Call {
 	 */
 	public void initializeManager(String userName, String password) {
 		if (manager == null) {
-			manager = SipManager.newInstance(context);
+			manager = SipManager.newInstance(settings);
 		}
 		initializeLocalProfile(userName, password);
 	}
@@ -82,14 +81,14 @@ public class Call {
 
 		try {
 			SipProfile.Builder builder = new SipProfile.Builder(userName,
-					DOMAIN);
+			    settings.SipUrl);
 			builder.setPassword(password);
 
 			myUser = builder.build();
 
 			Intent i = new Intent();
 			i.setAction("android.AinAppen.INCOMING_CALL");
-			PendingIntent pi = PendingIntent.getBroadcast(context, 0, i,
+			PendingIntent pi = PendingIntent.getBroadcast(settings, 0, i,
 					Intent.FILL_IN_DATA);
 			manager.open(myUser, pi, null);
 
@@ -134,7 +133,7 @@ public class Call {
 			if (myUser != null) {
 				if (!call.isInCall())
 					manager.close(myUser.getUriString());
-				context.unregisterReceiver(callReceiver);
+				settings.unregisterReceiver(callReceiver);
 			}
 		} catch (Exception ee) {
 			Log.d("onDestroy", "Failed to close local profile.", ee);
@@ -148,7 +147,7 @@ public class Call {
 	 */
 	public void initiateCall(String userName) {
 
-		String sipAdress = userName + "@" + DOMAIN;
+		String sipAdress = userName + "@" + settings.SipUrl;
 
 		try {
 			SipAudioCall.Listener callListener = new SipAudioCall.Listener() {

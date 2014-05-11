@@ -16,7 +16,7 @@ public abstract class Algorithm {
 
 	protected View root;
 	protected Queue<Pair<Integer, Object>> queue;
-	private ExternalDBHandeler eh;
+	private final ExternalDBHandeler eh;
 
 	public Algorithm(View root){
 		this.root = root;
@@ -37,7 +37,7 @@ public abstract class Algorithm {
 	protected void putOnQueue(int i, Object o) {
 		queue.add(new Pair<Integer, Object>(i, o));
 	}
-
+	
 	public void runQueue(){
 		Log.d("henning", "running que" + queue.size());
 		while (!queue.isEmpty()){
@@ -55,9 +55,8 @@ public abstract class Algorithm {
 
 	protected void runUploadPosition(Object position) {
 		// TODO:	 Funktionen inte skriven än.
-		//new SendFake(root).execute();
 	}
-	
+
 	protected void runUploadNewCase(Case aCase) {
 		Log.d("kand", "RUN Upload Case");
 		LocalDBHandler lh = new LocalDBHandler(root.getContext());
@@ -66,11 +65,11 @@ public abstract class Algorithm {
 		lh.release();
 		eh.uploadCase(returnCase);
 	}
-
+	
 	public abstract void syncDatabases(ListView listView, boolean userInitiated);
 
 	public abstract void uploadPosition(Object position);
-
+	
 	public abstract void uploadNewCase(Case aCase);
 
 }

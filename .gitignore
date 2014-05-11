@@ -35,3 +35,5 @@ proguard/
 .settings
 .project
 
+# Gitstats folder
+stats/
