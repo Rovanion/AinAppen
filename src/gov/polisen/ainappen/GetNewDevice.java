@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class GetNewDevice {
 	public GetNewDevice() {
-		String deviceUrl = GlobalData.webUrl + "/newDevice/1/1/1";
+		String deviceUrl = GlobalData.webUrl + "newDevice/1/1/1";
 		final SyncDB syncer = new SyncDB();
 		syncer.execute(deviceUrl);
 	}
@@ -62,7 +62,7 @@ public class GetNewDevice {
 		@Override
 		protected void onPostExecute(Integer result) {
 			GlobalData.deviceID = result;
-			Log.d("global", Integer.toString(result));
+			Log.d("kandidat", Integer.toString(result));
 		}
 	}
 }
