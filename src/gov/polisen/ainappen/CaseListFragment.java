@@ -21,8 +21,8 @@ import android.widget.ListView;
  */
 public class CaseListFragment extends Fragment {
 
-	private ListView	caseListView;
-	private View		rootView;
+	private ListView           caseListView;
+	private View               rootView;
 	private EnergySavingPolicy policy;
 
 	public CaseListFragment() {
@@ -74,16 +74,11 @@ public class CaseListFragment extends Fragment {
 		ldbh.release();
 
 		// 1. Updates local db with external cases
-		// 2. Updats listview		
-				
-		policy.getAlgorithm().syncDatabases(caseListView, false);		
-		
-		
-
-		
+		// 2. Updats listview
+		policy.getAlgorithm().syncDatabases(caseListView, false);
 	}
 
-	/*
+	/**
 	 * Needs to be included in high level fragments high level fragments =
 	 * fragments that is main drawer menu.
 	 */
@@ -111,10 +106,14 @@ public class CaseListFragment extends Fragment {
 			((MainActivity) getActivity()).gotoAddCase();
 			return true;
 		case R.id.update_case_list:
-			policy.getAlgorithm().syncDatabases(caseListView,true);
+			policy.getAlgorithm().syncDatabases(caseListView, true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public ListView getCaseListView() {
+		return caseListView;
 	}
 }

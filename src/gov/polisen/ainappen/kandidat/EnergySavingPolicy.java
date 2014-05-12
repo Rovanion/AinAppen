@@ -13,9 +13,9 @@ public class EnergySavingPolicy{
 
 	private final View root;
 	protected Double   batteryLevel;
-	SiminAlgorithm     simin;
-	NewAlgorithm       newAlg;
-	Algorithm          currentAlgorithm;
+	private final SiminAlgorithm simin;
+	private final NewAlgorithm   newAlg;
+	private Algorithm            currentAlgorithm;
 	static EnergySavingPolicy singleton = null;
 
 
@@ -87,7 +87,7 @@ public class EnergySavingPolicy{
 		}
 		return level;
 	}
-	
+
 	public Case getDummyCase() {
 		int deviceId = GlobalData.deviceID;
 		Case dummyCase = new Case(deviceId, 0, 1, new Date(), 0, deviceId, new Date(), Short.valueOf((short)1), Short.valueOf((short)1), Short.valueOf((short)1), null, null, new Date(), "Hehe");

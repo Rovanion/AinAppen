@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
 	private Call                  sipCall;
 	private String[]              mMenuOptions;
 	public static MainActivity    main;
+	private Fragment              currentFragment;
 
 	public Call getSipCall() {
 		return sipCall;
@@ -40,7 +41,7 @@ public class MainActivity extends Activity {
 		super.onStart();
 		if (!GlobalData.user.getUsername().equals("fuskLog"))
 			sipCall.initializeManager(GlobalData.user.getUsername(),
-			    GlobalData.password);
+					GlobalData.password);
 
 	}
 
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		main = this;
 		setContentView(R.layout.activity_main);
-		
+
 		mMenuOptions = getResources().getStringArray(R.array.top_level_options);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -66,7 +67,7 @@ public class MainActivity extends Activity {
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-		
+
 		// ActionBarDrawerToggle ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
@@ -109,7 +110,7 @@ public class MainActivity extends Activity {
 
 		if (!GlobalData.user.getUsername().equals("fuskLog"))
 			sipCall.initializeManager(GlobalData.user.getUsername(),
-			    GlobalData.password);
+					GlobalData.password);
 	}
 
 	@Override
@@ -183,7 +184,8 @@ public class MainActivity extends Activity {
 
 		switch (position) {
 		case 0:
-			gotoFragment(new CaseListFragment());
+			currentFragment = new CaseListFragment();
+			gotoFragment(currentFragment);
 			break; // Case
 		case 1:
 			if (hasExternalStorage() == true) {
@@ -192,10 +194,12 @@ public class MainActivity extends Activity {
 				break; // Map
 			}
 		case 2:
-			gotoFragment(new ContactListFragment());
+			currentFragment = new ContactListFragment();
+			gotoFragment(currentFragment);
 			break; // Contacts
 		case 3:
-			gotoFragment(new InformationFragment());
+			currentFragment = new InformationFragment();
+			gotoFragment(currentFragment);
 			break; // Information
 		default:
 		}
@@ -293,8 +297,8 @@ public class MainActivity extends Activity {
 
 		if (GlobalData.user != null) {
 			Toast.makeText(this,
-			    "Inloggad som användare: " + GlobalData.user.getUsername(),
-			    Toast.LENGTH_LONG).show();
+					"Inloggad som användare: " + GlobalData.user.getUsername(),
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -306,6 +310,10 @@ public class MainActivity extends Activity {
 
 	public Case getSelectedCase() {
 		return this.selectedCase;
+	}
+
+	public Fragment getCurrentFragment() {
+		return currentFragment;
 	}
 
 }

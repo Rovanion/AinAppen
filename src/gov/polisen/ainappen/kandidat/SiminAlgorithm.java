@@ -12,10 +12,10 @@ import android.widget.ListView;
  */
 public class SiminAlgorithm extends Algorithm{
 
-	private final int mInterval = 10000; // 10 seconds
+	private final int     mInterval = 60000; // 10 seconds
 	private final Handler mHandler;
-	private boolean isRunning;
-	private boolean firstRound;
+	private boolean       isRunning;
+	private boolean       firstRound;
 
 	public SiminAlgorithm(View root) {
 		super(root);
@@ -60,7 +60,7 @@ public class SiminAlgorithm extends Algorithm{
 	public void syncDatabases(ListView listView, boolean userInitiated) {
 		putOnQueue(1, listView);
 
-		// Run directly if user initiated the sync and run queue. 
+		// Run directly if user initiated the sync and run queue.
 		if (userInitiated){
 			runQueue();
 			stopRepeatingTask();
@@ -70,7 +70,7 @@ public class SiminAlgorithm extends Algorithm{
 	@Override
 	public void uploadPosition(String positionInfo) {
 		Log.d("kandidat", "Upload position put on queue");
-		putOnQueue(2, positionInfo);	
+		putOnQueue(2, positionInfo);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package gov.polisen.ainappen.kandidat;
 
+import gov.polisen.ainappen.CaseListFragment;
 import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.MainActivity;
 
@@ -22,14 +23,23 @@ public class PuppetMaster extends TimerTask {
 				if (lastFragment == 0) {
 					MainActivity.main.selectItem(2);
 					lastFragment = 2;
-					GlobalData.puppeteerTimer.schedule(new CaseUpdater(), 10000);
+					if (iteration % 12 == 0) {
+						CaseListFragment clf = (CaseListFragment)MainActivity.main.getCurrentFragment();
+						EnergySavingPolicy.getPolicy().getAlgorithm()
+						.syncDatabases(clf.getCaseListView(), true);
+					}
+
 				} else if (lastFragment == 2) {
 					MainActivity.main.selectItem(3);
 					lastFragment = 3;
+				} else if (lastFragment == 3) {
+					MainActivity.main.gotoAddCase();
+					lastFragment = 10;
 				} else {
 					MainActivity.main.selectItem(0);
 					lastFragment = 0;
 				}
+
 			}
 		});
 		// When iteration is 60 it takes 180s to circle through the activities.
@@ -39,7 +49,6 @@ public class PuppetMaster extends TimerTask {
 			// Thread.sleep(); Wierd as hell.
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		GlobalData.puppeteerTimer.schedule(
