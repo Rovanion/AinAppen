@@ -12,7 +12,7 @@ import android.widget.ListView;
  */
 public class SiminAlgorithm extends Algorithm{
 
-	private int mInterval = 10000; // milliseconds
+	private int mInterval = 60000; // milliseconds
 	private Handler mHandler;
 	private boolean isRunning;
 	private boolean firstRound;

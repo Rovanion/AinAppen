@@ -51,7 +51,7 @@ public class DeviceStatusUpdater extends TimerTask {
 		SetupGps();
 
 		Timer myTimer = new Timer();
-		myTimer.scheduleAtFixedRate(this, 0, 15000); // (timertask,delay,period)
+		myTimer.scheduleAtFixedRate(this, 0, 30000); // (timertask,delay,period)
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package gov.polisen.ainappen;
 
-import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,9 +20,6 @@ public class InformationFragment extends Fragment {
 		getActivity().setTitle("Information");
 		setUpHighLevelFragment();
 		
-		Case aCase = EnergySavingPolicy.getPolicy().getDummyCase();
-		EnergySavingPolicy.getPolicy().getAlgorithm().uploadNewCase(aCase);
-
 		return rootView;
 	}
 
