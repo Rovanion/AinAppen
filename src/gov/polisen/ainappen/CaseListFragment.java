@@ -5,6 +5,8 @@ import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
 import java.util.List;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +36,7 @@ public class CaseListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_case_list, container,
 				false);
+		
 		policy = EnergySavingPolicy.getPolicy(rootView);
 
 		setHasOptionsMenu(true);
@@ -77,9 +80,6 @@ public class CaseListFragment extends Fragment {
 		// 2. Updats listview		
 				
 		policy.getAlgorithm().syncDatabases(caseListView, false);		
-		
-		
-
 		
 	}
 
