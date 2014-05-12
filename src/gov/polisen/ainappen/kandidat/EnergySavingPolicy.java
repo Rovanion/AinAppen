@@ -11,12 +11,13 @@ import android.view.View;
 
 public class EnergySavingPolicy{
 
-	private final View root;
-	protected Double   batteryLevel;
-	private final SiminAlgorithm simin;
-	private final NewAlgorithm   newAlg;
-	private Algorithm            currentAlgorithm;
-	static EnergySavingPolicy singleton = null;
+	private final View              root;
+	protected Double                batteryLevel;
+	private final SiminAlgorithm    simin;
+	private final StandardAlgorithm standard;
+	private final NewAlgorithm      newAlg;
+	private Algorithm               currentAlgorithm;
+	static EnergySavingPolicy       singleton = null;
 
 
 	private EnergySavingPolicy(View root) {
@@ -24,7 +25,7 @@ public class EnergySavingPolicy{
 		batteryLevel = getBatteryLevel();
 		simin = new SiminAlgorithm(root);
 		newAlg = new NewAlgorithm(root);
-
+		standard = new StandardAlgorithm(root);
 		// Schould be updated every X minutes.
 		choseAlgorithm();
 	}
@@ -61,11 +62,11 @@ public class EnergySavingPolicy{
 
 
 	public Algorithm getAlgorithm() {
-		//Remove when all algorithms works
-		if (!simin.isRunning()){
-			simin.startRepeatingTask();
-		}
-		return simin;
+		// Remove when all algorithms works
+		// if (!simin.isRunning()){
+		// simin.startRepeatingTask();
+		// }
+		return newAlg;
 
 		//		if (currentAlgorithm instanceof SiminAlgorithm){
 		//			if (!((SiminAlgorithm) currentAlgorithm).isRunning()){

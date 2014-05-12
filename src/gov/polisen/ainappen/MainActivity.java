@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
 	private String[]              mMenuOptions;
 	public static MainActivity    main;
 	private Fragment              currentFragment;
+	private CaseListFragment      caseListFragment;
 
 	public Call getSipCall() {
 		return sipCall;
@@ -184,7 +185,8 @@ public class MainActivity extends Activity {
 
 		switch (position) {
 		case 0:
-			currentFragment = new CaseListFragment();
+			caseListFragment = new CaseListFragment();
+			currentFragment = caseListFragment;
 			gotoFragment(currentFragment);
 			break; // Case
 		case 1:
@@ -312,8 +314,8 @@ public class MainActivity extends Activity {
 		return this.selectedCase;
 	}
 
-	public Fragment getCurrentFragment() {
-		return currentFragment;
+	public CaseListFragment getCaseListFragment() {
+		return caseListFragment;
 	}
 
 }

@@ -13,7 +13,8 @@ public class NewAlgorithm extends Algorithm {
 	@Override
 	public void syncDatabases(ListView listView, boolean userInitiated) {
 		putOnQueue(1, listView);
-		if (userInitiated) runQueue();
+		if (userInitiated)
+			runQueue();
 	}
 
 	@Override
