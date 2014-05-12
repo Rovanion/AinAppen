@@ -1,5 +1,7 @@
 package gov.polisen.ainappen;
 
+import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
+
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -43,6 +45,9 @@ public class AddCaseFragment extends Fragment {
 		setUpLowLevelFragment();
 
 		setupStatusSpinner(rootView);
+		
+		Case aCase = EnergySavingPolicy.getPolicy().getDummyCase();
+		EnergySavingPolicy.getPolicy().getAlgorithm().uploadNewCase(aCase);
 
 		return rootView;
 	}
@@ -173,7 +178,9 @@ public class AddCaseFragment extends Fragment {
 		int caseID = 0;
 		int firstRevisionCaseID = 0;
 		int deviceID = GlobalData.deviceID;
-		int author = GlobalData.user.getUserId();
+		//int author = GlobalData.user.getUserId();
+		int author = 1;
+		
 		Date modificationDate = new Date();
 		int firstRevisionDeviceID = deviceID;
 		Date deletionTime = null;
