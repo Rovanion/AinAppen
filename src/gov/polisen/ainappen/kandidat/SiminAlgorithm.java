@@ -4,7 +4,6 @@ import gov.polisen.ainappen.Case;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 
 /*
  * SiminAlgorithm is waiting 60 seconds before elastic data is send.
@@ -57,8 +56,8 @@ public class SiminAlgorithm extends Algorithm{
 	}
 
 	@Override
-	public void syncDatabases(ListView listView, boolean userInitiated) {
-		putOnQueue(1, listView);
+	public void syncDatabases(boolean userInitiated) {
+		putOnQueue(1, userInitiated);
 
 		// Run directly if user initiated the sync and run queue.
 		if (userInitiated){

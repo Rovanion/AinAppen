@@ -5,8 +5,6 @@ import gov.polisen.ainappen.kandidat.EnergySavingPolicy;
 import java.util.List;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,6 +61,8 @@ public class CaseListFragment extends Fragment {
 
 	private void setupCaseList() {
 		caseListView = (ListView) rootView.findViewById(R.id.case_list);
+		GlobalData.caseListView = caseListView;
+		
 		LocalDBHandler ldbh = new LocalDBHandler(getActivity());
 
 		// Fills list with cases from local DB
@@ -77,7 +77,7 @@ public class CaseListFragment extends Fragment {
 
 		// 1. Updates local db with external cases
 		// 2. Updats listview
-		policy.getAlgorithm().syncDatabases(caseListView, false);
+		policy.getAlgorithm().syncDatabases(false);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class CaseListFragment extends Fragment {
 			((MainActivity) getActivity()).gotoAddCase();
 			return true;
 		case R.id.update_case_list:
-			policy.getAlgorithm().syncDatabases(caseListView, true);
+			policy.getAlgorithm().syncDatabases(true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

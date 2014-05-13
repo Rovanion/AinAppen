@@ -42,9 +42,8 @@ public class ExternalDBHandeler {
 	 * 1. Synchronizing external and local databases. 2. Updates Case list view
 	 * if caseListView argument is not null.
 	 */
-	public void syncDatabases(ListView caseListView) {
-		if (caseListView != null)
-			this.caseListView = caseListView;
+	public void syncDatabases() {
+		if (GlobalData.caseListView != null) caseListView = GlobalData.caseListView;
 		
 		final SyncDB syncer = new SyncDB();
 		Handler handler = new Handler();

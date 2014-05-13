@@ -2,7 +2,6 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import android.view.View;
-import android.widget.ListView;
 
 /*
  * No scheduling algorithm is activated. All commands are running directly. 
@@ -14,8 +13,8 @@ public class StandardAlgorithm extends Algorithm{
 	}
 
 	@Override
-	public void syncDatabases(ListView listView, boolean userInitiated) {
-		runSyncDatabases(listView);		
+	public void syncDatabases(boolean userInitiated) {
+		runSyncDatabases();		
 	}
 
 	@Override

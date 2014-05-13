@@ -2,7 +2,6 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import android.view.View;
-import android.widget.ListView;
 
 public class NewAlgorithm extends Algorithm {
 
@@ -11,8 +10,8 @@ public class NewAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public void syncDatabases(ListView listView, boolean userInitiated) {
-		putOnQueue(1, listView);
+	public void syncDatabases(boolean userInitiated) {
+		putOnQueue(1, userInitiated);	
 		if (userInitiated) runQueue();
 	}
 

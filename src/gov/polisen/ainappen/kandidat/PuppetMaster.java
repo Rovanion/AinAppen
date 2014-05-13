@@ -1,6 +1,5 @@
 package gov.polisen.ainappen.kandidat;
 
-import gov.polisen.ainappen.CaseListFragment;
 import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.MainActivity;
 
@@ -9,10 +8,12 @@ import java.util.TimerTask;
 public class PuppetMaster extends TimerTask {
 	private int lastFragment;
 	private int iteration;
+	private long startTime;
 
-	public PuppetMaster(int iteration, int lastFragment){
+	public PuppetMaster(int iteration, int lastFragment, long startTime){
 		this.iteration = iteration;
 		this.lastFragment = lastFragment;
+		this.startTime = startTime;
 	}
 
 	@Override
@@ -20,13 +21,13 @@ public class PuppetMaster extends TimerTask {
 		MainActivity.main.runOnUiThread( new Runnable (){
 			@Override
 			public void run() {
+									
 				if (lastFragment == 0) {
 					MainActivity.main.selectItem(2);
 					lastFragment = 2;
 					if (iteration % 12 == 0) {
-						CaseListFragment clf = (CaseListFragment)MainActivity.main.getCurrentFragment();
 						EnergySavingPolicy.getPolicy().getAlgorithm()
-						.syncDatabases(clf.getCaseListView(), true);
+						.syncDatabases(true);
 					}
 
 				} else if (lastFragment == 2) {
@@ -52,7 +53,7 @@ public class PuppetMaster extends TimerTask {
 			e.printStackTrace();
 		}
 		GlobalData.puppeteerTimer.schedule(
-				new PuppetMaster(iteration, lastFragment), iteration * 1000);
+				new PuppetMaster(iteration, lastFragment, startTime), iteration * 1000);
 
 	}
 }

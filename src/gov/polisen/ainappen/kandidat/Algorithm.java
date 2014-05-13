@@ -3,29 +3,37 @@ package gov.polisen.ainappen.kandidat;
 import gov.polisen.ainappen.Case;
 import gov.polisen.ainappen.DeviceStatusUpdater;
 import gov.polisen.ainappen.ExternalDBHandeler;
+import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.LocalDBHandler;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.ListView;
 
 public abstract class Algorithm {
 
 	protected View root;
-	protected Queue<Pair<Integer, Object>> queue;
+	protected Queue<Triple<Integer, Object, Long>> queue;
 	private final ExternalDBHandeler eh;
 	DeviceStatusUpdater dsu;
+	private Long initiated;
+	private long excecuted;
+	private long latency;
+	private long starttime;
+	private Boolean userInitiatedSync;
+	private String statsString;
+	private TextFileHandeler w;
 
 
 	public Algorithm(View root){
 		this.root = root;
-		queue = new LinkedList<Pair<Integer, Object>>();
+		queue = new LinkedList<Triple<Integer, Object, Long>>();
 		eh = new ExternalDBHandeler(root);
 		dsu = new DeviceStatusUpdater(root.getContext());
+		w = new TextFileHandeler(root.getContext());
+
 	}
 
 	/*
@@ -39,22 +47,48 @@ public abstract class Algorithm {
 	 * 
 	 */
 	protected void putOnQueue(int i, Object o) {
-		queue.add(new Pair<Integer, Object>(i, o));
+		long l = System.currentTimeMillis();
+		queue.add(new Triple<Integer, Object, Long>(i, o, l));
 	}
-	
+
 	public void runQueue(){
 		Log.d("henning", "running que" + queue.size());
 		while (!queue.isEmpty()){
-			Pair<Integer, Object> p = queue.poll();
-			if (p.first == 1) runSyncDatabases((ListView) p.second);
-			else if (p.first == 2) runUploadPosition((String) p.second);
-			else if (p.first == 3) runUploadNewCase((Case) p.second);
+			userInitiatedSync = false;
+			Triple<Integer, Object, Long> p = queue.poll();
+			if (p.a == 1){
+				runSyncDatabases();
+				userInitiatedSync = ((Boolean) p.b);
+			}
+			else if (p.a == 2) runUploadPosition((String) p.b);
+			else if (p.a == 3) runUploadNewCase((Case) p.b);
+
+			starttime = GlobalData.starttime;
+			initiated = (p.c - starttime) / 1000;
+			excecuted = (System.currentTimeMillis() - starttime) / 1000;
+			latency = excecuted - initiated;
+			
+			String init;
+			if (userInitiatedSync) init = "1";
+			else init = "";
+			
+			statsString = 
+					Integer.toString(p.a) + init + ";" + 
+					Integer.toString(queue.size()) + ";" +
+					Long.valueOf(initiated) + ";" + 
+					Long.valueOf(excecuted)+ ";" + 
+					Long.valueOf(latency);
+			
+			w.saveText(statsString);
+
+			
+					
 		}
 	}
 
-	protected void runSyncDatabases(ListView listView){
+	protected void runSyncDatabases(){
 		Log.d("kandidat", "Run sync database");
-		eh.syncDatabases(listView);
+		eh.syncDatabases();
 	}
 
 	protected void runUploadPosition(String positionInfo) {
@@ -70,11 +104,13 @@ public abstract class Algorithm {
 		lh.release();
 		eh.uploadCase(returnCase);
 	}
-	
-	public abstract void syncDatabases(ListView listView, boolean userInitiated);
+
+	public abstract void syncDatabases(boolean userInitiated);
 
 	public abstract void uploadPosition(String positionInfo);
-	
+
 	public abstract void uploadNewCase(Case aCase);
+	
+	
 
 }
