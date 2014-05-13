@@ -1,5 +1,6 @@
 package gov.polisen.ainappen.kandidat;
 
+import gov.polisen.ainappen.CaseListFragment;
 import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.MainActivity;
 
@@ -8,12 +9,10 @@ import java.util.TimerTask;
 public class PuppetMaster extends TimerTask {
 	private int lastFragment;
 	private int iteration;
-	private long startTime;
 
-	public PuppetMaster(int iteration, int lastFragment, long startTime){
+	public PuppetMaster(int iteration, int lastFragment){
 		this.iteration = iteration;
 		this.lastFragment = lastFragment;
-		this.startTime = startTime;
 	}
 
 	@Override
@@ -21,13 +20,16 @@ public class PuppetMaster extends TimerTask {
 		MainActivity.main.runOnUiThread( new Runnable (){
 			@Override
 			public void run() {
-									
 				if (lastFragment == 0) {
 					MainActivity.main.selectItem(2);
 					lastFragment = 2;
-					if (iteration % 12 == 0) {
+					if (iteration % 9 == 0 || iteration % 10 == 0 || iteration % 11 == 0
+							|| iteration % 12 == 0) {
+						CaseListFragment clf = MainActivity.main.getCaseListFragment();
 						EnergySavingPolicy.getPolicy().getAlgorithm()
-						.syncDatabases(true);
+						.syncDatabases(clf.getCaseListView(), true);
+						Log.d("kandidat", "Doing a user initiated sync on iteration: "
+								+ iteration);
 					}
 
 				} else if (lastFragment == 2) {
@@ -53,7 +55,7 @@ public class PuppetMaster extends TimerTask {
 			e.printStackTrace();
 		}
 		GlobalData.puppeteerTimer.schedule(
-				new PuppetMaster(iteration, lastFragment, startTime), iteration * 1000);
+		    new PuppetMaster(iteration, lastFragment), (iteration % 16) * 2000);
 
 	}
 }

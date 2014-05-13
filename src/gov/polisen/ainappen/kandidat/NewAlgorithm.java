@@ -2,6 +2,7 @@ package gov.polisen.ainappen.kandidat;
 
 import gov.polisen.ainappen.Case;
 import android.view.View;
+import android.widget.ListView;
 
 public class NewAlgorithm extends Algorithm {
 

@@ -44,40 +44,44 @@ public class DeviceStatusUpdater extends TimerTask {
 	public DeviceStatusUpdater(Context context) {
 		this.context = context;
 		// Set up reciever to get battery level
-		IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-		batteryStatus = context.registerReceiver(null, ifilter);		
+		// IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+		// batteryStatus = context.registerReceiver(null, ifilter);
 		appData = (GlobalData) context.getApplicationContext();
 		// Set up listener to get gps-position
-		SetupGps();
+		// SetupGps();
 
 		Timer myTimer = new Timer();
-		myTimer.scheduleAtFixedRate(this, 1000, 30000); // (timertask,delay,period)
+		myTimer.scheduleAtFixedRate(this, 1000, 60000); // (timertask,delay,period)
 	}
 
 	@Override
 	public void run() {
 		// retrieves the devices battery level
-		int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-		Log.d("TAG", "Batteri " + level);
+		// int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+		// Log.d("TAG", "Batteri " + level);
 
 		deviceID = 2; // TODO för att kunna testa med något som finns i
 		// databasen
 
 		// doesnt do anything if location is unknown
-		if (lastLocation == null) {
-			return;
-		}
+		// if (lastLocation == null) {
+		// lastLocation = new Location("")
+		// }
 
-		double longitude = lastLocation.getLongitude();
-		double latitude = lastLocation.getLatitude();
+		// double longitude = lastLocation.getLongitude();
+		// double latitude = lastLocation.getLatitude();
 		action = "updateDevice/";
 
-		String positionInfo = server + action + deviceID + "/" + level
-				+ "/" + longitude + "/" + latitude;
-			
-		Log.d("TAG", "Lat: " + lastLocation.getLatitude());
-		Log.d("TAG", "Long: " + lastLocation.getLongitude());
-		
+		// String positionInfo = server + action + deviceID + "/" + level
+		// + "/" + longitude + "/" + latitude;
+
+		// Fake data
+		String positionInfo = server + action + deviceID + "/" + 100 + "/" + 1
+				+ "/" + 1;
+
+		// Log.d("TAG", "Lat: " + lastLocation.getLatitude());
+		// Log.d("TAG", "Long: " + lastLocation.getLongitude());
+
 		EnergySavingPolicy.getPolicy().getAlgorithm().uploadPosition(positionInfo);
 	}
 
@@ -102,7 +106,7 @@ public class DeviceStatusUpdater extends TimerTask {
 			public void onLocationChanged(Location location) {
 				// Called when a new location is found by the network location
 				// provider.
-				lastLocation = location;
+				// lastLocation = location;
 			}
 
 			@Override
