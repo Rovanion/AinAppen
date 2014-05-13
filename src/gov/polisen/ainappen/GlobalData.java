@@ -6,11 +6,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Application;
+import android.widget.ListView;
 
 public class GlobalData extends Application {
 	public static User         user;
 	public static String       password;
 	public static int          deviceID;
+	public static ListView caseListView;
+	public static long starttime;
 	// webUrl must start with http:// , otherwise the app will crash.
 	public static final String webUrl         = "http://christian.cyd.liu.se:1337/";
 	public static final String SipUrl         = "christian.cyd.liu.se";

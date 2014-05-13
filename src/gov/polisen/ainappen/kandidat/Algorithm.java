@@ -79,10 +79,7 @@ public abstract class Algorithm {
 					Long.valueOf(excecuted)+ ";" + 
 					Long.valueOf(latency);
 			
-			w.saveText(statsString);
-
-			
-					
+			w.saveText(statsString);		
 		}
 	}
 

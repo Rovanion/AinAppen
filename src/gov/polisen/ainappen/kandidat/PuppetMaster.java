@@ -1,10 +1,11 @@
 package gov.polisen.ainappen.kandidat;
 
-import gov.polisen.ainappen.CaseListFragment;
 import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.MainActivity;
 
 import java.util.TimerTask;
+
+import android.util.Log;
 
 public class PuppetMaster extends TimerTask {
 	private int lastFragment;
@@ -25,9 +26,8 @@ public class PuppetMaster extends TimerTask {
 					lastFragment = 2;
 					if (iteration % 9 == 0 || iteration % 10 == 0 || iteration % 11 == 0
 							|| iteration % 12 == 0) {
-						CaseListFragment clf = MainActivity.main.getCaseListFragment();
 						EnergySavingPolicy.getPolicy().getAlgorithm()
-						.syncDatabases(clf.getCaseListView(), true);
+						.syncDatabases(true);
 						Log.d("kandidat", "Doing a user initiated sync on iteration: "
 								+ iteration);
 					}
