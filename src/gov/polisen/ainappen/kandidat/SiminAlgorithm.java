@@ -11,7 +11,7 @@ import android.view.View;
  */
 public class SiminAlgorithm extends Algorithm{
 
-	private final int     mInterval = 90000; // 10 seconds
+	private final int     mInterval = 10000; // milliseconds
 	private final Handler mHandler;
 	private boolean       isRunning;
 	private boolean       firstRound;

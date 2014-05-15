@@ -6,6 +6,7 @@ import gov.polisen.ainappen.ExternalDBHandeler;
 import gov.polisen.ainappen.GlobalData;
 import gov.polisen.ainappen.LocalDBHandler;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -14,17 +15,15 @@ import android.view.View;
 
 public abstract class Algorithm {
 
-	protected View root;
+	protected View                                 root;
 	protected Queue<Triple<Integer, Object, Long>> queue;
-	private final ExternalDBHandeler eh;
-	DeviceStatusUpdater dsu;
-	private Long initiated;
-	private long excecuted;
-	private long latency;
-	private long starttime;
-	private Boolean userInitiatedSync;
-	private String statsString;
-	private TextFileHandeler w;
+	private final ExternalDBHandeler               eh;
+	private final DeviceStatusUpdater              dsu;
+	private Long                                   initiated;
+	private long                                   excecuted;
+	private long                                   latency;
+	private long                                   starttime;
+	private Boolean                                userInitiatedSync;
 
 
 	public Algorithm(View root){
@@ -32,8 +31,6 @@ public abstract class Algorithm {
 		queue = new LinkedList<Triple<Integer, Object, Long>>();
 		eh = new ExternalDBHandeler(root);
 		dsu = new DeviceStatusUpdater(root.getContext());
-		w = new TextFileHandeler(root.getContext());
-
 	}
 
 	/*
@@ -52,7 +49,8 @@ public abstract class Algorithm {
 	}
 
 	public void runQueue(){
-		Log.d("henning", "running que" + queue.size());
+		Log.d("henning", "running que with the size: " + queue.size());
+		int queueSize = 0;
 		while (!queue.isEmpty()){
 			userInitiatedSync = false;
 			Triple<Integer, Object, Long> p = queue.poll();
@@ -63,23 +61,24 @@ public abstract class Algorithm {
 			else if (p.a == 2) runUploadPosition((String) p.b);
 			else if (p.a == 3) runUploadNewCase((Case) p.b);
 
-			starttime = GlobalData.starttime;
-			initiated = (p.c - starttime) / 1000;
-			excecuted = (System.currentTimeMillis() - starttime) / 1000;
+			starttime = GlobalData.startTime;
+			initiated = (p.c - starttime);
+			excecuted = (System.currentTimeMillis() - starttime);
 			latency = excecuted - initiated;
-			
-			String init;
-			if (userInitiatedSync) init = "1";
-			else init = "";
-			
-			statsString = 
-					Integer.toString(p.a) + init + ";" + 
-					Integer.toString(queue.size()) + ";" +
-					Long.valueOf(initiated) + ";" + 
-					Long.valueOf(excecuted)+ ";" + 
-					Long.valueOf(latency);
-			
-			w.saveText(statsString);		
+
+			// 1 if user initiated, else 0.
+			int init = userInitiatedSync ? 1 : 0;
+
+			String statsString = excecuted + ";" + p.a + ";" + init + ";"
+			    + (++queueSize) + ";" + initiated + ";" + latency;
+
+			try {
+				GlobalData.getLogWriter().append(statsString + '\n');
+				GlobalData.getLogWriter().flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -107,7 +106,6 @@ public abstract class Algorithm {
 	public abstract void uploadPosition(String positionInfo);
 
 	public abstract void uploadNewCase(Case aCase);
-	
-	
+
 
 }
