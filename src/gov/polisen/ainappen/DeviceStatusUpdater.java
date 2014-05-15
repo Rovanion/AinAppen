@@ -16,12 +16,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -86,6 +84,7 @@ public class DeviceStatusUpdater extends TimerTask {
 	}
 
 	public void uploadPosition(String positionInfo){
+		Log.d("KANDI", "in upload position");
 		new SendDeviceInfo().execute(positionInfo);
 	}
 

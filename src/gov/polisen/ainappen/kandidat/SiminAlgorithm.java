@@ -68,7 +68,6 @@ public class SiminAlgorithm extends Algorithm{
 
 	@Override
 	public void uploadPosition(String positionInfo) {
-		Log.d("kandidat", "Upload position put on queue");
 		putOnQueue(2, positionInfo);
 	}
 

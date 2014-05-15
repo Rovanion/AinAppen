@@ -17,19 +17,22 @@ public class GlobalData extends Application {
 	// webUrl must start with http:// , otherwise the app will crash.
 	public static final String webUrl         = "http://christian.cyd.liu.se:1337/";
 	public static final String SipUrl         = "christian.cyd.liu.se";
+	public static DeviceStatusUpdater dsu = null;
+
 
 	public static final Timer  puppeteerTimer = new Timer();
 
 	public GlobalData() {
+
 		TimerTask puppeteer = new PuppetMaster(0, 0);
 
 		puppeteerTimer.schedule(puppeteer, 1000);
 
 		if (GlobalData.deviceID == 0) {
 			new GetNewDevice();
-		}	
+		}
 
-}
+	}
 
 	@Override
 	public void onCreate() {

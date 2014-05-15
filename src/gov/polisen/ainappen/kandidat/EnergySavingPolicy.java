@@ -66,7 +66,7 @@ public class EnergySavingPolicy{
 		// if (!simin.isRunning()){
 		// simin.startRepeatingTask();
 		// }
-		return newAlg;
+		return simin;
 
 		//		if (currentAlgorithm instanceof SiminAlgorithm){
 		//			if (!((SiminAlgorithm) currentAlgorithm).isRunning()){

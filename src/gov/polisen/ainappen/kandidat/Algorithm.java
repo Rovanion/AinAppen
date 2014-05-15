@@ -31,9 +31,8 @@ public abstract class Algorithm {
 		this.root = root;
 		queue = new LinkedList<Triple<Integer, Object, Long>>();
 		eh = new ExternalDBHandeler(root);
-		dsu = new DeviceStatusUpdater(root.getContext());
 		w = new TextFileHandeler(root.getContext());
-
+		dsu = GlobalData.dsu;
 	}
 
 	/*
@@ -67,19 +66,21 @@ public abstract class Algorithm {
 			initiated = (p.c - starttime) / 1000;
 			excecuted = (System.currentTimeMillis() - starttime) / 1000;
 			latency = excecuted - initiated;
-			
+
 			String init;
 			if (userInitiatedSync) init = "1";
 			else init = "";
-			
-			statsString = 
-					Integer.toString(p.a) + init + ";" + 
-					Integer.toString(queue.size()) + ";" +
-					Long.valueOf(initiated) + ";" + 
-					Long.valueOf(excecuted)+ ";" + 
-					Long.valueOf(latency);
-			
-			w.saveText(statsString);		
+
+			statsString =
+					Integer.toString(p.a) + init + ";" +
+							Integer.toString(queue.size()) + ";" +
+							Long.valueOf(initiated) + ";" +
+							Long.valueOf(excecuted)+ ";" +
+							Long.valueOf(latency);
+
+			Log.d("KANDI", Integer.toString(p.a) +" " + Long.valueOf(initiated));
+
+			w.saveText(statsString);
 		}
 	}
 
@@ -107,7 +108,7 @@ public abstract class Algorithm {
 	public abstract void uploadPosition(String positionInfo);
 
 	public abstract void uploadNewCase(Case aCase);
-	
-	
+
+
 
 }
