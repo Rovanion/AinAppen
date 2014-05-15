@@ -112,6 +112,10 @@ public class MainActivity extends Activity {
 		if (!GlobalData.user.getUsername().equals("fuskLog"))
 			sipCall.initializeManager(GlobalData.user.getUsername(),
 					GlobalData.password);
+
+		GlobalData.dsu = new DeviceStatusUpdater(getApplicationContext());
+
+
 	}
 
 	@Override
