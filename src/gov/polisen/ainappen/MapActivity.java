@@ -95,7 +95,7 @@ public class MapActivity extends Activity implements LocationListener {
 		// If we press the addObstacle in the actionbar, call the addObstacle
 		// function in MainActivity
 		case R.id.addobstacle_item:
-			addObstacle();
+			enableAddObstacle();
 			return true;
 		case R.id.visualsettings_item:
 			// Call IT
@@ -105,12 +105,14 @@ public class MapActivity extends Activity implements LocationListener {
 		}
 	}
 
-	private void addObstacle() {
-
-		if (addObstacleEnabled = true) {
-			addObstacleMenuItem.setIcon(R.drawable.icon_addobstacle_enabled);
-		}
-
+	private void enableAddObstacle() {
+		 		if (addObstacleEnabled == false) {
+		  			addObstacleMenuItem.setIcon(R.drawable.icon_addobstacle_enabled);
+		 			addObstacleEnabled = true;
+		 		} else if (addObstacleEnabled == true) {
+		 	addObstacleMenuItem.setIcon(R.drawable.icon_addobstacle);
+		 	addObstacleEnabled = false;
+		  		}
 	}
 
 	@Override
